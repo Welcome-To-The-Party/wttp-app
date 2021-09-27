@@ -1,0 +1,3 @@
+export const STRIPE_URL = "STRIPE_URL"
+export const STRIPE_URL_SUCCESS = "STRIPE_URL_SUCCESS"
+export const STRIPE_URL_FAIL = "STRIPE_URL_FAIL"
