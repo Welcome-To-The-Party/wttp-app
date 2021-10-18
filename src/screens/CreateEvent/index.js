@@ -26,11 +26,11 @@ const progressStepsStyle = {
 const CreatEventScreen = () => {
 
     const [activeStep, setActiveStep] = useState(0)
-    const [title, setTitle] = useState();
-    const [description, setDescription] = useState();
-    const [musicType, setMusicType] = useState()
-    const [type, setType] = useState()
-    const [placeType, setPlaceType] = useState()
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+    const [musicType, setMusicType] = useState("")
+    const [type, setType] = useState("")
+    const [placeType, setPlaceType] = useState("")
     const [maxAllowed, setMaxAllowed] = useState(15);
     const [price, setPrice] = useState(10);
     const [smoke, setSmoke] = useState(true)
@@ -38,10 +38,10 @@ const CreatEventScreen = () => {
     const [showModal, setShowModal] = useState(false);
     const [additionalInfos, setAdditionalInfos] = useState()
     const [manualValidation, setManualValidation] = useState(true)
-    const [startTime, setStartTime] = useState()
-    const [endTime, setEndTime] = useState()
-    const [phone, setPhone] = useState()
-    const [messageError, setMessageError] = useState()
+    const [startTime, setStartTime] = useState("")
+    const [endTime, setEndTime] = useState("")
+    const [phone, setPhone] = useState("")
+    const [messageError, setMessageError] = useState("")
     const [address, setAddress] = useState({
         address: '',
         latitude: '',

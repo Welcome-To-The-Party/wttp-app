@@ -21,7 +21,8 @@
             "@styles": "./src/styles",
             "@store": "./src/store",
             "@config": "./src/config",
-            "@constant": "./src/constant"
+            "@constant": "./src/constant",
+            "@providers": "./src/providers"
           }
         }
       ]

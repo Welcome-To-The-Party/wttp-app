@@ -6,7 +6,8 @@ const Stack = createNativeStackNavigator();
 
 import {
     LoginScreen,
-    RegisterScreen
+    RegisterScreen,
+    ForgotenScreen
 } from '@screens'
 
 function AuthNavigator() {
@@ -20,6 +21,11 @@ function AuthNavigator() {
         <Stack.Screen 
             name="Register" 
             component={RegisterScreen}
+            options = {{headerShown: false}}
+        />
+        <Stack.Screen 
+            name="Forgoten" 
+            component={ForgotenScreen}
             options = {{headerShown: false}}
         />
       </Stack.Navigator>

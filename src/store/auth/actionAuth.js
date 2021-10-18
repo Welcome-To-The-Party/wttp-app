@@ -3,7 +3,8 @@ import {
     LOGIN_FACEBOOK, 
     LOGIN_GOOGLE,
     LOGIN,
-    REGISTER
+    REGISTER,
+    RESET_PASSWORD
 } from './type'
 import { navigate } from '../../providers/navigationService'
 import { getUser } from '../user/actionUser'
@@ -14,7 +15,7 @@ export const login = (data) => {
         payload: {
             request: {
                 method: 'POST',
-                url: '/auth/local/login',
+                url: '/auth/jwt/login',
                 data: data,
             },
             options: {
@@ -24,11 +25,12 @@ export const login = (data) => {
                         dispatch({type: `${LOGIN}_FAIL`, error: "Email ou mot de passe incorrect"});
                     }else{
                         navigate("Home")
-                        dispatch({type: `${LOGIN}_SUCCESS`, payload: response.data});
+                        dispatch({type: `${LOGIN}_SUCCESS`, payload: response.data.token});
                         dispatch(getUser())
                     }
                 },
                 onError({getState, dispatch, error}){
+                    console.log("error login", error)
                     dispatch({type: `${LOGIN}_FAIL`, error: "Email ou mot de passe incorrect"});
                 }
             }
@@ -48,7 +50,7 @@ export const login_facebook = () => {
                     console.log("data", response)
                 },
                 onError({getState, dispatch, error}){
-                    console.log("error", error)
+                    console.log("error login_facebook", error)
                 }
             }
         }
@@ -67,6 +69,7 @@ export const login_google = () => {
 }
 
 export const register = (data) => {
+    console.log("data", data)
     return{
         type: REGISTER,
         payload: {
@@ -104,12 +107,27 @@ export const register = (data) => {
                     }
                 },
                 onError({getState, dispatch, error}){
+                    console.log("error register", error)
                     dispatch({
                         type: `${REGISTER}_FAIL`,
                         error: "Votre formulaire est invalid"
                     })
                 }
             }
+        }
+    }
+}
+
+export const reset_password = (data) => {
+    console.log("data", data)
+    return{
+        type: RESET_PASSWORD,
+        payload: {
+            request: {
+                method: 'POST',
+                url: '/auth/password_reset',
+                data: data,
+            },
         }
     }
 }

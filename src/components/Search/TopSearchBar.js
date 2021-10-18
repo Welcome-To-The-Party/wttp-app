@@ -12,7 +12,6 @@ import { navigate } from '../../providers/navigationService';
 const inputGoogle = {
   container: {
     flex: 0,
-    width: '85%',
     backgroundColor: '#F8F8F8',
     borderRadius: 50,
     ...mixins.boxShadow("#000")
@@ -27,60 +26,58 @@ const inputGoogle = {
   textInput: {
     backgroundColor: '#F8F8F8',
   },
-  row: {
-    backgroundColor: '#F8F8F8',
-    width: '100%',
-    padding: 13,
-    height: 44,
-    flexDirection: 'row',
-  }
 }
 
 // create a component
-const TopSerachBar = ({setEventsType, eventsType, setDetails}) => {
+const TopSerachBar = ({setEventsType, eventsType, setDetails, showbtn}) => {
   return (
     <View style={styles.container}>
-      <GooglePlacesAutocomplete
-        placeholder='EX PARIS 18IÈME'
-        onPress={(data, details = null) => setDetails(details)}
-        query={{
-          key: 'AIzaSyAZTZx2-gwcOimkU1UoSlLr5rxfLpI7EAE',
-          language: 'en',
-        }}
-        fetchDetails={true}
-        styles={inputGoogle}
-        currentLocation={true}
-        currentLocationLabel={'Position Actuelle'}
-        renderLeftButton = {() => {
-          return (
-            <View style={styles.searchIcon}>
-              <FontAwesomeIcon 
-                size={22} 
-                color={'#6C2BA1'} 
-                icon={ faSearch } 
-              />
-            </View>
-          );
-        }}
-        renderRightButton={() => {
-          return (
-            <View style={styles.searchIcon}>
-              <Ionicons 
-                size={22}
-                name = "md-options"
-                style = {styles.iconOption}
-              />
-            </View>
-          );
-        }}
-      />
-      <TouchableOpacity onPress = {() => navigate("CreateEvent")} style = {styles.btn_add}>
-        <Ionicons 
-          name = "md-add"
-          color = {colors.WHITE}
-          size = {30}
+      <View style = {{flex:1 }}>
+        <GooglePlacesAutocomplete
+          placeholder='EX PARIS 18IÈME'
+          onPress={(data, details = null) => setDetails(details)}
+          query={{
+            key: 'AIzaSyAZTZx2-gwcOimkU1UoSlLr5rxfLpI7EAE',
+            language: 'en',
+          }}
+          fetchDetails={true}
+          styles={inputGoogle}
+          currentLocation={true}
+          currentLocationLabel={'Position Actuelle'}
+          renderLeftButton = {() => {
+            return (
+              <View style={styles.searchIcon}>
+                <FontAwesomeIcon 
+                  size={22} 
+                  color={'#6C2BA1'} 
+                  icon={ faSearch } 
+                />
+              </View>
+            );
+          }}
+          renderRightButton={() => {
+            return (
+              <View style={styles.searchIcon}>
+                <Ionicons 
+                  size={22}
+                  name = "md-options"
+                  style = {styles.iconOption}
+                />
+              </View>
+            );
+          }}
         />
-      </TouchableOpacity>
+      </View>
+      {
+        showbtn == undefined?
+        <TouchableOpacity onPress = {() => navigate("CreateEvent")} style = {styles.btn_add}>
+          <Ionicons 
+            name = "md-add"
+            color = {colors.WHITE}
+            size = {30}
+          />
+        </TouchableOpacity>:null
+      }
     </View>
   );
 };
@@ -91,6 +88,7 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   searchIcon: {
+    borderRadius: 50,
     backgroundColor: '#f8f8f8',
     width: 45,
     height:45,

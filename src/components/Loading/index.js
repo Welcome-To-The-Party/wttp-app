@@ -61,6 +61,6 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     position: 'absolute',
-    elevation: 20
+    elevation: 20,
   },
 });

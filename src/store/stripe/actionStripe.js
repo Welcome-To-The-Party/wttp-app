@@ -13,7 +13,7 @@ export const get_stripe_dashboard = () => {
             request: {
                 url: '/banking/get_stripe_dashboard_url',
                 headers: {
-                    Authentification: `Bearder ${token}`
+                    Authorization: `${token}`
                 }
             },
             options: {
@@ -21,7 +21,7 @@ export const get_stripe_dashboard = () => {
                     dispatch({type: STRIPE_URL_SUCCESS, payload: response.data.url})
                 },
                 onError({getState, dispatch, error}){
-                    console.log("error", error)
+                    console.log("error get_stripe_dashboard", error)
                 }
             }
         }
@@ -35,7 +35,7 @@ export const create_stripe_account = () => {
             request: {
                 url: '/banking/create_stripe_account',
                 headers: {
-                    Authentification: `Bearder ${token}`
+                    Authorization: `${token}`
                 }
             },
             options: {
@@ -43,7 +43,7 @@ export const create_stripe_account = () => {
                     dispatch({type: STRIPE_URL_SUCCESS, payload: response.data.accountLinks.url})
                 },
                 onError({getState, dispatch, error}){
-                    console.log("error", error)
+                    console.log("error create_stripe_account", error)
                 }
             }
         }

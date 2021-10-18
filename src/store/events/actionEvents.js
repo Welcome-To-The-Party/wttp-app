@@ -11,8 +11,6 @@ import {store} from '../configureStore'
 
 const token = store.getState().auth.login.token
 
-console.log("token test", store.getState().auth.login)
-
 export const find_events = (data) => {
     console.log("data", data)
     return{
@@ -22,10 +20,10 @@ export const find_events = (data) => {
                 method: 'POST',
                 url: '/events/find_nearby_events',
                 headers: {
-                    Authentification: `Bearder ${token}`
+                    Authorization: `${token}`
                 },
                 data: data
-            }
+            },
         }
     }
 }
@@ -37,7 +35,7 @@ export const get_events = (idEvent) => {
             request: {
                 url: `/events/get_event/${idEvent}`,
                 headers: {
-                    Authentification: `Bearder ${token}`
+                    Authorization: `${token}`
                 },
             },
             options: {
@@ -60,7 +58,7 @@ export const get_owner_event = (idOwner, idEvent) => {
             request: {
                 url: `/users/get_user/${idOwner}`,
                 headers: {
-                    Authentification: `Bearder ${token}`
+                    Authorization: `${token}`
                 },
             },
             options: {
@@ -84,7 +82,7 @@ export const participate_event = (data) => {
                 method: "POST",
                 url: `/participations/send_participation_demand`,
                 headers: {
-                    Authentification: `Bearder ${token}`
+                    Authorization: `${token}`
                 },
                 data: data
             },
@@ -100,7 +98,7 @@ export const add_favorite = (data) => {
                 method: "POST",
                 url: `/users/add_favourite`,
                 headers: {
-                    Authentification: `Bearder ${token}`
+                    Authorization: `${token}`
                 },
                 data: data
             },
@@ -116,7 +114,7 @@ export const create_event = (data) => {
                 method: "POST",
                 url: `/events/create_event`,
                 headers: {
-                    Authentification: `Bearder ${token}`
+                    Authorization: `${token}`
                 },
                 data: data
             },

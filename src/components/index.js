@@ -24,6 +24,11 @@ import PreviewerPlaces from './CreateEvent/PreviewerPlaces'
 import ErrorCard from './ErrorCard'
 import FavSwipe from './Events/FavSwipe'
 import GeneralNotifications from './Notifications/GeneralNotifications'
+import UserNotifications from './Notifications/UserNotifications'
+import AlertSucces from './AlertSucces';
+import CardEventItem from './CardEventItem'
+import DeleteAccount from './DeleteAccount'
+import ForgotAccount from './Login/ForgotAccount'
 
 
 export {
@@ -52,5 +57,10 @@ export {
     PreviewerSelect,
     ErrorCard,
     FavSwipe,
-    GeneralNotifications
+    GeneralNotifications,
+    UserNotifications,
+    AlertSucces,
+    CardEventItem,
+    DeleteAccount,
+    ForgotAccount
 }

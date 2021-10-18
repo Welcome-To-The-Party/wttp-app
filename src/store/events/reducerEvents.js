@@ -5,6 +5,8 @@ import {
     LOAD_EVENTS,
     OWNER_EVENTS,
     PARTICIPE_EVENT,
+    SET_ORGANISATION,
+    SET_PARTICIPATION,
 
 } from './type'
 
@@ -32,6 +34,16 @@ const initialState = {
     create: {
         isLoading: false,
         message: "",
+        error: ''
+    },
+    organisations: {
+        isLoading: false,
+        data: {},
+        error: ''
+    },
+    participations: {
+        isLoading: false,
+        data: {},
         error: ''
     }
 }
@@ -63,7 +75,7 @@ const eventsReducer = (state = initialState, action) => {
                     ...state.find_events,
                     isLoading: false,
                     data: [],
-                    error: action.payload.error
+                    error: action.payload
                 }
             }
         case LOAD_EVENTS:
@@ -165,7 +177,6 @@ const eventsReducer = (state = initialState, action) => {
                 }
             }
         case `${ADD_FAVORITE}_SUCCESS`:
-            console.log("message", action.payload.data)
             return {
                 ...state,
                 infos: {
@@ -213,10 +224,67 @@ const eventsReducer = (state = initialState, action) => {
                     message: "",
                     error: action.payload
                 }
-            }            
+            }
+        case SET_ORGANISATION:
+            return {
+                ...state,
+                organisations: {
+                    ...state.organisations,
+                    isLoading: true
+                }
+            }
+        case `${SET_ORGANISATION}_SUCCESS`:
+            return {
+                ...state,
+                organisations: {
+                    ...state.organisations, 
+                    isLoading: false,
+                    data: action.payload.data,
+                    error: ''
+                }
+            }
+        case `${SET_ORGANISATION}_FAIL`:
+            return {
+                ...state,
+                organisations: {
+                    ...state.organisations,
+                    isLoading: false,
+                    data: "",
+                    error: action.payload
+                }
+            }  
+        case SET_PARTICIPATION:
+            return {
+                ...state,
+                participations: {
+                    ...state.participations,
+                    isLoading: true
+                }
+            }
+        case `${SET_PARTICIPATION}_SUCCESS`:
+            console.log("data", action.payload.data)
+            return {
+                ...state,
+                participations: {
+                    ...state.participations, 
+                    isLoading: false,
+                    data: action.payload.data,
+                    error: ''
+                }
+            }
+        case `${SET_PARTICIPATION}_FAIL`:
+            return {
+                ...state,
+                participations: {
+                    ...state.participations,
+                    isLoading: false,
+                    data: "",
+                    error: action.payload
+                }  
+            }          
         default:
             return state;
     }
 }
 
-export default eventsReducer;
+export default eventsReducer; 

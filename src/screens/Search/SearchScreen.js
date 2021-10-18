@@ -5,15 +5,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 import * as Location from 'expo-location';
 
-import { TopSearchBar } from '@components'
+import { TopSearchBar, Button, Loading } from '@components'
 import { styles } from './style'
 import { colors } from '@styles'
-import { Banner, Button } from '../../components';
 import { find_events } from '../../store/events/actionEvents';
 import EventDisplay from '../../components/Events/EventDisplay';
 import { navigate } from '../../providers/navigationService';
 import LatestEvent from '../../components/Events/LatestEvent';
-import { ListItem } from 'react-native-elements/dist/list/ListItem';
 
 const headerImage = require('@assets/images/Search/Party.jpg')
 
@@ -32,7 +30,7 @@ const SearchScreen = ({navigation}) => {
     bringueSelect: true,
     distance: 20
   })
-  const events = useSelector(state => state.events.find_events.data)
+  const {data, isLoading} = useSelector(state => state.events.find_events)
 
   // console.log('events', events)
 
@@ -50,7 +48,6 @@ const SearchScreen = ({navigation}) => {
   }
 
   const setPosition = (details) => {
-    console.log("detail")
       const { lat, lng } = details.geometry.location
       setLat(lat)
       setLng(lng)
@@ -94,7 +91,7 @@ const SearchScreen = ({navigation}) => {
   useEffect(() => {
     if(isInit){
       (async() => {
-        let location = await Location.getLastKnownPositionAsync({});
+        let location = await Location.getCurrentPositionAsync({});
         const { latitude, longitude } = location.coords
         loadEvents(latitude, longitude)
         setIsInit(false)
@@ -114,19 +111,20 @@ const SearchScreen = ({navigation}) => {
         contentContainerStyle = {{paddingBottom: 20}}
         showsVerticalScrollIndicator = {false}
       >
+          {isLoading && <Loading />}
           <Header
-            title = {events.length == 0?
+            title = {data.length == 0?
               "Oups! aucun événement autour de toi!"
               :
               "Tu aimes recevour, t'amuser et partager"
             }
           />
           {
-            events.length != 0?
+            data.length != 0?
             <View>
               <Text style = {styles.title}>Ajouté récemment</Text>
               <FlatList
-                data = {events}
+                data = {data}
                 horizontal = {true}
                 keyExtractor = {((item) => String(item.eventid))}
                 renderItem = {({item}) => 
@@ -136,7 +134,7 @@ const SearchScreen = ({navigation}) => {
                 }
               />
               <Text style = {styles.title}>Atour de toi</Text>
-              <LatestEvent item = {events[0]} />
+              <LatestEvent item = {data[0]} />
             </View>:null
           }
       </ScrollView>

@@ -40,6 +40,7 @@ const OrganizedScreen = ({navigation}) => {
     <FlatList
         data = {createdEvents}
         style = {styles.container}
+        keyExtractor = {(item) => item.toString()}
         ListEmptyComponent = {EmptyEvent}
         ListHeaderComponent = {ListHeader}
         renderItem = {renderItem}

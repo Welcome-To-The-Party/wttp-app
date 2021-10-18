@@ -1,13 +1,15 @@
 //import liraries
-import React, { Component } from 'react';
-import { ScrollView, ImageBackground, StyleSheet, TouchableOpacity, Text, Image, View  } from 'react-native';
+import React, { useState } from 'react';
+import { ScrollView, ImageBackground, StyleSheet, TouchableOpacity, Text, Image, View, Linking  } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
+import { CommonActions } from '@react-navigation/native';
 
-import { UserImageButton, Button } from '@components'
+import { UserImageButton, Button, DeleteAccount } from '@components'
 import { colors } from '@styles'
+import { delete_account, log_out } from '@store/user/actionUser';
 
 const background_img = require('@assets/images/User/party.png');
-const follow = require('@assets/images/User/follow.png');
+const star = require('@assets/images/User/star.png');
 const bell = require('@assets/images/User/bell.png');
 const mail = require('@assets/images/User/mail.png');
 const ban = require('@assets/images/User/ban.png');
@@ -17,10 +19,24 @@ const SettingsScreen = ({navigation}) => {
 
   const dispatch = useDispatch()
   const user = useSelector(state => state.user.user.data)
+  const [ isVisible, setIsVisible ] = useState(false)
 
   const logOut = () => {
     dispatch(log_out())
-    navigation.navigate('Auth')
+    navigation.dispatch(
+      CommonActions.reset({
+          index: 1,
+          routes: [{name: "Welcome"}]
+      })
+    )
+  }
+
+  const toggleModal = () => {
+    setIsVisible(!isVisible)
+  }
+
+  const openApp = () => {
+
   }
 
   return (
@@ -35,12 +51,17 @@ const SettingsScreen = ({navigation}) => {
           </TouchableOpacity>
         </ImageBackground>
       </View>
+      <DeleteAccount
+        isVisible = {isVisible}
+        toggle = {toggleModal}
+        onDelete = {() => dispatch(delete_account())}
+      />
       <ScrollView style = {styles.content}>
         <UserImageButton 
-          text={"Nous suivre"} 
-          desc={"Nous suivre sur les differents reseaux"}
-          onPress={() => navigation.navigate('Social')} 
-          image={follow} 
+          text={"Noter l'application"} 
+          desc={"Tu aimes cette application? donne ton avis."}
+          onPress={openApp} 
+          image={star} 
         />
         <UserImageButton 
           text={"Notificaitons"} 
@@ -57,7 +78,7 @@ const SettingsScreen = ({navigation}) => {
         <UserImageButton 
           text={"Supprimer mon compte"} 
           desc={"Me retirer de la plateforme"}
-          run={() => navigation.navigate('Delete')} 
+          onPress={toggleModal} 
           image={ban} 
         />
         <Button 

@@ -1,13 +1,17 @@
 //import liraries
 import React, { useState } from 'react';
 import { View, Text, ImageBackground, Image, ScrollView, TouchableOpacity, Linking } from 'react-native';
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import * as ImagePicker from 'expo-image-picker';
+import * as ImageManipulator from 'expo-image-manipulator';
 
 import { styles } from './style'
-import { TextInputPro, SocialEdit, Button} from '@components'
+import { TextInputPro, SocialEdit, Button, AlertSucces, Loading} from '@components'
+import { update_profil } from '@store/user/actionUser';
+import { UPDATE_PROFIL } from '@store/user/type';
 
 const background_img = require('@assets/images/User/public_back.png');
 const facebook_icon = require('@assets/images/User/facebook.png');
@@ -18,18 +22,44 @@ const tiktok_icon = require('@assets/images/User/tiktok.png');
 // create a component
 const EditProfil = ({navigation}) => {
 
+  const dispatch = useDispatch()
   const user = useSelector(state => state.user.user.data)
-  const isLoading = useSelector(state => state.user.user.isLoading)
-  const [image, setImage] = useState(user.picture)
+  const {isLoading, message} = useSelector(state => state.user.update)
+  const [picture, setPicture] = useState(user?.picture)
   const [facebook_link, setFacebook_link] = useState(user.facebook_link)
   const [twitter_link, setTwitter_link] = useState(user.twitter_link)
   const [instagram_link, setInstagram_link] = useState(user.instagram_link)
   const [tiktok_link, setTiktok_link] = useState(user.tiktok_link)
-  const [name, setName] = useState()
-  const [desc, setDesc] = useState()
+  const [name, setName] = useState(user.name)
+  const [description, setDescription] = useState(user.description)
 
   const handleUpdate = () => {
+    const data = {
+      user: {name,description, picture,facebook_link, instagram_link, twitter_link, tiktok_link}
+    }
+    dispatch(update_profil(data))
+  }
 
+  const get_img = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      base64: true,
+      allowsEditing: false,
+      aspect: [4, 3],
+      quality: 0.5,
+    });
+
+    if (!result.cancelled) {
+      const manipResult = await ImageManipulator.manipulateAsync(
+        result.uri,
+        [{ resize: {width: 500, height: 500} }],
+        { compress: 1, base64: true}
+      );
+      setPicture(`data:image/png;base64,${manipResult.base64}`);
+    }
+  }
+
+  const onCloseModal = () => {
+    dispatch({type: `${UPDATE_PROFIL}_SUCCESS`, payload: ""})
   }
 
   return (
@@ -46,9 +76,14 @@ const EditProfil = ({navigation}) => {
           </TouchableOpacity>
         <View style={styles.dataContainer}>
           {isLoading && <Loading />}
+          <AlertSucces 
+            isVisible = {message?true:false}
+            message = {message}
+            onClose = {onCloseModal}
+          />
           <View style={styles.headerCont}>
-            <TouchableOpacity onPress={() => get_img()} style={{width: '100%', position: 'relative'}}>
-              <Image source={{uri: image}} style={styles.icon} />
+            <TouchableOpacity onPress={get_img} style={{width: '100%', position: 'relative'}}>
+              <Image source={{uri: picture}} style={styles.icon} />
               <View style={styles.pictureCircle}>
                 <FontAwesomeIcon size={20} color={'#361979'} icon={ faEdit }/>
                 <Text style={{textAlign: 'center', color: '#fff'}}>MODIFIER</Text>
@@ -61,17 +96,37 @@ const EditProfil = ({navigation}) => {
               <View style={{width: '30%'}}>
                 <Text style={styles.infoHeader}>VOS INFOS</Text>
               </View>
-              <TextInputPro text={'NOM'} desc={user.name} run={(dat) => setName(dat)} />
-              <TextInputPro text={'BIO'} desc={user.description} run={(dat) => setDesc(dat)} />
+              <TextInputPro text={'NOM'} desc={name} run={setName} />
+              <TextInputPro text={'BIO'} desc={description} run={setDescription} />
             </View>
             <View style={styles.infoCont}>
               <View style={{width: '50%'}}>
                 <Text style={styles.infoHeader}>VOS LIENS SOCIAUX</Text>
               </View>
-              <SocialEdit icon={facebook_icon} text={facebook_link}  type={"FACEBOOK"}  />
-              <SocialEdit icon={insta_icon} text={instagram_link}  type={"INSTAGRAM"}  />
-              <SocialEdit icon={tiktok_icon} text={tiktok_link}  type={"TIKTOK"} />
-              <SocialEdit icon={twitter_icon} text={twitter_link}  type={"TWITTER"} />
+              <SocialEdit 
+                icon={facebook_icon} 
+                text={facebook_link}  
+                type={"FACEBOOK"}  
+                run = {setFacebook_link}
+              />
+              <SocialEdit 
+                icon={insta_icon} 
+                text={instagram_link}  
+                type={"INSTAGRAM"}
+                run = {setInstagram_link}  
+              />
+              <SocialEdit 
+                icon={tiktok_icon} 
+                text={tiktok_link}  
+                type={"TIKTOK"}
+                run = {setTiktok_link}
+              />
+              <SocialEdit 
+                icon={twitter_icon} 
+                text={twitter_link}  
+                type={"TWITTER"}
+                run = {setTwitter_link} 
+              />
               <Button 
                 textColor = "#fff"
                 style = {styles.btn_edit}

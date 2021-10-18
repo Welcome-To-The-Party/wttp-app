@@ -1,17 +1,10 @@
-import { REGISTER } from 'redux-persist/es/constants'
 import { 
     LOGIN_FACEBOOK,
-    LOGIN_FACEBOOK_SUCCESS,
-    LOGIN_FACEBOOK_FAIL,
     LOGIN_GOOGLE,
-    LOGIN_GOOGLE_SUCCESS,
-    LOGIN_GOOGLE_FAIL,
     LOGIN,
-    LOGIN_SUCCESS,
-    LOGIN_FAIL,
+    REGISTER,
     REMOVE_TOKEN,
-    REGISTER_SUCCESS,
-    REGISTER_FAIL
+    RESET_PASSWORD,
 } from './type'
 
 const initialState = {
@@ -35,6 +28,11 @@ const initialState = {
         isLoading: false,
         message: "",
         error: ""
+    },
+    reset_password: {
+        isLoading: false,
+        message: "",
+        error: ""
     }
 }
 
@@ -48,17 +46,17 @@ const authReducer = (state = initialState, action) => {
                     isLoading: true
                 }
             }
-        case LOGIN_SUCCESS:
+        case `${LOGIN}_SUCCESS`:
             return {
                 ...state,
                 login: {
                     ...state.login,
                     isLoading: false,
-                    token: action.payload["connect.sid"],
+                    token: action.payload,
                     error: ""
                 }
             }
-        case LOGIN_FAIL:
+        case `${LOGIN}_FAIL`:
             return {
                 ...state,
                 login: {
@@ -86,7 +84,7 @@ const authReducer = (state = initialState, action) => {
                     isLoading: true
                 }
             }
-        case LOGIN_FACEBOOK_SUCCESS:
+        case `${LOGIN_FACEBOOK}_SUCCESS`:
             return {
                 ...state,
                 login_facebook: {
@@ -96,7 +94,7 @@ const authReducer = (state = initialState, action) => {
                     error: ""
                 }
             }
-        case LOGIN_FACEBOOK_FAIL:
+        case `${LOGIN_FACEBOOK}_FAIL`:
             return {
                 ...state,
                 login_facebook: {
@@ -114,7 +112,7 @@ const authReducer = (state = initialState, action) => {
                     isLoading: true
                 }
             }
-        case LOGIN_GOOGLE_SUCCESS:
+        case `${LOGIN_GOOGLE}_SUCCESS`:
             return {
                 ...state,
                 login_google: {
@@ -124,7 +122,7 @@ const authReducer = (state = initialState, action) => {
                     error: ""
                 }
             }
-        case LOGIN_GOOGLE_FAIL:
+        case `${LOGIN_GOOGLE}_FAIL`:
             return {
                 ...state,
                 login_google: {
@@ -142,7 +140,7 @@ const authReducer = (state = initialState, action) => {
                     isLoading: true
                 }
             }
-        case REGISTER_SUCCESS:
+        case `${REGISTER}_SUCCESS`:
             return {
                 ...state,
                 register: {
@@ -152,7 +150,7 @@ const authReducer = (state = initialState, action) => {
                     error: ""
                 }
             }
-        case REGISTER_FAIL:
+        case `${REGISTER}_FAIL`:
             return {
                 ...state,
                 register: {
@@ -160,6 +158,34 @@ const authReducer = (state = initialState, action) => {
                     isLoading: false,
                     message: "",
                     error: action.error
+                }
+            }
+        case RESET_PASSWORD:
+            return {
+                ...state,
+                reset_password: {
+                    ...state.reset_password,
+                    isLoading: true
+                }
+            }
+        case `${RESET_PASSWORD}_SUCCESS`:
+            return {
+                ...state,
+                reset_password: {
+                    ...state.reset_password,
+                    isLoading: false,
+                    message: action.payload.data.message,
+                    error: ""
+                }
+            }
+        case `${RESET_PASSWORD}_FAIL`:
+            return {
+                ...state,
+                reset_password: {
+                    ...state.reset_password,
+                    isLoading: false,
+                    message: "",
+                    error: "une erreur est survenue veuillez réessayer plutart"
                 }
             }
         default:

@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { View, Text, ImageBackground, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
+import { CommonActions } from '@react-navigation/native';
 
 import { styles } from './style'
 import { UserImageButton, Button } from '@components'
@@ -23,7 +24,12 @@ const MainScreen = ({navigation}) => {
 
   const logOut = () => {
     dispatch(log_out())
-    navigation.navigate('Auth')
+    navigation.dispatch(
+      CommonActions.reset({
+          index: 1,
+          routes: [{name: "Welcome"}]
+      })
+    )
   }
 
   return (
@@ -31,7 +37,7 @@ const MainScreen = ({navigation}) => {
       <View style={styles.header_container}>
         <ImageBackground source={background_img} style={styles.background_img}>
           <TouchableOpacity onPress={() => navigation.navigate("Public")} style={{position: 'absolute'}}>
-            <Image source={{uri: user.picture}} style={styles.pro_icon} />
+            <Image source={{uri: user?.picture}} style={styles.pro_icon} />
             <View style={styles.pictureCircle}>
               <Text style={{textAlign: 'center', color: '#fff'}}>VOIR MON PROFIL</Text>
             </View>

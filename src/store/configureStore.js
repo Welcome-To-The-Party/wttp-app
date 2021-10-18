@@ -15,7 +15,7 @@ import { httpClient } from '@config/http'
 const persistConfig = {
     key: 'root',
     storage: AsyncStorage,
-    whitelist: ['auth', 'user']
+    whitelist: ['auth', 'user', 'notification']
 }
 
 const rootReducer = combineReducers({
