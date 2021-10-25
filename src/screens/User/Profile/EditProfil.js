@@ -9,7 +9,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
 
 import { styles } from './style'
-import { TextInputPro, SocialEdit, Button, AlertSucces, Loading} from '@components'
+import { TextInputPro, SocialEdit, Button, AlertSucces, Loading, BackButton} from '@components'
 import { update_profil } from '@store/user/actionUser';
 import { UPDATE_PROFIL } from '@store/user/type';
 
@@ -34,9 +34,22 @@ const EditProfil = ({navigation}) => {
   const [description, setDescription] = useState(user.description)
 
   const handleUpdate = () => {
-    const data = {
-      user: {name,description, picture,facebook_link, instagram_link, twitter_link, tiktok_link}
-    }
+    const data = new FormData()
+    data.append("name", name)
+    data.append("description",description)
+    data.append("facebook_link", facebook_link)
+    data.append("instagram_link", instagram_link)
+    data.append("twitter_link", twitter_link?twitter_link:"")
+    data.append("tiktok_link", tiktok_link)
+    data.append("picture", {
+      uri: picture,
+      type: 'image/jpeg',
+      name: "avatar.jpg"
+    })
+    // const data = {
+    //   user: {name,description, picture,facebook_link, instagram_link, twitter_link: twitter_link?twitter_link:"", tiktok_link}
+    // }
+    console.log("data", data)
     dispatch(update_profil(data))
   }
 
@@ -51,12 +64,14 @@ const EditProfil = ({navigation}) => {
     if (!result.cancelled) {
       const manipResult = await ImageManipulator.manipulateAsync(
         result.uri,
-        [{ resize: {width: 500, height: 500} }],
-        { compress: 1, base64: true}
+        [{ resize: {width: result.width/3, height: result.height/3} }],
+        { compress: 1}
       );
-      setPicture(`data:image/png;base64,${manipResult.base64}`);
+      setPicture(manipResult.uri);
     }
   }
+
+  console.log("message", message)
 
   const onCloseModal = () => {
     dispatch({type: `${UPDATE_PROFIL}_SUCCESS`, payload: ""})
@@ -65,15 +80,20 @@ const EditProfil = ({navigation}) => {
   return (
     <View style={styles.container}>
       <ImageBackground source={background_img} style={styles.background_img}>
-          <TouchableOpacity 
-            style = {styles.btn_back}
-            onPress = {() => navigation.goBack()}
-          >
-            <Ionicons
-              name = "chevron-back"
-              size = {25}
+        <BackButton />
+        <View style={styles.headerCont}>
+          <TouchableOpacity onPress={get_img} style={styles.content_avatar}>
+            <Image 
+              source={{uri: picture}} 
+              style={styles.icon}
+              resizeMode = 'cover'
             />
+            <View style={styles.pictureCircle}>
+              <FontAwesomeIcon size={20} color={'#361979'} icon={ faEdit }/>
+              <Text style={{textAlign: 'center', color: '#fff'}}>MODIFIER</Text>
+            </View>
           </TouchableOpacity>
+        </View>
         <View style={styles.dataContainer}>
           {isLoading && <Loading />}
           <AlertSucces 
@@ -81,15 +101,6 @@ const EditProfil = ({navigation}) => {
             message = {message}
             onClose = {onCloseModal}
           />
-          <View style={styles.headerCont}>
-            <TouchableOpacity onPress={get_img} style={{width: '100%', position: 'relative'}}>
-              <Image source={{uri: picture}} style={styles.icon} />
-              <View style={styles.pictureCircle}>
-                <FontAwesomeIcon size={20} color={'#361979'} icon={ faEdit }/>
-                <Text style={{textAlign: 'center', color: '#fff'}}>MODIFIER</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
           <ScrollView style={styles.content_edit}>
             
             <View style={styles.infoCont}>

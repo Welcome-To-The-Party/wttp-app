@@ -85,12 +85,13 @@ const authReducer = (state = initialState, action) => {
                 }
             }
         case `${LOGIN_FACEBOOK}_SUCCESS`:
+            console.log("action.payload.data",action.payload.data)
             return {
                 ...state,
                 login_facebook: {
                     ...state.login_facebook,
                     isLoading: false,
-                    url: action.payload.data,
+                    url: action.payload?action.payload.data:"",
                     error: ""
                 }
             }
@@ -118,7 +119,7 @@ const authReducer = (state = initialState, action) => {
                 login_google: {
                     ...state.login_google,
                     isLoading: false,
-                    url: action.payload.data,
+                    url: action.payload?action.payload.data:"",
                     error: ""
                 }
             }

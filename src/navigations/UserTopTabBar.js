@@ -21,6 +21,8 @@ export default class UserTopTabBar extends React.Component
     
     const title = this.props.options.headerTitle
 
+    console.log("data header", this.props.userData )
+
     return (
       <View style={styles.container}>
         <TouchableOpacity style={styles.btn} onPress={() => this.navigateBack()}>

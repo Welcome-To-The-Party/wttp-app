@@ -6,7 +6,8 @@ import { useDispatch } from 'react-redux'
 import { 
     CreateAccount, 
     FacebookButton, 
-    GoogleButton 
+    GoogleButton,
+    BackButton 
 } from '@components'
 import { styles } from '../style'
 import { login_facebook, login_google } from '@store/auth/actionAuth';
@@ -21,22 +22,25 @@ const RegisterScreen = () => {
 
     return (
         <View style={styles.container}>
-            <ImageBackground source={background_img}
-            style={styles.back_images_container}>
-            <View style={styles.miniContainer}>
-                <Image source={icon} style={styles.icon} />
-                <Text style={styles.header}>Votre soirée,</Text>
-                <Text style={styles.header}>Quand vous voulez.</Text>
-            </View>
-            <View style={styles.createContainer}>
-                <CreateAccount />
-                <FacebookButton 
-                    onPress = {() => dispatch(login_facebook())}
-                />
-                <GoogleButton
-                    onPress = {() => dispatch(login_google())}
-                />
-            </View>
+            <ImageBackground 
+                source={background_img}
+                style={styles.back_images_container}
+            >
+                <BackButton />
+                <View style={styles.miniContainer}>
+                    <Image source={icon} style={styles.icon} />
+                    <Text style={styles.header}>Votre soirée,</Text>
+                    <Text style={styles.header}>Quand vous voulez.</Text>
+                </View>
+                <View style={styles.createContainer}>
+                    <CreateAccount />
+                    <FacebookButton 
+                        onPress = {() => dispatch(login_facebook())}
+                    />
+                    <GoogleButton
+                        onPress = {() => dispatch(login_google())}
+                    />
+                </View>
             </ImageBackground>
         </View>
     );

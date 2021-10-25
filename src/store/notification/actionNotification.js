@@ -40,8 +40,8 @@ export const set_token_push = (data) => {
         type: SET_TOKEN_NOTIFICATION,
         payload: {
             request: {
-                method: "POST",
-                url: '/users/token',
+                method: "PUT",
+                url: '/users/push_token',
                 headers: {
                     Authorization: `${token}`
                 },

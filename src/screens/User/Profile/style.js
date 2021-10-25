@@ -12,19 +12,19 @@ export const styles = StyleSheet.create({
       },
       dataContainer: {
         alignItems:'center',
-        flexDirection: "column",
         width: '100%',
         height: '75%',
-        bottom: 0,
         borderTopRightRadius: 30,
         borderTopLeftRadius: 30,
         position: 'absolute',
+        bottom: 0,
         backgroundColor: '#fff',
       },
       headerCont: {
         justifyContent: 'center',
         alignItems: 'center',
-        bottom: 80,
+        marginTop: 50,
+        zIndex: 1
       },
       gradeCont: {
         flexDirection: "row",
@@ -41,7 +41,7 @@ export const styles = StyleSheet.create({
       icon: {
         width: 100,
         height: 100,
-        borderRadius: 100
+        borderRadius: 50
       },
       header: {
         fontFamily: 'Roboto',
@@ -74,10 +74,9 @@ export const styles = StyleSheet.create({
       },
       statCont: {
         flexDirection: 'row',
-        bottom: 70,
+        marginTop: 120
       },
       infoCont: {
-        bottom: 50,
         marginTop: 10,
         marginBottom: 10,
         paddingLeft: 20,
@@ -113,7 +112,7 @@ export const styles = StyleSheet.create({
       position: 'absolute',
     },
     content_edit: {
-      marginTop: -50
+      marginTop: 50
     },
     btn_edit: {
       backgroundColor: colors.PRIMARY
@@ -128,5 +127,8 @@ export const styles = StyleSheet.create({
       elevation: 20,
       marginTop: 40,
       marginLeft: 20
+    },
+    content_avatar: {
+     
     }
 });

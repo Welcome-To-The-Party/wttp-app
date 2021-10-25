@@ -1,53 +1,56 @@
 //import liraries
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
+
 import { get_events } from '@store/events/actionEvents';
+import { navigate } from '../../providers/navigationService';
 
 // create a component
 const CardEventItem = ({item}) => {
 
     const dispatch = useDispatch();
-  const [eventid, setEventid] = useState(item.eventid)
-  const eventData = useSelector(state => state.events.event.data)
-  var startDate = new Date(eventData[item.eventid]?.start);
+    const [eventid, setEventid] = useState(item?.eventid)
+    const eventData = useSelector(state => state.events.event.data)
 
-  useEffect(() => {
-    dispatch(get_events(eventid))
-  }, [eventid])
+    useEffect(() => {
+        dispatch(get_events(eventid))
+    }, [eventid])
 
-    console.log("data", eventData[item.eventid].price)
     return (
-        <View style={styles.container}>
+        <TouchableOpacity 
+            style={styles.container}
+            onPress = {() => navigate("Event",{event: item})}
+        >
             <Image 
-                source = {{uri: eventData[item.eventid]?.pictures[0]}} 
+                source = {{uri: item?.pictures[0]}} 
                 style = {styles.imageStyle}
             />
             <View style = {styles.col}>
-                <Text>Soirée {eventData[item.eventid]?.type}: {eventData[item.eventid]?.placeType}</Text>
-                <Text style = {styles.description} numberOfLines = {3}>{eventData[item.eventid]?.description}</Text>
+                <Text>Soirée {item?.type}: {item?.placeType}</Text>
+                <Text style = {styles.description} numberOfLines = {2}>{item?.description}</Text>
             </View>
             <View style = {styles.col2}>
-                <Text style = {styles.price}>{eventData[item.eventid].price} €/place</Text>
+                <Text style = {styles.price}>{item?.price} €/place</Text>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 };
 
 // define your styles
 const styles = StyleSheet.create({
     container: {
-        height: 100,
+        height: 110,
         flexDirection: 'row',
         width: Dimensions.get('screen').width - 60,
-        marginHorizontal: 10,
+        // marginHorizontal: 20,
         paddingRight: 10,
         borderRadius: 10,
         backgroundColor: '#fff'
     },
     imageStyle: {
         width: 100,
-        height: 100,
+        height: 110,
         borderTopLeftRadius: 10,
         borderBottomLeftRadius: 10
     },
@@ -60,7 +63,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     description: {
-        marginTop: 20
+        marginTop: 10
     },
     price: {
         fontWeight: 'bold'

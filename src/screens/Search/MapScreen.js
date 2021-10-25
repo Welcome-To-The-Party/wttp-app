@@ -1,5 +1,5 @@
 //import liraries
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, createRef } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import MapView, {Marker, PROVIDER_GOOGLE } from 'react-native-maps';
@@ -7,8 +7,9 @@ import moment from 'moment'
 import * as Location from 'expo-location';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import Carousel from 'react-native-snap-carousel';
+var _ = require('lodash'); 
 
-import { TopSearchBar, Loading, CardEventItem } from '@components'
+import { TopSearchBar, Loading, CardEventItem, FilterSearch } from '@components'
 import { find_events } from '@store/events/actionEvents';
 import { navigate } from '../../providers/navigationService';
 import { colors } from '@styles'
@@ -18,11 +19,18 @@ const background = require("@assets/images/Search/party.png");
 // create a component
 const MapScreen = () => {
 
+  const mapRef = createRef()
   const dispatch = useDispatch()
   const [lng, setLng] = useState()
   const [lat, setLat] = useState()
+  const [selectedEvent, setSelectedEvent] = useState()
+  const [showEvent, setShowEvent] = useState(false)
+  const [eventsType, setEventsType] = useState("")
+  const [ manualValidation, setManualValidation ] = useState(null)
+  const [ showModal, setShowModal ] = useState(false)
   const [isInit, setIsInit] = useState(true)
   const { data, isLoading } = useSelector(state => state.events.find_events)
+    const [ listEvents, setListEvents ] = useState()
   const time = moment(new Date()).format("MM/DD/yyyy")
   const [filters, setFilters] = useState({
     poseSelect: true,
@@ -55,6 +63,33 @@ const MapScreen = () => {
     loadEvents(latitude, longitude)
   }
 
+  console.log("Events", listEvents)
+
+  const handleFilter = () => {
+    const events = _.filter(data,eventsType && manualValidation?
+      {type: eventsType, validation: manualValidation}:
+      eventsType?{type: eventsType}:
+      manualValidation?{validation: manualValidation}:null)
+    setListEvents(events)
+    toggleModal()
+  }
+
+  const handleResetFilter = ()=> {
+    setEventsType("")
+    setManualValidation(null)
+    setListEvents(data)
+    toggleModal()
+  }
+
+  const toggleModal = () => {
+    setShowModal(!showModal)
+  }
+
+  const handleShowEvent = (item) => {
+    setSelectedEvent(item)
+    setShowEvent(true)
+  }
+
   useEffect(() => {
     if(isInit){
       (() => {
@@ -62,7 +97,10 @@ const MapScreen = () => {
         setIsInit(false)
       })()
     }
-  }, [lat, lng])
+    setListEvents(data)
+  }, [lat, lng, data])
+
+  console.log("Events", listEvents)
 
   return (
     <View style={styles.container}>
@@ -72,6 +110,17 @@ const MapScreen = () => {
           <TopSearchBar 
             setDetails = {setPosition}
             showbtn = {false}
+            toggleModal = {toggleModal}
+          />
+          <FilterSearch 
+            isVisible = {showModal}
+            toggle = {toggleModal}
+            setEventsType = {setEventsType}
+            setManualValidation = {setManualValidation}
+            eventsType = {eventsType}
+            manualValidation = {manualValidation}
+            onFilter = {handleFilter}
+            resetFilter = {handleResetFilter}
           />
           <View style = {styles.btn_group}>
             <TouchableOpacity 
@@ -99,32 +148,34 @@ const MapScreen = () => {
         </View>
         <View style={styles.mapContainer}>
           <MapView
+            ref = {mapRef}
             style={styles.map}
             provider={PROVIDER_GOOGLE}
             showsUserLocation={true}
             followsUserLocation={true}
             showsMyLocationButton={false}
             toolbarEnabled={false}
+            onPress = {() => setShowEvent(false)}
             maxZoomLevel={14}
-            region={{
-              latitude: lat,
-              longitude: lng,
+            region = {{
+              latitude: parseFloat(lat),
+              longitude: parseFloat(lng),
               latitudeDelta: 0.2,
               longitudeDelta: 0.2
             }}
-            onRegionChange={(region) => {
+            onRegionChangeComplete = {(region) => {
               setLat(region.latitude)
               setLng(region.longitude)
             }}
           >
-            {(data) ? data.map((event, key) => {
+            {(listEvents) ? listEvents.map((event, key) => {
               return (
                 <Marker 
                   key={key} 
-                  // onPress={() => {this.openEvent(event)}}
+                  onPress={() => navigate("Event",{event})}
                   coordinate={{ 
-                    latitude: Number.parseFloat(event.latitude.$numberDecimal),
-                    longitude: Number.parseFloat(event.longitude.$numberDecimal) 
+                    latitude: parseFloat(event.latitude.$numberDecimal),
+                    longitude: parseFloat(event.longitude.$numberDecimal) 
                   }} 
                   pinColor={event.type == "BRINGUE"?"#6C2BA1":"#FE1F14"} 
                 />
@@ -133,7 +184,7 @@ const MapScreen = () => {
           </MapView>
           <View style = {styles.footer}>
             <Carousel
-              data={data}
+              data={listEvents}
               loop
               renderItem={({item}) => <CardEventItem item = {item} />}
               sliderWidth={Dimensions.get('window').width}

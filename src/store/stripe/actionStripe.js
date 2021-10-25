@@ -13,7 +13,7 @@ export const get_stripe_dashboard = () => {
             request: {
                 url: '/banking/get_stripe_dashboard_url',
                 headers: {
-                    Authorization: `${token}`
+                    Authorization: store.getState().auth.login.token
                 }
             },
             options: {
@@ -35,7 +35,7 @@ export const create_stripe_account = () => {
             request: {
                 url: '/banking/create_stripe_account',
                 headers: {
-                    Authorization: `${token}`
+                    Authorization: store.getState().auth.login.token
                 }
             },
             options: {

@@ -1,15 +1,16 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ImageBackground, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, Image, TouchableOpacity, Linking } from 'react-native';
 import { useDispatch } from 'react-redux'
 
 import { 
     LoginAccount, 
     FacebookButton, 
-    GoogleButton 
+    GoogleButton,
+    BackButton
 } from '@components'
 import { styles } from '../style'
-import { login_facebook, login_google } from '@store/auth/actionAuth';
+import { DEV_URL } from '@env'
 
 const background_img = require('@assets/images/register_background.jpg');
 const icon = require('@assets/icons/icon.png');
@@ -19,12 +20,27 @@ const LoginScreen = ({navigation}) => {
 
     const dispatch = useDispatch();
 
+    const login_facebook = () => {
+        fetch(DEV_URL + '/auth/facebook')
+    .then(res => res.text())
+    .then(res => {
+        console.log("response", res)
+    })
+        console.log("test", DEV_URL + '/auth/facebook')
+        Linking.canOpenURL(DEV_URL + '/auth/facebook')
+    }
+
+    const login_google = () => {
+        
+    }
+
     return (
         <View style={styles.container}>
             <ImageBackground 
                 source={background_img}
                 style={styles.back_images_container}
             >
+                <BackButton />
                 <View style={styles.miniContainer}>
                     <Image source={icon} style={styles.icon} />
                     <Text style={styles.header}>Profitez ou organisez,</Text>
@@ -33,10 +49,10 @@ const LoginScreen = ({navigation}) => {
                 <View style={styles.createContainer}>
                     <LoginAccount navigation = {navigation} />
                     <FacebookButton 
-                        onPress = {() => dispatch(login_facebook())}
+                        onPress = {login_facebook}
                     />
                     <GoogleButton
-                        onPress = {() => dispatch(login_google())}
+                        onPress = {login_google}
                     />
                     <TouchableOpacity onPress={() => navigation.navigate("Forgoten")}>
                         <Text style={{color: 'black'}}>Mot de passe oublié ?</Text>

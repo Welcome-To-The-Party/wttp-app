@@ -43,21 +43,18 @@ export default class FavSwipe extends React.Component
   }
 
   componentDidMount() {
-    get_my_event(this.props.eid)
-    .then((res) => {
-      this.setState({event: res.data});
-    }).catch((error) => {
-      //this.props.logout();
-      console.error(error)
-    });
+    // get_my_event(this.props.eid)
+    // .then((res) => {
+    //   this.setState({event: res.data});
+    // }).catch((error) => {
+    //   //this.props.logout();
+    //   console.error(error)
+    // });
   }
 
   render() {
-    if (this.state.event == undefined) {
-      return (<View></View>);
-    }
-    console.log(this.state.event.start);
-    var today = new Date(this.state.event.start);
+    const { item } = this.props
+    var today = new Date(item.start);
     var dd = String(today.getDate()).padStart(2, '0');
     var dd2 = today.getDay();
     console.log(dd2);
@@ -65,9 +62,9 @@ export default class FavSwipe extends React.Component
     var yyyy = today.getFullYear();
     return (
       <View style={styles.container}>
-        <Image source={{uri: this.state.event.pictures[0]}} style={styles.proIcon}/>
+        <Image source={{uri: item.pictures[0]}} style={styles.proIcon}/>
         <View style={styles.row}>
-          <Text style={styles.header}>{this.state.event.title}</Text>
+          <Text style={styles.header}>{item.title}</Text>
         </View>
         <View style={styles.row}>
           <FontAwesomeIcon size={20} color={'#6C2BA1'} icon={ faCalendar }/>
@@ -75,7 +72,7 @@ export default class FavSwipe extends React.Component
         </View>
         <TextButtonDark text={"VOIR"} run={()=>this.props.openEvent()} />
         {/* <View style={styles.row}>
-          <BubbleCreate data={this.state.event} token={this.props.token} />
+          <BubbleCreate data={item} token={this.props.token} />
         </View> */}
       </View>
     );

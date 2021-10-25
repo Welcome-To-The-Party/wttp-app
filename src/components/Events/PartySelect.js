@@ -13,39 +13,20 @@ const global_months = [ "Jan" , "Fev", "Mars", "Avril", "May", "Juin",
 const iconSize = 20;
 const titleLength = 8;
 
-export default class PartySelect extends React.Component
-{
-  constructor(props) {
-    super(props);
-    this.state = {
-      event: undefined,
-    }
-  }
-
-  componentDidMount() {
-    get_my_event(this.props.eid)
-    .then((res) => {
-      this.setState({event: res.data});
-    }).catch((error) => {
-      //this.props.logout();
-      console.error(error)
-    });
-  }
-
+export default class PartySelect extends React.Component{
+  
   render() {
-    if (this.state.event === undefined || this.state.event.status) {
-      return (<View></View>);
-    } else {
-      var today = new Date(this.state.event.start);
+      const { item } = this.props
+      var today = new Date(item.start);
       var dd = String(today.getDate()).padStart(2, '0');
       var dd2 = today.getDay();
       var mm = String(today.getMonth()).padStart(2, '0'); //January is 0!
       var yyyy = today.getFullYear();
       return (
         <TouchableOpacity onPress={this.props.onPress} style={styles.container}>
-          <Image source={{uri: this.state.event.pictures[0]}} style={styles.imageIcon} />
+          <Image source={{uri: item.pictures[0]}} style={styles.imageIcon} />
           <View style={styles.column}>
-            <Text style={styles.header}>{this.state.event.title}</Text>
+            <Text style={styles.header}>{item.title}</Text>
             <View style={styles.row}>
               <FontAwesomeIcon size={20} color={'#6C2BA1'} icon={ faCalendar }/>
               <Text style={styles.para}>{global_day[dd2]} {dd} {global_months[parseInt(mm)]} {yyyy}</Text>
@@ -54,7 +35,6 @@ export default class PartySelect extends React.Component
           <FontAwesomeIcon size={iconSize} style={styles.icons} icon={ faChevronRight}/>
         </TouchableOpacity>
       );
-    }
   }
 }
 

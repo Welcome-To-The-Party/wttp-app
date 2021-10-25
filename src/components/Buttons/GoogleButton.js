@@ -2,23 +2,30 @@ import * as React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Image, Modal, ActivityIndicator } from 'react-native';
 import { useSelector } from 'react-redux'
 import { mixins } from '@styles'
+import SocialLogin from '../SocialLogin';
 
 const fb_icon = require('@assets/icons/google.png');
 
 // create a component
 const GoogleButton = ({onPress}) => {
 
-  const isLoading = useSelector(state => state.auth.login_google.isLoading)
+  const {isLoading, url} = useSelector(state => state.auth.login_google)
   
   return (
-      <TouchableOpacity style={styles.container} onPress={onPress}>
-        <Image source={fb_icon} style={styles.icon} />
-        <Text style={styles.buttonText}>Continuer avec Google</Text>
-        {
-          isLoading && 
-          <ActivityIndicator color = "#000" size = 'large' />
-        }
-      </TouchableOpacity>
+      <View style = {{width: '100%'}}>
+        <SocialLogin
+          url = {url}
+          network = "google"
+        />
+        <TouchableOpacity style={styles.container} onPress={onPress}>
+          <Image source={fb_icon} style={styles.icon} />
+          <Text style={styles.buttonText}>Continuer avec Google</Text>
+          {
+            isLoading && 
+            <ActivityIndicator color = "#000" size = 'large' />
+          }
+        </TouchableOpacity>
+      </View>
   );
 };
 

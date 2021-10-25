@@ -20,7 +20,7 @@ export const login = (data) => {
             },
             options: {
                 onSuccess({getState, dispatch, response}){
-                    console.log("data", response.data)
+                    console.log("data", response.data.token)
                     if(response.data.status == 400){
                         dispatch({type: `${LOGIN}_FAIL`, error: "Email ou mot de passe incorrect"});
                     }else{
@@ -45,14 +45,6 @@ export const login_facebook = () => {
             request: {
                 url: '/auth/facebook'
             },
-            options: {
-                onSuccess({getState, dispatch, response}){
-                    console.log("data", response)
-                },
-                onError({getState, dispatch, error}){
-                    console.log("error login_facebook", error)
-                }
-            }
         }
     }
 }

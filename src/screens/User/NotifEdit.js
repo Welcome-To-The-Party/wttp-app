@@ -28,11 +28,12 @@ const NotifEdit = () => {
 
   const setNotif = async (value) => {
     setIsNotification(value)
-    let not_token = await registerForPushNotificationsAsync();
+    let token = await registerForPushNotificationsAsync();
+    
     if(value){
       Notifications.addNotificationReceivedListener();
       Notifications.addNotificationResponseReceivedListener();
-      dispatch(set_token_push({token: {value: not_token}}))
+      dispatch(set_token_push({lastPushToken: token}))
     }
     else dispatch(set_token_push({token: {value: ""}}))
   }

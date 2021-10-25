@@ -21,6 +21,7 @@ const HomeNavigator = () => {
     return (
         <Tab.Navigator 
             screenOptions={{ tabBarActiveTintColor: '#6C2BA1', headerShown: false }}
+            initialRouteName = "Search"
             tabBar={(props) => <BottomTabBar {...props} />}
         >
             <Tab.Screen 

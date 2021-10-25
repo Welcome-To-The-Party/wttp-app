@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
     miniContainer: {
       flexDirection: "column",
       width: '100%',
-      marginTop: 80,
+      marginTop: 20,
       marginBottom: 20,
       marginLeft: 30,
     },

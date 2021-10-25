@@ -22,9 +22,9 @@ export const getUser = () => {
             request: {
                 url: '/users/profile',
                 headers: {
-                    Authorization: `${token}`
+                    Authorization: store.getState().auth.login.token
                 }
-            }
+            },
         }
     }
 }
@@ -38,13 +38,14 @@ export const log_out = () => {
 export const get_my_event = (idEvent) => {
     return httpClient.get(`/events/get_event/${idEvent}`, {
         headers: {
-            Authorization: `${token}`
+            Authorization: store.getState().auth.login.token
         }
     })
 }
 
 
 export const update_profil = (data) => {
+    console.log("data", data)
     return{
         type: UPDATE_PROFIL,
         payload: {
@@ -52,7 +53,7 @@ export const update_profil = (data) => {
                 method: "POST",
                 url: '/users/update_profile',
                 headers: {
-                    Authorization: `${token}`
+                    Authorization: store.getState().auth.login.token
                 },
                 data: data
             },
@@ -64,6 +65,7 @@ export const update_profil = (data) => {
                     }
                 },
                 onError({getState, dispatch, error}){
+                    console.log("error", error)
                     dispatch({type: `${UPDATE_PROFIL}_FAIL`, error: "Une erreur est survenu, veuillez réessayer plutart"});
                 }
             }
@@ -78,7 +80,7 @@ export const delete_account = (data) => {
             request: {
                 url: '/users/delete_account',
                 headers: {
-                    Authorization: `${token}`
+                    Authorization: store.getState().auth.login.token
                 }
             },
             options: {

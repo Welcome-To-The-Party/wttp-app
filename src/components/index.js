@@ -29,6 +29,8 @@ import AlertSucces from './AlertSucces';
 import CardEventItem from './CardEventItem'
 import DeleteAccount from './DeleteAccount'
 import ForgotAccount from './Login/ForgotAccount'
+import BackButton from './Buttons/BackButton'
+import FilterSearch from './FilterSearch'
 
 
 export {
@@ -62,5 +64,7 @@ export {
     AlertSucces,
     CardEventItem,
     DeleteAccount,
-    ForgotAccount
+    ForgotAccount,
+    BackButton,
+    FilterSearch
 }

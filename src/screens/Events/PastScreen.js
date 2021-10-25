@@ -1,12 +1,19 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
+import EmptyEvent from '../../components/Events/EmptyEvent';
+import PartySelect from '../../components/Events/PartySelect';
 
 // create a component
-const PastScreen = () => {
+const PastScreen = ({data}) => {
   return (
     <View style={styles.container}>
-      <Text>PastScreen</Text>
+      <FlatList
+        data = {data}
+        keyExtractor = {(item) => String(item.title)}
+        renderItem = {({item}) => <PartySelect item = {item} />}
+        ListEmptyComponent = {EmptyEvent}
+      />
     </View>
   );
 };
@@ -15,9 +22,7 @@ const PastScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#2c3e50',
+    paddingTop: 20
   },
 });
 

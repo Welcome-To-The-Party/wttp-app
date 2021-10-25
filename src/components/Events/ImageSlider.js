@@ -49,16 +49,17 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '40%',
   },
-  scroller: {
-    height: '85%',
-  },
   row: {
     height: '100%',
     flexDirection: 'row',
     marginLeft: 5,
   },
+  scroller: {
+    height: 200,
+  },
   mainImg: {
     width: '70%',
+    height: 200,
     borderRadius: 15,
   },
   scrollImg: {

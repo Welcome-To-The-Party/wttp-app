@@ -2,18 +2,13 @@
  * Create Event Step Navigator
  */
 import React from 'react';
-import PropTypes from 'prop-types';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import equal from 'fast-deep-equal'
-
-
-import EHandlerTopTabBar from './EHandlerTopTabBar.js';
 
 import PastEventScreen from '../screens/Events/PastEventScreen.js';
 import ConfirmedScreen from '../screens/Events/ConfirmedScreen.js';
 import ValidationScreen from '../screens/Events/ValidationScreen.js';
-import ToComeScreen from '../screens/Events/ToComeScreen.js';
-import PastScreen from '../screens/Events/PastScreen.js';
+import { colors } from '@styles'
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -65,11 +60,12 @@ export default class EHandlerNavigator extends React.Component
     return (
       <Tab.Navigator 
         screenOptions={{ 
-          activeTintColor: '#6C2BA1', 
-          tabBarScrollEnabled: true,
+          activeTintColor: '#6C2BA1',
+          tabBarIndicatorStyle: {
+            backgroundColor: colors.PRIMARY
+          },
           tabBarLabelStyle: {textTransform: 'capitalize', fontSize: 16}
         }}
-        tabBar={(props) => <EHandlerTopTabBar {...props} />}
       >
         <Tab.Screen 
           name="confirm"
@@ -81,31 +77,12 @@ export default class EHandlerNavigator extends React.Component
           component = {ValidationScreen}
           options = {{title: "En attente"}}
         />
-        <Tab.Screen 
-          name="tocome" 
-          component = {ToComeScreen}
-          options = {{title: "À VENIR"}}
-        />
-        <Tab.Screen 
-          name="past" 
-          component = {PastScreen}
-          options = {{title: "PASSÉS"}}
-        />
-        <Tab.Screen 
+        {/* <Tab.Screen 
           name="PastEvent" 
           component = {PastEventScreen}
           options = {{title: "En attente"}}
-        />
+        /> */}
       </Tab.Navigator>
     );
   }
-}
-
-EHandlerNavigator.propTypes = {
-  run: PropTypes.function,
-  location: PropTypes.object,
-  token: PropTypes.string,
-  eid: PropTypes.string,
-  openUser: PropTypes.function,
-  navigation: PropTypes.object,
 }

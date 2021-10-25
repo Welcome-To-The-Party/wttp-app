@@ -28,7 +28,7 @@ const BottomTabBar = ({navigation}) => {
           style={styles.back_images_container}>
           <View style={styles.button_container}>
             <TouchableOpacity 
-              onPress={() => openPage("Search")} 
+              onPress={() => openPage("Map")} 
               style={styles.btn_container}
             >
               <FontAwesomeIcon 
@@ -50,7 +50,7 @@ const BottomTabBar = ({navigation}) => {
               <Text style={styles.text}>Notifications</Text>
             </TouchableOpacity>
             <TouchableOpacity 
-              onPress={() => openPage("Map")} 
+              onPress={() => openPage("Search")} 
               style={styles.btn_container_img}
             >
               <Image 

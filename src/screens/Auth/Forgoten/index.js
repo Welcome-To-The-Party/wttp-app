@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { View, Text, ImageBackground, Image } from 'react-native';
 
-import { ForgotAccount } from '@components'
+import { ForgotAccount, BackButton } from '@components'
 import { styles } from '../style'
 import { useDispatch, useSelector } from 'react-redux';
 import { reset_password } from '@store/auth/actionAuth';
@@ -41,6 +41,7 @@ const ForgotenScreen = () => {
                     message = {message}
                     onClose = {onClose}
                 />
+                <BackButton />
                 <View style={styles.miniContainer}>
                     <Image source={icon} style={styles.icon} />
                     <Text style={styles.header}>Ouuups..</Text>

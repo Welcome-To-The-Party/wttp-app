@@ -1,38 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { TouchableOpacity, Text, Image, RefreshControl, StyleSheet, View, ScrollView } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux'
-import { get_events } from '../../store/events/actionEvents';
+import { TouchableOpacity, Text, Image, StyleSheet, View } from 'react-native';
 import { navigate } from '../../providers/navigationService';
 import { mixins } from '@styles'
 
 // create a component
 const LatestEvent = ({item}) => {
 
-  const dispatch = useDispatch();
-  const [eventid, setEventid] = useState(item.eventid)
-  const eventData = useSelector(state => state.events.event.data)
-  const userData = useSelector(state => state.events.owner_event.data)
-
-  useEffect(() => {
-    dispatch(get_events(eventid))
-  }, [eventid])
-
   return (
     <View style={styles.container}>
-        <TouchableOpacity onPress = {() => navigate("Event",{eventid} )}>
-          <Image source={{ uri: eventData[item.eventid]?.pictures[0] }} style={styles.img} />
+        <TouchableOpacity onPress = {() => navigate("Event",{event: item})}>
+          <Image source={{ uri: item?.pictures[0] }} style={styles.img} />
         </TouchableOpacity>
         <View style={styles.row}>
           <TouchableOpacity >
-            <Text style={styles.header}>{eventData[item.eventid]?.title}</Text>
+            <Text style={styles.header}>{item?.title}</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.row}>
           <Text style={styles.para}>Par: </Text>
           <TouchableOpacity >
             <View style={styles.rowIcon}>
-              <Image source={{ uri: userData[item.eventid]?.picture }} style={styles.icon} />
-              <Text style={styles.userText}>{userData[item.eventid]?.name}</Text>
+              <Image source={{ uri: item?.owner?.picture }} style={styles.icon} />
+              <Text style={styles.userText}>{item?.owner?.name}</Text>
             </View>
           </TouchableOpacity>
         </View>

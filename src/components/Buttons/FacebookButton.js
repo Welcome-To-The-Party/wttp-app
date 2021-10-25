@@ -1,33 +1,41 @@
-import * as React from 'react';
-import { StyleSheet, Text, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
-import { useSelector } from 'react-redux'
+import React, { useState } from 'react';
+import { View, StyleSheet, Text, TouchableOpacity, Image, ActivityIndicator, Modal } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux'
+import { WebView } from 'react-native-webview';
 
 import { mixins } from '@styles'
+import { LOGIN_FACEBOOK } from '../../store/auth/type';
+import SocialLogin from '../SocialLogin';
+
 
 const fb_icon = require("@assets/icons/facebook.png")
 
 // create a component
 const FacebookButton = ({onPress}) => {
 
-  const isLoading = useSelector(state => state.auth.login_facebook.isLoading)
-
-  console.log("loading", isLoading)
+  const {isLoading, url } = useSelector(state => state.auth.login_facebook)
 
   return (
-    <TouchableOpacity 
-      style={styles.container} 
-      onPress={onPress}
-    >
-      <Image 
-        source = {fb_icon}
-        style={styles.icon}
+    <View style = {{width: '100%'}}>
+      <SocialLogin 
+        url = {url}
+        network = "facebook"  
       />
-      <Text style={styles.buttonText}>Continuer avec Facebook</Text>
-      {
-        isLoading && 
-        <ActivityIndicator color = "#fff" size = 'large' />
-      }
-    </TouchableOpacity>
+      <TouchableOpacity 
+        style={styles.container} 
+        onPress={onPress}
+      >
+        <Image 
+          source = {fb_icon}
+          style={styles.icon}
+        />
+        <Text style={styles.buttonText}>Continuer avec Facebook</Text>
+        {
+          isLoading && 
+          <ActivityIndicator color = "#fff" size = 'large' />
+        }
+      </TouchableOpacity>
+    </View>
   );
 };
 

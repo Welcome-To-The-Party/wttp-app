@@ -1,52 +1,47 @@
 import React, { useEffect, useState } from 'react';
-import { TouchableOpacity, Text, Image, RefreshControl, StyleSheet, View, ScrollView } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux'
-import { get_events } from '@store/events/actionEvents';
+import { TouchableOpacity, Text, Image, StyleSheet, View } from 'react-native';
 import { mixins } from '@styles'
 import { navigate } from '../../providers/navigationService';
 
 // create a component
 const EventDisplay = ({item}) => {
 
-  const dispatch = useDispatch();
-  const [eventid, setEventid] = useState(item.eventid)
-  const eventData = useSelector(state => state.events.event.data)
-  const userData = useSelector(state => state.events.owner_event.data)
-  var startDate = new Date(eventData[item.eventid]?.start);
-
-  useEffect(() => {
-    dispatch(get_events(eventid))
-  }, [eventid])
+  var startDate = new Date(item?.start);
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity onPress = {() => navigate("Event",{eventid} )}>
-        <Image source={{ uri: eventData[item.eventid]?.pictures[0] }} style={styles.img} />
-      </TouchableOpacity>
-      <View style={styles.row}>
-        <View style={styles.rowIconFill}>
-          <Text style={styles.styleText}>{eventData[item.eventid]?.placeType}</Text>
-        </View>
-        <View style={styles.rowIconFill}>
-          <Text style={styles.styleText}>{eventData[item.eventid]?.type}</Text>
-        </View>
-        <View style={styles.rowIcon}>
-          <Text style={styles.smokeText}>{eventData[item.eventid]?.smoke? "FUMEUR" : "NON-FUMEUR"}</Text>
-        </View>
-      </View>
-      <View style={styles.row}>
-        <Text style={styles.para}>Par: </Text>
-        <TouchableOpacity>
-          <View style={styles.rowIcon}>
-            <Image source={{ uri: userData[item.eventid]?.picture }} style={styles.icon} />
-            <Text style={styles.userText}>{userData[item.eventid]?.name}</Text>
+    <View>
+      {
+
+        <View style={styles.container}>
+          <TouchableOpacity onPress = {() => navigate("Event",{event: item} )}>
+            <Image source={{ uri: item?.pictures[0] }} style={styles.img} />
+          </TouchableOpacity>
+          <View style={styles.row}>
+            <View style={styles.rowIconFill}>
+              <Text style={styles.styleText}>{item?.placeType}</Text>
+            </View>
+            <View style={styles.rowIconFill}>
+              <Text style={styles.styleText}>{item?.type}</Text>
+            </View>
+            <View style={styles.rowIcon}>
+              <Text style={styles.smokeText}>{item?.smoke? "FUMEUR" : "NON-FUMEUR"}</Text>
+            </View>
           </View>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.row}>
-        <Text style={styles.para}>Le: </Text>
-        <Text>{startDate?.getDate()}/{startDate?.getMonth() + 1}/{startDate?.getFullYear()}</Text>
-      </View>
+          <View style={styles.row}>
+            <Text style={styles.para}>Par: </Text>
+            <TouchableOpacity>
+              <View style={styles.rowIcon}>
+                <Image source={{ uri: item?.owner?.picture }} style={styles.icon} />
+                <Text style={styles.userText}>{item?.owner?.name}</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.para}>Le: </Text>
+            <Text>{startDate?.getDate()}/{startDate?.getMonth() + 1}/{startDate?.getFullYear()}</Text>
+          </View>
+        </View>
+      }
     </View>
   );
 };
@@ -59,13 +54,13 @@ const styles = StyleSheet.create({
   container: {
     // flex: 1,
     width: 230,
-    height: 300,
+    minHeight: 300,
     flexDirection: "column",
     backgroundColor: '#f9f9f9',
     marginTop: 10,
     marginRight: 10,
     marginVertical: 5,
-    // paddingBottom: 15,
+    paddingBottom: 15,
     borderRadius: 20,
     ...mixins.boxShadow('#777')
   },
@@ -95,7 +90,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginLeft: 10,
-    marginVertical: 10,
+    marginVertical: 5,
   },
   rowIcon: {
     flexDirection: 'row',

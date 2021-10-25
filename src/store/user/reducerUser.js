@@ -33,13 +33,13 @@ const userReducer = (state = initialState, action) => {
                }
             }
         case `${SET_USER}_SUCCESS`:
-            console.log("user", action.payload.data)
+            console.log("user ------------", action.payload.data.data)
             return {
                 ...state,
                 user: {
                     ...state.user,
                     isLoading: false,
-                    data: action.payload.data.user,
+                    data: action.payload.data.data,
                     error: ''
                 }
             }
@@ -79,7 +79,7 @@ const userReducer = (state = initialState, action) => {
                     ...state.update,
                     isLoading: false,
                     message: {},
-                    error: action.payload.error
+                    error: action.error
                 }
             }
         case DELETE_ACCOUNT:

@@ -137,7 +137,7 @@ const eventsReducer = (state = initialState, action) => {
                     ...state.owner_event,
                     isLoading: false,
                     data: [],
-                    error: action.payload.error
+                    error: action.error
                 }
             }
         case PARTICIPE_EVENT:
@@ -149,12 +149,13 @@ const eventsReducer = (state = initialState, action) => {
                 }
             }
         case `${PARTICIPE_EVENT}_SUCCESS`:
+            console.log("participation", action.payload.data)
             return {
                 ...state,
                 infos: {
                     ...state.infos,
                     isLoading: false,
-                    message: action.payload.data.status == 200?action.payload.data.message: action.payload.data.notification.message,
+                    message: action.payload.data.status == 200?action.payload.data.data.message: action.payload.data.message,
                     error: ''
                 }
             }
@@ -182,7 +183,7 @@ const eventsReducer = (state = initialState, action) => {
                 infos: {
                     ...state.infos,
                     isLoading: false,
-                    message: action.payload.data.message,
+                    message: action.payload,
                     error: ''
                 }
             }
@@ -239,7 +240,7 @@ const eventsReducer = (state = initialState, action) => {
                 organisations: {
                     ...state.organisations, 
                     isLoading: false,
-                    data: action.payload.data,
+                    data: action.payload.data.data,
                     error: ''
                 }
             }
@@ -268,7 +269,7 @@ const eventsReducer = (state = initialState, action) => {
                 participations: {
                     ...state.participations, 
                     isLoading: false,
-                    data: action.payload.data,
+                    data: action.payload.data.data,
                     error: ''
                 }
             }

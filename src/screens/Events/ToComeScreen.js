@@ -1,12 +1,21 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
+import EmptyEvent from '../../components/Events/EmptyEvent';
+import PartySelect from '../../components/Events/PartySelect';
+import { navigate } from '../../providers/navigationService';
 
 // create a component
-const ToComeScreen = () => {
+const ToComeScreen = ({data}) => {
+
   return (
     <View style={styles.container}>
-      <Text>ToComeScreen</Text>
+      <FlatList
+        data = {data}
+        keyExtractor = {(item) => String(item.title)}
+        renderItem = {({item}) => <PartySelect item = {item} onPress = {() => navigate("EventHandler")} />}
+        ListEmptyComponent = {EmptyEvent}
+      />
     </View>
   );
 };
@@ -15,9 +24,7 @@ const ToComeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#2c3e50',
+    paddingTop: 20
   },
 });
 

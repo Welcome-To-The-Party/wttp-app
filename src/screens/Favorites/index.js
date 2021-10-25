@@ -41,7 +41,7 @@ const FavoriteScreen = () => {
           <Carousel
             data={favorites}
             loop
-            renderItem={({item}) => <FavSwipe eid={item} openEvent = {() => navigate("Event", {eventid: item})} />}
+            renderItem={({item}) => <FavSwipe item={item} openEvent = {() => navigate("Event", {event: item})} />}
             sliderWidth={Dimensions.get('window').width}
             itemWidth={Dimensions.get('window').width - 80}
           />

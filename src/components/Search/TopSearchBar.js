@@ -29,7 +29,7 @@ const inputGoogle = {
 }
 
 // create a component
-const TopSerachBar = ({setEventsType, eventsType, setDetails, showbtn}) => {
+const TopSerachBar = ({setDetails, showbtn, toggleModal}) => {
   return (
     <View style={styles.container}>
       <View style = {{flex:1 }}>
@@ -61,6 +61,7 @@ const TopSerachBar = ({setEventsType, eventsType, setDetails, showbtn}) => {
                 <Ionicons 
                   size={22}
                   name = "md-options"
+                  onPress = {toggleModal}
                   style = {styles.iconOption}
                 />
               </View>
