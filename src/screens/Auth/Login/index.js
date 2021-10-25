@@ -1,7 +1,6 @@
 //import liraries
-import React, { Component } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, ImageBackground, Image, TouchableOpacity, Linking } from 'react-native';
-import { useDispatch } from 'react-redux'
 
 import { 
     LoginAccount, 
@@ -10,7 +9,6 @@ import {
     BackButton
 } from '@components'
 import { styles } from '../style'
-import { DEV_URL } from '@env'
 
 const background_img = require('@assets/images/register_background.jpg');
 const icon = require('@assets/icons/icon.png');
@@ -18,16 +16,8 @@ const icon = require('@assets/icons/icon.png');
 // create a component
 const LoginScreen = ({navigation}) => {
 
-    const dispatch = useDispatch();
-
-    const login_facebook = () => {
-        fetch(DEV_URL + '/auth/facebook')
-    .then(res => res.text())
-    .then(res => {
-        console.log("response", res)
-    })
-        console.log("test", DEV_URL + '/auth/facebook')
-        Linking.canOpenURL(DEV_URL + '/auth/facebook')
+    const login_facebook = async () => {
+       
     }
 
     const login_google = () => {
