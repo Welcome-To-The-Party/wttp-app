@@ -10,10 +10,13 @@ import {
     BackButton 
 } from '@components'
 import { styles } from '../style'
-import { login_facebook, login_google } from '@store/auth/actionAuth';
 
 const background_img = require('@assets/images/register_background.jpg');
 const icon = require('@assets/icons/icon.png');
+
+const social_login = async (social_type) => {
+       
+}
 
 // create a component
 const RegisterScreen = () => {
@@ -35,10 +38,10 @@ const RegisterScreen = () => {
                 <View style={styles.createContainer}>
                     <CreateAccount />
                     <FacebookButton 
-                        onPress = {() => dispatch(login_facebook())}
+                        onPress = {social_login('facebook')}
                     />
                     <GoogleButton
-                        onPress = {() => dispatch(login_google())}
+                        onPress = {social_login('google')}
                     />
                 </View>
             </ImageBackground>
