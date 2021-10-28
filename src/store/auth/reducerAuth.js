@@ -1,6 +1,5 @@
 import { 
-    LOGIN_FACEBOOK,
-    LOGIN_GOOGLE,
+    SOCIAL_LOGIN,
     LOGIN,
     REGISTER,
     REMOVE_TOKEN,
@@ -14,14 +13,10 @@ const initialState = {
         isLoading: false,
         error: ""
     },
-    login_facebook: {
+    social_login: {
         url: "",
-        isLoading: false,
-        error: ""
-    },
-    login_google: {
-        url: "",
-        isLoading: false,
+        facebookLoading: false,
+        googleLoading: false,
         error: ""
     },
     register: {
@@ -76,59 +71,43 @@ const authReducer = (state = initialState, action) => {
                     error: ""
                 }
             }
-        case LOGIN_FACEBOOK:
+        case SOCIAL_LOGIN:
+            console.log('==============case SOCIAL_LOGIN======================');
+            console.log(action.payload.data);
+            console.log('====================================');
             return {
                 ...state,
-                login_facebook: {
-                    ...state.login_facebook,
-                    isLoading: true
+                social_login: {
+                    ...state.social_login,
+                    facebookLoading: false, // action.payload.data === 'facebook' ? true: false,
+                    googleLoading: false //action.payload.data === 'google' ? true: false,
                 }
             }
-        case `${LOGIN_FACEBOOK}_SUCCESS`:
+        case `${SOCIAL_LOGIN}_SUCCESS`:
             console.log("action.payload.data",action.payload.data)
             return {
                 ...state,
-                login_facebook: {
-                    ...state.login_facebook,
-                    isLoading: false,
+                social_login: {
+                    ...state.social_login,
+                    facebookLoading: false,
+                    googleLoading: false,
                     url: action.payload?action.payload.data:"",
+                    error: ""
+                },
+                login: {
+                    ...state.login,
+                    isLoading: false,
+                    token: action.payload.token,
                     error: ""
                 }
             }
-        case `${LOGIN_FACEBOOK}_FAIL`:
+        case `${SOCIAL_LOGIN}_FAIL`:
             return {
                 ...state,
-                login_facebook: {
-                    ...state.login_facebook,
-                    isLoading: false,
-                    url: "",
-                    error: "connexion facebook echoué"
-                }
-            }
-        case LOGIN_GOOGLE:
-            return {
-                ...state,
-                login_google: {
-                    ...state.login_google,
-                    isLoading: true
-                }
-            }
-        case `${LOGIN_GOOGLE}_SUCCESS`:
-            return {
-                ...state,
-                login_google: {
-                    ...state.login_google,
-                    isLoading: false,
-                    url: action.payload?action.payload.data:"",
-                    error: ""
-                }
-            }
-        case `${LOGIN_GOOGLE}_FAIL`:
-            return {
-                ...state,
-                login_google: {
-                    ...state.login_google,
-                    isLoading: false,
+                social_login: {
+                    ...state.social_login,
+                    facebookLoading: false,
+                    googleLoading: false,
                     url: "",
                     error: "connexion facebook echoué"
                 }

@@ -1,7 +1,6 @@
 
 import {
-    LOGIN_FACEBOOK, 
-    LOGIN_GOOGLE,
+    SOCIAL_LOGIN, 
     LOGIN,
     REGISTER,
     RESET_PASSWORD
@@ -38,27 +37,35 @@ export const login = (data) => {
     }
 }
 
-export const login_facebook = () => {
+
+export const social_login = (user_data) => {
     return{
-        type: LOGIN_FACEBOOK,
+        type: SOCIAL_LOGIN,
         payload: {
             request: {
-                url: '/auth/facebook'
+                method: 'POST',
+                url: '/auth/social_connect',
+                data: user_data,
             },
+            options: {
+                onSuccess({getState, dispatch, response}){
+                    if(response.data.status == 400){
+                        dispatch({type: `${SOCIAL_LOGIN}_FAIL`, error: "Erreur de connexion avec nos serveurs"});
+                    }else{
+                        navigate("Home")
+                        dispatch({type: `${SOCIAL_LOGIN}_SUCCESS`, payload: response.data.token});
+                        dispatch(getUser())
+                    }
+                },
+                onError({getState, dispatch, error}){
+                     console.log("error login", error)
+                    dispatch({type: `${SOCIAL_LOGIN}_FAIL`, error: "Erreur de connexion avec nos serveurs"});
+                }
+            }
         }
     }
 }
 
-export const login_google = () => {
-    return{
-        type: LOGIN_GOOGLE,
-        payload: {
-            request: {
-                url: '/auth/google'
-            },
-        }
-    }
-}
 
 export const register = (data) => {
     console.log("data", data)

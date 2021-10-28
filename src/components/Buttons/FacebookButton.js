@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Image, ActivityIndicator, Modal } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
-import { WebView } from 'react-native-webview';
-
+import * as Facebook from 'expo-facebook';
 import { mixins } from '@styles'
-import { LOGIN_FACEBOOK } from '../../store/auth/type';
 import SocialLogin from '../SocialLogin';
+import { social_login } from '@store/auth/actionAuth'
+import { FACEBOOK_ID } from '@env'
 
 
 const fb_icon = require("@assets/icons/facebook.png")
@@ -13,17 +13,53 @@ const fb_icon = require("@assets/icons/facebook.png")
 // create a component
 const FacebookButton = ({onPress}) => {
 
-  const {isLoading, url } = useSelector(state => state.auth.login_facebook)
+  const dispatch = useDispatch();
+
+  const {isLoading } = false // useSelector(state => state.auth.social_login.googleLoading)
+
+  const social_auth = (data) => {
+    dispatch(social_login({social_type: 'facebook', ...data}))
+  }
+
+  async function facebook_login() {
+    try {
+      await Facebook.initializeAsync({
+        appId: FACEBOOK_ID,
+      });
+      const {
+        type,
+        token,
+        expirationDate,
+        permissions,
+        declinedPermissions,
+      } = await Facebook.logInWithReadPermissionsAsync({
+        permissions: ['public_profile', 'email'],
+      });
+      if (type === 'success') {
+        // Get the user's name using Facebook's Graph API
+        fetch(`https://graph.facebook.com/me?access_token=${token}&fields=id,name,email,picture.height(500)`)
+        .then(response => response.json())
+        .then(data => {
+          dispatch(social_auth(data))
+        })
+        .catch(e => console.log(e))
+      } else {
+        console.log('cancelled');
+      }
+    } catch ({ message }) {
+      alert(`Facebook Login Error: ${message}`);
+    }
+  }
 
   return (
     <View style = {{width: '100%'}}>
       <SocialLogin 
-        url = {url}
+        url = {false}
         network = "facebook"  
       />
       <TouchableOpacity 
         style={styles.container} 
-        onPress={onPress}
+        onPress={() => facebook_login()}
       >
         <Image 
           source = {fb_icon}
