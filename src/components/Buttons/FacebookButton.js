@@ -15,7 +15,7 @@ const FacebookButton = ({onPress}) => {
 
   const dispatch = useDispatch();
 
-  const {isLoading } = false // useSelector(state => state.auth.social_login.googleLoading)
+  const {isLoading } =  useSelector(state => state.auth.social_login.facebookLoading)
 
   const social_auth = (data) => {
     dispatch(social_login({social_type: 'facebook', ...data}))

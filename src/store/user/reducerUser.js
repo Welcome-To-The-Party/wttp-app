@@ -33,7 +33,7 @@ const userReducer = (state = initialState, action) => {
                }
             }
         case `${SET_USER}_SUCCESS`:
-            console.log("SET_USER ok ------------", action.payload.data)
+            console.log("SET_USER success ------------", action.payload.data)
             return {
                 ...state,
                 user: {

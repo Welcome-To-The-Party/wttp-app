@@ -20,6 +20,7 @@ export const getUser = () => {
         type: SET_USER,
         payload: {
             request: {
+                method: 'GET',
                 url: '/users/profile',
                 headers: {
                     Authorization: store.getState().auth.login.token

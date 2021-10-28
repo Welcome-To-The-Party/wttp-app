@@ -47,6 +47,7 @@ export const social_login = (user_data) => {
                 url: '/auth/social_connect',
                 data: user_data,
             },
+            social_type: user_data.social_type,
             options: {
                 onSuccess({getState, dispatch, response}){
                     if(response.data.status == 400){

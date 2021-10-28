@@ -72,32 +72,27 @@ const authReducer = (state = initialState, action) => {
                 }
             }
         case SOCIAL_LOGIN:
-            console.log('==============case SOCIAL_LOGIN======================');
-            console.log(action.payload.data);
-            console.log('====================================');
             return {
                 ...state,
                 social_login: {
                     ...state.social_login,
-                    facebookLoading: false, // action.payload.data === 'facebook' ? true: false,
-                    googleLoading: false //action.payload.data === 'google' ? true: false,
+                    facebookLoading: action.payload.social_type === 'facebook' ? true: false,
+                    googleLoading: action.payload.social_type === 'google' ? true: false,
                 }
             }
         case `${SOCIAL_LOGIN}_SUCCESS`:
-            console.log("action.payload.data",action.payload.data)
             return {
                 ...state,
                 social_login: {
                     ...state.social_login,
                     facebookLoading: false,
                     googleLoading: false,
-                    url: action.payload?action.payload.data:"",
                     error: ""
                 },
                 login: {
                     ...state.login,
                     isLoading: false,
-                    token: action.payload.token,
+                    token: action.payload,
                     error: ""
                 }
             }
