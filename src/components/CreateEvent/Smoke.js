@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, Image, Text, View, TouchableOpacity } from 'react-native';
-import PropTypes from 'prop-types';
 
 const images = [ require('../../assets/images/CreateEvent/smoke.png'),
 require('../../assets/images/CreateEvent/no_smoke.png') ];
@@ -51,10 +50,6 @@ export default class Smoke extends React.Component
     );
   }
 }
-
-Smoke.propTypes = {
-  set: PropTypes.function,
-};
 
 const styles = StyleSheet.create({
   container: {

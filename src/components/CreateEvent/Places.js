@@ -1,6 +1,5 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Image, Text, View, TouchableOpacity } from 'react-native';
-import PropTypes from 'prop-types';
 
 const images = [ require('../../assets/images/CreateEvent/house.png'),
 require('../../assets/images/CreateEvent/appartement.png'),
@@ -62,10 +61,6 @@ export default class Places extends React.Component
     );
   }
 }
-
-Places.propTypes = {
-  set: PropTypes.function,
-};
 
 const styles = StyleSheet.create({
   container: {

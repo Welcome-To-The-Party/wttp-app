@@ -40,7 +40,7 @@ const ThirdStep = ({
         [{ resize: {width: 500, height: 500} }],
         { compress: 1, base64: true}
       );
-      setPictures([...pictures, `data:image/png;base64,${manipResult.base64}`]);
+      setPictures([...pictures, manipResult.uri]);
     }
   }
 

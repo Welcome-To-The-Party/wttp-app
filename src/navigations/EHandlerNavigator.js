@@ -1,88 +1,74 @@
 /*
  * Create Event Step Navigator
  */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import equal from 'fast-deep-equal'
+import { Text, StyleSheet } from 'react-native';
 
-import PastEventScreen from '../screens/Events/PastEventScreen.js';
 import ConfirmedScreen from '../screens/Events/ConfirmedScreen.js';
 import ValidationScreen from '../screens/Events/ValidationScreen.js';
 import { colors } from '@styles'
+import { useDispatch, useSelector } from 'react-redux';
+import { get_events } from '../store/events/actionEvents.js';
 
 const Tab = createMaterialTopTabNavigator();
 
-export default class EHandlerNavigator extends React.Component
-{
-  constructor(props) {
-    super(props);
-    this.state = {
-      event: undefined,
-      pastEvent: undefined,
-    };
+const EHandlerNavigator = ({route}) => {
 
-    this.getEvent = this.getEvent.bind(this);
-    this.openPastEvent = this.openPastEvent.bind(this);
-  }
+  const dispatch = useDispatch();
+  const { event } = route.params
+  const eventData = useSelector(state => state.events.event.data)
 
-  getEvent() {
-    fetch(`https://welcome-ttp.com/events/get_event/${this.props.eid}`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        Authentification: `Bearder ${this.props.token}`,
-        'Content-Type': 'application/json'
-      }
-    }).then((reponse) => reponse.json()).then((repJSON) => {
-      this.setState({event: repJSON});
-    }).catch((error) => {
-      //this.props.logout();
-      console.error(error)
-    });
-  }
+  console.log("---- event eventData ----", eventData)
 
-  componentDidMount() {
-    this.getEvent();
-  }
+  useEffect(() => {
+    dispatch(get_events(event._id))
+  }, [])
 
-  openPastEvent(data) {
-    this.setState({pastEvent: data});
-    this.props.navigation.navigate('PastEvent');
-  }
-
-  componentDidUpdate(prevProps) {
-    if (!equal(this.props.eid, prevProps.eid)) {
-      this.getEvent();
-    }
-  }
-  render () {
-
-    return (
-      <Tab.Navigator 
-        screenOptions={{ 
-          activeTintColor: '#6C2BA1',
-          tabBarIndicatorStyle: {
-            backgroundColor: colors.PRIMARY
-          },
-          tabBarLabelStyle: {textTransform: 'capitalize', fontSize: 16}
+  return (
+    <Tab.Navigator 
+      screenOptions={{ 
+        activeTintColor: '#6C2BA1',
+        tabBarIndicatorStyle: {
+          backgroundColor: colors.PRIMARY
+        },
+        tabBarLabelStyle: {textTransform: 'capitalize', fontSize: 16}
+      }}
+    >
+      <Tab.Screen 
+        name="confirm"
+        children = {() => <ConfirmedScreen data = {eventData.participatingUsers} /> }
+        options = {{
+          title: "Confirmé", 
+          tabBarBadge: () => <Text style = {styles.tabBadge}>{eventData?.participatingUsers?.length}</Text>,
         }}
-      >
-        <Tab.Screen 
-          name="confirm"
-          component = {ConfirmedScreen}
-          options = {{title: "Confirmé"}}
-        />
-        <Tab.Screen 
-          name="wait" 
-          component = {ValidationScreen}
-          options = {{title: "En attente"}}
-        />
-        {/* <Tab.Screen 
-          name="PastEvent" 
-          component = {PastEventScreen}
-          options = {{title: "En attente"}}
-        /> */}
-      </Tab.Navigator>
-    );
-  }
+      />
+      <Tab.Screen 
+        name="wait" 
+        children = {() => <ValidationScreen data = {eventData.usersThatAsked} />}
+        options = {{
+          title: "En attente", 
+          tabBarBadge: () => <Text style = {styles.tabBadge}>{eventData?.usersThatAsked?.length}</Text>
+        }}
+      />
+    </Tab.Navigator>
+  );
 }
+
+const styles = StyleSheet.create({
+  tabBadge: {
+    height: 30,
+    fontWeight: 'bold',
+    paddingHorizontal: 10,
+    borderColor: colors.PRIMARY,
+    color: colors.PRIMARY,
+    borderWidth: 1,
+    left: -70,
+    borderRadius: 15,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    position: 'absolute'
+  }
+});
+
+export default EHandlerNavigator

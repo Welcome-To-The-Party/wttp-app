@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
+import {DEV_URL } from '@env'
+import { store } from '@store/configureStore'
 
 import { colors } from '@styles'
 import FirstStep from './FirstStep';
@@ -83,27 +85,66 @@ const CreatEventScreen = () => {
     }
 
     const showRecap = () => {
-        const data = {
-            title,
-            description,
-            musicType,
-            type,
-            maxAllowed,
-            pictures,
-            placeType,
-            price,
-            smoke,
-            additionalInfos,
-            manualValidation: manualValidation == "MANUELLE"?true:false,
-            latitude: address.latitude,
-            longitute: address.longitute,
-            address: address.address,
-            start: startTime,
-            end: endTime,
-            number: phone
-        }
+        const data = new FormData();
+        data.append('title', title)
+        data.append('description',description)
+        data.append('musicType',musicType)
+        data.append('type',type)
+        data.append('maxAllowed',JSON.stringify(maxAllowed))
+        data.append('eventimages', 
+            {
+                uri: pictures[0],
+                type: 'image/jpeg',
+                name: "event.jpg"
+            }
+        )
+        data.append('placeType', placeType)
+        data.append('price', JSON.stringify(price))
+        data.append('smoke', JSON.stringify(smoke))
+        data.append('additionalInfos',additionalInfos)
+        data.append('manualValidation',manualValidation == "MANUELLE"?"true":"false")
+        data.append('latitude',JSON.stringify(address.latitude))
+        data.append('longitude',JSON.stringify(address.longitude))
+        data.append('address',address.address)
+        data.append('start',JSON.parse(JSON.stringify(startTime)))
+        data.append('end',JSON.parse(JSON.stringify(endTime)))
+        data.append('number',phone)
         setShowModal(false)
-        navigate("recap", {data})
+        console.log(data)
+        fetch(DEV_URL + '/events/create_event', {
+            method: "POST",
+            headers: {
+                Authorization: store.getState().auth.login.token
+            },
+            body: data
+        })
+        .then((res) => res.json())
+        .then(res => {
+            console.log("response", res)
+        })
+        .catch(error => console.log('error', error))
+        // const data = {
+        //     title,
+        //     description,
+        //     musicType,
+        //     type,
+        //     maxAllowed,
+        //     eventimages: pictures,
+        //     placeType,
+        //     price,
+        //     smoke,
+        //     additionalInfos,
+        //     manualValidation: manualValidation == "MANUELLE"?true:false,
+        //     latitude: address.latitude,
+        //     longitute: address.longitute,
+        //     address: address.address,
+        //     start: startTime,
+        //     end: endTime,
+        //     number: phone
+        // }
+        
+        // console.log('data', data)
+        // navigate("recap", {data})
     }
 
     return (

@@ -1,11 +1,13 @@
 import { useDispatch } from 'react-redux'
 import {
+    ACCEPT_PARTICIPATION,
     ADD_FAVORITE,
     CREATE_EVENT,
     FIND_EVENTS,
     LOAD_EVENTS,
     OWNER_EVENTS,
     PARTICIPE_EVENT,
+    REFUSE_PARTICIPATION,
     SET_ORGANISATION,
     SET_PARTICIPATION
 } from './type'
@@ -43,15 +45,6 @@ export const get_events = (idEvent) => {
                     Authorization: store.getState().auth.login.token
                 },
             },
-            options: {
-                onSuccess({getState, dispatch, response}){
-                    dispatch(get_owner_event(response.data.owner, idEvent))
-                    dispatch({type: `${LOAD_EVENTS}_SUCCESS`, payload: {id: idEvent, data: response.data}}); 
-                },
-                onError({getState, dispatch, error}){
-                    // dispatch({type: `${LOGIN}_FAIL`, error: error});
-                }
-            }
         }
     }
 }
@@ -163,6 +156,56 @@ export const get_participations = (data) => {
                 },
                 data: data
             },
+        }
+    }
+}
+
+export const accept_participation = (data) => {
+    return{
+        type: ACCEPT_PARTICIPATION,
+        payload: {
+            request: {
+                method: "POST",
+                url: `/participations/accept_participation_demand`,
+                headers: {
+                    Authorization: store.getState().auth.login.token
+                },
+                data: data
+            },
+            options: {
+                onSuccess({getState, dispatch, response}){
+                    // console.log("data", JSON.parse(response.data))
+                    console.log('reponse accept participation', response.data)
+                },
+                onError({getState, dispatch, error}){
+                    console.log('rerror accept participation', error)
+                }
+            }
+        }
+    }
+}
+
+export const refuse_participation = (data) => {
+    return{
+        type: REFUSE_PARTICIPATION,
+        payload: {
+            request: {
+                method: "POST",
+                url: `/participations/refuse_participation_demand`,
+                headers: {
+                    Authorization: store.getState().auth.login.token
+                },
+                data: data
+            },
+            options: {
+                onSuccess({getState, dispatch, response}){
+                    // console.log("data", JSON.parse(response.data))
+                    console.log('reponse refuse participation', response.data)
+                },
+                onError({getState, dispatch, error}){
+                    console.log('rerror refuse participation', error)
+                }
+            }
         }
     }
 }

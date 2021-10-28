@@ -22,7 +22,7 @@ const Recap = ({route}) => {
   const { message, isLoading } = useSelector(state => state.events.create)
   const {stripeAccountID, completedStripeAccount} = useSelector(state => state.user.user.data)
 
-  console.log("isLoading", isLoading)
+  console.log("stripeAccountID", stripeAccountID)
   
   const onClose = () => {
     dispatch({type: `${CREATE_EVENT}_FAIL`, payload: ''})
@@ -53,37 +53,37 @@ const Recap = ({route}) => {
           <PreviewerText 
             title={"TITRE"} 
             description={data?.title}
-            run={()=> navigate('first')} 
+            // run={()=> navigate('first')} 
           />
           <PreviewerText 
             title={"DESCRIPTION"} 
             description={data?.description}
-            run={()=> navigate('first')} 
+            // run={()=> navigate('first')} 
           />
           <PreviewerText 
             title={"ADDRESSE DE L’ÉVÉNEMENT"} 
             description={data?.address}
-            run={()=> navigate('first')} 
+            // run={()=> navigate('first')} 
           />
 
           <PreviewerSelect 
             types={music_types} 
             selected={data?.musicType}
             title={"TYPE DE MUSIQUE"} 
-            run={()=> navigate('second')} 
+            // run={()=> navigate('second')} 
           />
           <PreviewerSelect 
             types={party_types} 
             selected={data?.type}
             title={"TYPE DE SOIREE"} 
-            run={()=> navigate('second')} 
+            // run={()=> navigate('second')} 
           />
 
           <PreviewerPlaces 
             types={party_types} 
             selected={data?.placeType}
             title={"TYPE DE SOIREE"} 
-            run={()=> navigate('third')} 
+            // run={()=> navigate('third')} 
           />
           <Button 
             text={"VALIDER L’ÉVÉNEMENT"}

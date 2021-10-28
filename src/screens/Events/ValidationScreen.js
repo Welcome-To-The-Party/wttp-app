@@ -1,12 +1,27 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import Carousel from 'react-native-snap-carousel';
+
+import { UserSwipe } from '@components'
 
 // create a component
-const ValidationScreen = () => {
+const ValidationScreen = ({data}) => {
   return (
     <View style={styles.container}>
-      <Text>ValidationScreen</Text>
+      {
+        data.length ==0?
+        <View style = {styles.content}>
+          <Text style = {styles.infos}>Aucune personne en attente </Text>
+        </View>:
+        <Carousel
+          data={data}
+          loop
+          renderItem={({item}) => <UserSwipe item={item} />}
+          sliderWidth={Dimensions.get('window').width}
+          itemWidth={Dimensions.get('window').width - 80}
+        />
+      }
     </View>
   );
 };
@@ -15,9 +30,18 @@ const ValidationScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    paddingVertical: 20,
+    backgroundColor: '#fff'
   },
+  content: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  infos: {
+    fontSize: 18,
+    color: '#777'
+  }
 });
 
 //make this component available to the app

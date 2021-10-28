@@ -1,10 +1,12 @@
 import {
+    ACCEPT_PARTICIPATION,
     ADD_FAVORITE,
     CREATE_EVENT,
     FIND_EVENTS,
     LOAD_EVENTS,
     OWNER_EVENTS,
     PARTICIPE_EVENT,
+    REFUSE_PARTICIPATION,
     SET_ORGANISATION,
     SET_PARTICIPATION,
 
@@ -44,6 +46,16 @@ const initialState = {
     participations: {
         isLoading: false,
         data: {},
+        error: ''
+    },
+    accpet_participation: {
+        isLoading: false,
+        message: "",
+        error: ''
+    },
+    refuse_participation: {
+        isLoading: false,
+        message: "",
         error: ''
     }
 }
@@ -92,10 +104,7 @@ const eventsReducer = (state = initialState, action) => {
                 event: {
                     ...state.event,
                     isLoading: false,
-                    data: {
-                        ...state.event.data,
-                        [action.payload.id]: action.payload.data
-                    },
+                    data: action.payload.data,
                     error: ''
                 }
             }
@@ -155,7 +164,7 @@ const eventsReducer = (state = initialState, action) => {
                 infos: {
                     ...state.infos,
                     isLoading: false,
-                    message: action.payload.data.status == 200?action.payload.data.data.message: action.payload.data.message,
+                    message: action.payload.data.data?action.payload.data.data.message: action.payload.data.message,
                     error: ''
                 }
             }
@@ -206,7 +215,7 @@ const eventsReducer = (state = initialState, action) => {
                 }
             }
         case `${CREATE_EVENT}_SUCCESS`:
-            console.log("message", action.payload.data)
+            console.log("create event", action.payload.data)
             return {
                 ...state,
                 create: {
@@ -217,6 +226,7 @@ const eventsReducer = (state = initialState, action) => {
                 }
             }
         case `${CREATE_EVENT}_FAIL`:
+            console.log("error create event", action)
             return {
                 ...state,
                 create: {
@@ -282,7 +292,65 @@ const eventsReducer = (state = initialState, action) => {
                     data: "",
                     error: action.payload
                 }  
-            }          
+            }
+        case ACCEPT_PARTICIPATION:
+            return {
+                ...state,
+                accpet_participation: {
+                    ...state.accpet_participation,
+                    isLoading: true
+                }
+            }
+        case `${ACCEPT_PARTICIPATION}_SUCCESS`:
+            console.log("data", action.payload.data)
+            return {
+                ...state,
+                accpet_participation: {
+                    ...state.accpet_participation, 
+                    isLoading: false,
+                    message: action.payload.data.data,
+                    error: ''
+                }
+            }
+        case `${ACCEPT_PARTICIPATION}_FAIL`:
+            return {
+                ...state,
+                accpet_participation: {
+                    ...state.accpet_participation,
+                    isLoading: false,
+                    message: "",
+                    error: action.payload
+                }  
+            } 
+        case REFUSE_PARTICIPATION:
+            return {
+                ...state,
+                refuse_participation: {
+                    ...state.refuse_participation,
+                    isLoading: true
+                }
+            }
+        case `${REFUSE_PARTICIPATION}_SUCCESS`:
+            console.log("data", action.payload.data)
+            return {
+                ...state,
+                refuse_participation: {
+                    ...state.refuse_participation, 
+                    isLoading: false,
+                    message: action.payload.data.data,
+                    error: ''
+                }
+            }
+        case `${REFUSE_PARTICIPATION}_FAIL`:
+            return {
+                ...state,
+                refuse_participation: {
+                    ...state.refuse_participation,
+                    isLoading: false,
+                    message: "",
+                    error: action.payload
+                }  
+            }         
         default:
             return state;
     }
