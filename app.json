@@ -21,7 +21,10 @@
       "bundleIdentifier": "com.p4p1.wttp",
       "buildNumber": "7",
       "config": {
-        "googleMapsApiKey": "AIzaSyAZTZx2-gwcOimkU1UoSlLr5rxfLpI7EAE"
+        "googleMapsApiKey": "AIzaSyAZTZx2-gwcOimkU1UoSlLr5rxfLpI7EAE",
+        "googleSignIn": {
+          "reservedClientId": "com.googleusercontent.apps.564214362823-gq9frodvjqpu48se22svp2jspm9oi7lo"
+        }
       }
     },
     "android": {
