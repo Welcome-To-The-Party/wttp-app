@@ -30,9 +30,11 @@ const GoogleButton = ({onPress}) => {
       if (type === "success") {
         // Then we can use the Google REST API
         dispatch(social_auth(user))
+      } else {
+        console.log('cancelled');
       }
-    } catch (error) {
-      console.log("error with login", error);
+    } catch ({ message }) {
+      alert(`Google Login Error: ${message}`);
     }
   };
 
