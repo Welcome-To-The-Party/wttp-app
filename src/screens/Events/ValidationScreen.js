@@ -10,7 +10,7 @@ const ValidationScreen = ({data}) => {
   return (
     <View style={styles.container}>
       {
-        data.length ==0?
+        data?.length ==0?
         <View style = {styles.content}>
           <Text style = {styles.infos}>Aucune personne en attente </Text>
         </View>:
@@ -19,7 +19,7 @@ const ValidationScreen = ({data}) => {
           loop
           renderItem={({item}) => <UserSwipe item={item} />}
           sliderWidth={Dimensions.get('window').width}
-          itemWidth={Dimensions.get('window').width - 80}
+          itemWidth={Dimensions.get('window').width - 120}
         />
       }
     </View>

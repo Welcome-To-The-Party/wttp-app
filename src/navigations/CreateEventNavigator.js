@@ -14,7 +14,6 @@ const CreateEventNavigator = () => {
   return (
     <Tab.Navigator 
         screenOptions={{ activeTintColor: '#6C2BA1' }}
-        swipeEnabled={false}
         tabBar={(props) => <TopTabBar {...props} />}
       >
         <Tab.Screen name="steps" component = {CreatEventScreen} />

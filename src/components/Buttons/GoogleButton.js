@@ -19,6 +19,7 @@ const GoogleButton = ({onPress}) => {
   const social_auth = (data) => {
     dispatch(social_login({social_type: 'google', ...data}))
   }
+  
   const google_login = async () => {
     try {
       const { type, user } = await Google.logInAsync({

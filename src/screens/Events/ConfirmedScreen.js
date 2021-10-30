@@ -10,7 +10,7 @@ const ConfirmedScreen = ({data}) => {
   return (
     <View style={styles.container}>
       {
-        data.length ==0?
+        data?.length ==0?
         <View style = {styles.content}>
           <Text style = {styles.infos}>Aucune personne n'a été confirmé </Text>
         </View>:

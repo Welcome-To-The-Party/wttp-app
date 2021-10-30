@@ -37,10 +37,10 @@ const EHandlerNavigator = ({route}) => {
     >
       <Tab.Screen 
         name="confirm"
-        children = {() => <ConfirmedScreen data = {eventData.participatingUsers} /> }
+        children = {() => <ConfirmedScreen data = {eventData.usersThatPaid} /> }
         options = {{
           title: "Confirmé", 
-          tabBarBadge: () => <Text style = {styles.tabBadge}>{eventData?.participatingUsers?.length}</Text>,
+          tabBarBadge: () => <Text style = {styles.tabBadge}>{eventData?.usersThatPaid?.length}</Text>,
         }}
       />
       <Tab.Screen 

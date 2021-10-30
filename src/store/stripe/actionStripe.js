@@ -19,7 +19,7 @@ export const get_stripe_dashboard = () => {
             options: {
                 onSuccess({getState, dispatch, response}){
                     console.log("stripe response", response.data)
-                    if(response.data.status == 200){
+                    if(response.data.created){
                         dispatch({type: STRIPE_URL_SUCCESS, payload: response.data.url})
                     }else{
                         dispatch(create_stripe_account())

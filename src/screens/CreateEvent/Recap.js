@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, ImageBackground, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -11,18 +11,20 @@ import { Loading } from '../../components';
 import { create_event } from '../../store/events/actionEvents';
 import AlertSucces from '../../components/AlertSucces';
 import { CREATE_EVENT } from '../../store/events/type';
+import { getUser } from '../../store/user/actionUser';
 
 const background = require('@assets/images/CreateEvent/blob.png');
 
 // create a component
-const Recap = ({route}) => {
+const Recap = ({route, navigation}) => {
 
-  const data  = route.params?.data
+  const data  = route?.params?.data
+  const formData  = route?.params?.formData
   const dispatch = useDispatch()
   const { message, isLoading } = useSelector(state => state.events.create)
   const {stripeAccountID, completedStripeAccount} = useSelector(state => state.user.user.data)
 
-  console.log("stripeAccountID", stripeAccountID)
+  console.log("formData-----", formData)
   
   const onClose = () => {
     dispatch({type: `${CREATE_EVENT}_FAIL`, payload: ''})
@@ -33,9 +35,17 @@ const Recap = ({route}) => {
         stripeAccountID != undefined && 
         stripeAccountID.length > 0 && 
         completedStripeAccount
-    ) dispatch(create_event(data))
+    ) dispatch(create_event(formData))
     else navigate("card")
   }
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+        dispatch(getUser())
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <View style={styles.container}>

@@ -85,19 +85,22 @@ const CreatEventScreen = () => {
     }
 
     const showRecap = () => {
-        const data = new FormData();
+        var data = new FormData();
         data.append('title', title)
         data.append('description',description)
         data.append('musicType',musicType)
         data.append('type',type)
         data.append('maxAllowed',JSON.stringify(maxAllowed))
-        data.append('eventimages', 
+        pictures.map((picture) => {
+            data.append('eventimages', 
             {
-                uri: pictures[0],
+                uri: picture,
                 type: 'image/jpeg',
                 name: "event.jpg"
             }
-        )
+            )
+        })
+        
         data.append('placeType', placeType)
         data.append('price', JSON.stringify(price))
         data.append('smoke', JSON.stringify(smoke))
@@ -110,41 +113,7 @@ const CreatEventScreen = () => {
         data.append('end',JSON.parse(JSON.stringify(endTime)))
         data.append('number',phone)
         setShowModal(false)
-        console.log(data)
-        fetch(DEV_URL + '/events/create_event', {
-            method: "POST",
-            headers: {
-                Authorization: store.getState().auth.login.token
-            },
-            body: data
-        })
-        .then((res) => res.json())
-        .then(res => {
-            console.log("response", res)
-        })
-        .catch(error => console.log('error', error))
-        // const data = {
-        //     title,
-        //     description,
-        //     musicType,
-        //     type,
-        //     maxAllowed,
-        //     eventimages: pictures,
-        //     placeType,
-        //     price,
-        //     smoke,
-        //     additionalInfos,
-        //     manualValidation: manualValidation == "MANUELLE"?true:false,
-        //     latitude: address.latitude,
-        //     longitute: address.longitute,
-        //     address: address.address,
-        //     start: startTime,
-        //     end: endTime,
-        //     number: phone
-        // }
-        
-        // console.log('data', data)
-        // navigate("recap", {data})
+        navigate("recap", {data:Object.fromEntries(data['_parts']), formData: data})
     }
 
     return (

@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     paddingBottom: 20,
-    margin: 10,
+    marginVertical: 10,
     ...mixins.boxShadow('#777')
   },
   proIcon: {
