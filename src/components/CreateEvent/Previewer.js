@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import PropTypes from 'prop-types';
 
 
 export default class PreviewerText extends React.Component
@@ -20,12 +19,6 @@ export default class PreviewerText extends React.Component
       </View>
     );
   }
-}
-
-PreviewerText.propTypes = {
-  title: PropTypes.text,
-  description: PropTypes.text,
-  run: PropTypes.function
 }
 
 const styles = StyleSheet.create({

@@ -33,7 +33,11 @@ const StripeScreen = () => {
       }
       <WebView 
         source={{ uri: url}}
-        onLoadEnd = {() => setLoading(false)}
+        onLoad = {() => {
+          setTimeout(() => {
+            setLoading(false)
+          }, 7000);
+        }}
         useWebKit={true}
         startInLoadingState={true}
       />

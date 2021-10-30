@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, Text, View, Modal, ScrollView, TouchableOpacity } from 'react-native';
-import PropTypes from 'prop-types';
 
 import TextButtonCE from '../Buttons/TextButtonCE';
 
@@ -304,10 +303,6 @@ componentDidUpdate(){
     );
   }
 }
-
-Calendar.propTypes = {
-  set: PropTypes.function,
-};
 
 const styles = StyleSheet.create({
   container: {

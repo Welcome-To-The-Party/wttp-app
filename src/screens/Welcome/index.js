@@ -79,8 +79,8 @@ const WelcomeScreen = ({navigation}) => {
                     </View>
                 </View>
                 <View style={styles.miniContainer}>
-                    <FacebookButton onPress = {() => dispatch(social_login())} />
-                    <GoogleButton onPress = {() => dispatch(login_google())} />
+                    <FacebookButton />
+                    <GoogleButton  />
                 </View>
                 <View style={styles.miniContainer}>
                     <Divided />

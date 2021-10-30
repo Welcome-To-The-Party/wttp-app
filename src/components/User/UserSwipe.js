@@ -1,118 +1,84 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, Linking } from 'react-native';
-import PropTypes from 'prop-types';
+import { mixins, colors } from '@styles'
+import Button from '../Buttons/Button';
 
-const facebook_icon = '../../assets/images/User/facebook.png';
-const insta_icon = '../../assets/images/User/insta.png';
-const twitter_icon = '../../assets/images/User/twitter.png';
-const tiktok_icon = '../../assets/images/User/tiktok.png';
+const facebook_icon = require('@assets/images/User/facebook.png');
+const insta_icon = require('@assets/images/User/insta.png');
+const twitter_icon = require('@assets/images/User/twitter.png');
+const tiktok_icon = require('@assets/images/User/tiktok.png');
 
 
-export default class UserSwipe extends React.Component
-{
-  constructor(props) {
-    super(props);
-    this.state = {
-      userData: undefined
-    };
-    this.openLink = this.openLink.bind(this);
-  }
+const UserSwipe = ({item}) => {
 
-  async openLink(link) {
-    const supported = await Linking.canOpenURL(link);
-
-    if (supported) {
-      await Linking.openURL(link);
-    } else {
-      alert("Cannot open url");
-    }
-  }
-
-  componentDidMount() {
-    fetch(`https://welcome-ttp.com/users/get_user/${this.props.uid}`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        Authentification: `Bearder ${this.props.token}`,
-        'Content-Type': 'application/json'
+    const openLink = async (link) => {
+      const supported = await Linking.canOpenURL(link);
+  
+      if (supported) {
+        await Linking.openURL(link);
+      } else {
+        alert("Cannot open url");
       }
-    }).then((reponse) => reponse.json()).then((repJSON) => {
-      this.setState({userData: repJSON});
-    }).catch((error) => {
-      //this.props.logout();
-      console.error(error)
-    })
-  }
-
-  render() {
-    if (this.state.userData == undefined) {
-      return (<View></View>);
     }
+
     return (
       <View style={styles.container}>
-        <Image source={{uri: this.state.userData.picture}} style={styles.proIcon}/>
-        <View style={styles.row}>
-          <TouchableOpacity onPress={() => this.props.openUser(this.state.userData)}>
-            <Text style={styles.header}>{this.state.userData.name}</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.row}>
-          <View style={styles.bubble}>
-            <Text style={styles.bubbleText}>{this.state.userData.numberOfCreatedEvents} organisations</Text>
-          </View>
-          <View style={styles.bubble}>
-            <Text style={styles.bubbleText}>{this.state.userData.numberOfJoinedEvents} participations</Text>
-          </View>
-        </View>
+        <Image source={{uri: item.picture}} style={styles.proIcon}/>
+        <TouchableOpacity onPress={() => this.props.openUser(item)}>
+          <Text style={styles.header}>{item.name}</Text>
+        </TouchableOpacity>
         <Text style={styles.para}>EN SAVOIR PLUS VIA LES RÉSEAUX</Text>
         <View style={{flexDirection: 'row'}}>
-          { (this.state.userData.facebook_link) ?
-            <TouchableOpacity onPress={() => this.openLink(this.state.userData.facebook_link)}>
-              <Image source={require(facebook_icon)} style={styles.icon_social} />
+            <TouchableOpacity onPress={() => openLink(item.facebook_link)}>
+              <Image source={facebook_icon} style={styles.icon_social} />
             </TouchableOpacity>
-          : <View></View>}
-          { (this.state.userData.instagram_link) ?
-            <TouchableOpacity onPress={() => this.openLink(this.state.userData.instagram_link)}>
-              <Image source={require(insta_icon)} style={styles.icon_social} />
+            <TouchableOpacity onPress={() => openLink(item.instagram_link)}>
+              <Image source={insta_icon} style={styles.icon_social} />
             </TouchableOpacity>
-          : <View></View>}
-          { (this.state.userData.twitter_link) ?
-            <TouchableOpacity onPress={() => this.openLink(this.state.userData.twitter_link)}>
+            {/* <TouchableOpacity onPress={() => this.openLink(item.twitter_link)}>
               <Image source={require(twitter_icon)} style={styles.icon_social} />
+            </TouchableOpacity> */}
+            <TouchableOpacity onPress={() => openLink(item.tiktok_link)}>
+              <Image source={tiktok_icon} style={styles.icon_social} />
             </TouchableOpacity>
-          : <View></View>}
-          { (this.state.userData.tiktok_link) ?
-            <TouchableOpacity onPress={() => this.openLink(this.state.userData.tiktok_link)}>
-              <Image source={require(tiktok_icon)} style={styles.icon_social} />
-            </TouchableOpacity>
-                : <View></View>}
-              </View>
+        </View>
+        <View style = {styles.row}>
+            <Button
+              text = "A éviter"
+              textColor = {colors.PRIMARY}
+              style = {styles.btn_outline}
+            />
+            <Button
+              text = "A inviter"
+              textColor = {colors.WHITE}
+              style = {styles.btn}
+            />
+        </View>
       </View>
     );
-  }
-}
-
-UserSwipe.propTypes = {
-  token: PropTypes.string,
-  uid: PropTypes.string,
-  openUser: PropTypes.func,
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
+    borderRadius: 10,
     backgroundColor: '#fff',
+    alignItems: 'center',
+    paddingBottom: 20,
+    marginVertical: 10,
+    ...mixins.boxShadow('#777')
   },
   proIcon: {
     width: '100%',
-    height: '60%',
-    resizeMode: 'stretch'
+    height: 200,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    marginBottom: 20
   },
   row: {
     flexDirection: 'row',
-    marginTop: 10,
-    marginLeft: 15
+    marginTop: 30,
+    paddingHorizontal: 10
   },
   header: {
     fontFamily: 'Roboto',
@@ -126,8 +92,8 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     fontWeight: "200",
     fontSize: 15,
-    marginLeft: 15,
-    marginTop: 10,
+    marginTop: 20,
+    marginBottom: 10,
     color: '#4f4f4f',
   },
   bubble: {
@@ -146,6 +112,18 @@ const styles = StyleSheet.create({
   },
   bubbleText: {
     color: '#6C2BA1'
+  },
+  btn_outline: {
+    flex: 1,
+    borderWidth: 1,
+    marginRight: 10,
+    borderColor: colors.PRIMARY
+  },
+  btn: {
+    flex: 1,
+    backgroundColor: colors.PRIMARY
   }
 });
+
+export default UserSwipe
 

@@ -60,7 +60,7 @@ const MiniNav = ({data}) => {
                 </View>
                 <View style={styles.row}>
                   <Text style={styles.paraBold}>Mode d’acceptation:</Text>
-                  <Text style={styles.para}>{data?.manualValidation?"Manuelle":"Automatique"}</Text>
+                  <Text style={styles.para}>{data?.validation?"Manuelle":"Automatique"}</Text>
                 </View>
             </View>
             :selectedIndex == 2?

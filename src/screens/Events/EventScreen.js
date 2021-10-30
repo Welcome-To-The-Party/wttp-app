@@ -73,11 +73,11 @@ const EventScreen = ({route}) => {
                   </Text>
                   <Text style={styles.para}>/place</Text>
                 </View>
-                <TouchableOpacity onPress = {() => dispatch(add_favorite({eventid: event.eventid}))} >
+                <TouchableOpacity onPress = {() => dispatch(add_favorite({eventid: event.eventid?event.eventid:event._id}))} >
                   <Ionicons 
                     size={20} 
                     color={'#6C2BA1'} 
-                    name={_.filter(favorites, {_id: event.eventid}).length != 0?'heart':'heart-outline' } 
+                    name={_.filter(favorites, {_id: event.eventid?event.eventid:event._id}).length != 0?'heart':'heart-outline' } 
                     style={styles.titleIcon} 
                   />
                 </TouchableOpacity>
@@ -94,7 +94,7 @@ const EventScreen = ({route}) => {
                 text={"RÉSERVER"}
                 textColor = {colors.WHITE}
                 style = {styles.btn}
-                onPress={() => dispatch(participate_event({eventid: event.eventid}))}
+                onPress={() => dispatch(participate_event({eventid: event.eventid?event.eventid:event._id}))}
               />
             </View>
             <View style={styles.padding}>

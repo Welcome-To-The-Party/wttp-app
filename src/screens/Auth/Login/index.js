@@ -34,12 +34,8 @@ const LoginScreen = ({navigation}) => {
                 </View>
                 <View style={styles.createContainer}>
                     <LoginAccount navigation = {navigation} />
-                    <FacebookButton 
-                        onPress = {social_login('facebook')}
-                    />
-                    <GoogleButton
-                        onPress = {social_login('google')}
-                    />
+                    <FacebookButton />
+                    <GoogleButton />
                     <TouchableOpacity onPress={() => navigation.navigate("Forgoten")}>
                         <Text style={{color: 'black'}}>Mot de passe oublié ?</Text>
                     </TouchableOpacity>

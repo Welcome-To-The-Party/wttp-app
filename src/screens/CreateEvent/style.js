@@ -73,7 +73,7 @@ export const styles = StyleSheet.create({
     popup: {
       backgroundColor: '#fff',
       width: '85%',
-      height: '60%',
+      height: 450,
       borderRadius: 20,
     },
     topHeader: {
@@ -105,6 +105,9 @@ export const styles = StyleSheet.create({
     inputModal: {
       borderBottomWidth: 1,
       width: '90%'
+    },
+    container_modal: {
+      margin: 0
     }
   });
   
