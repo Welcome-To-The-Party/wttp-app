@@ -19,7 +19,7 @@ const social_login = async (social_type) => {
 }
 
 // create a component
-const RegisterScreen = () => {
+const RegisterScreen = ({navigation}) => {
 
     const dispatch = useDispatch();
 
@@ -29,7 +29,7 @@ const RegisterScreen = () => {
                 source={background_img}
                 style={styles.back_images_container}
             >
-                <BackButton />
+                <BackButton onPress = {() => navigation.goBack()} />
                 <View style={styles.miniContainer}>
                     <Image source={icon} style={styles.icon} />
                     <Text style={styles.header}>Votre soirée,</Text>

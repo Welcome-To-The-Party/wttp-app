@@ -13,6 +13,7 @@ import { colors } from '@styles'
 import AlertSucces from '@components/AlertSucces';
 import { add_favorite, participate_event } from '@store/events/actionEvents';
 import { PARTICIPE_EVENT } from '@store/events/type';
+import { pop } from '../../providers/navigationService';
 
 const background = require("@assets/images/Search/party.png");
 const tax = 0.2;
@@ -56,7 +57,7 @@ const EventScreen = ({route}) => {
           source={background} 
           style={styles.backgroundImg} 
         >
-          <BackButton />
+          <BackButton onPress = {() => pop()} />
           <ScrollView 
             style={styles.mapContainer}
             contentContainerStyle = {{paddingBottom: 150}}

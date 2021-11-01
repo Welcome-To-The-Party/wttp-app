@@ -42,7 +42,7 @@ const TopSerachBar = ({setDetails, showbtn, toggleModal}) => {
           }}
           fetchDetails={true}
           styles={inputGoogle}
-          currentLocation={true}
+          currentLocation={false}
           currentLocationLabel={'Position Actuelle'}
           renderLeftButton = {() => {
             return (

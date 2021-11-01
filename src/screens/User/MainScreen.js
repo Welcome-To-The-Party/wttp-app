@@ -36,7 +36,7 @@ const MainScreen = ({navigation}) => {
     <View style={styles.container}>
       <View style={styles.header_container}>
         <ImageBackground source={background_img} style={styles.background_img}>
-          <TouchableOpacity onPress={() => navigation.navigate("Public")} style={{position: 'absolute'}}>
+          <TouchableOpacity onPress={() => navigation.navigate("Public", {user})} style={{position: 'absolute'}}>
             <Image source={{uri: user?.picture}} style={styles.pro_icon} />
             <View style={styles.pictureCircle}>
               <Text style={{textAlign: 'center', color: '#fff'}}>VOIR MON PROFIL</Text>

@@ -47,12 +47,6 @@ const SecondStep = ({
               selected={placeType} 
               set={(data) => setPlaceType(data)} 
             />
-            <Button 
-              text={"PASSER À L’ÉTAPE 3"}
-              textColor = {colors.WHITE}
-              style = {styles.btnNextStep}
-              onPress = {() => setActiveStep(2)}
-           />
           </View>
         </ScrollView>
     </View>

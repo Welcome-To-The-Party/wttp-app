@@ -13,15 +13,11 @@ const background_img = require('@assets/images/register_background.jpg');
 const icon = require('@assets/icons/icon.png');
 
 // create a component
-const ForgotenScreen = () => {
+const ForgotenScreen = ({navigation}) => {
 
     const dispatch = useDispatch()
     const [ email, setEmail ] = useState()
     const {isLoading, message} = useSelector(state => state.auth.reset_password)
-
-    const handleResetPassword = ()=> {
-
-    }
 
     const onClose = () => {
         dispatch({
@@ -41,7 +37,7 @@ const ForgotenScreen = () => {
                     message = {message}
                     onClose = {onClose}
                 />
-                <BackButton />
+                <BackButton onPress = {() => navigation.goBack()} />
                 <View style={styles.miniContainer}>
                     <Image source={icon} style={styles.icon} />
                     <Text style={styles.header}>Ouuups..</Text>

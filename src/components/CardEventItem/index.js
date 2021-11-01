@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity } from 'rea
 import { useDispatch, useSelector } from 'react-redux'
 
 import { get_events } from '@store/events/actionEvents';
-import { navigate } from '../../providers/navigationService';
+import { navigate, push } from '../../providers/navigationService';
 
 // create a component
 const CardEventItem = ({item}) => {

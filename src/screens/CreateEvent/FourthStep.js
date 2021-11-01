@@ -94,12 +94,6 @@ const FourthStep = ({
               date={startTime} 
               set={(one, two) => setDateTime(one, two)} 
             />
-            <Button 
-              text={"Valider la création"}
-              textColor = {colors.WHITE}
-              style = {styles.btnNextStep}
-              onPress = {() => setShowModal(true)}
-           />
           </View>
         </ScrollView>
     </View>

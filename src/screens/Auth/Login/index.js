@@ -15,18 +15,13 @@ const icon = require('@assets/icons/icon.png');
 
 // create a component
 const LoginScreen = ({navigation}) => {
-
-    const social_login = async (social_type) => {
-       
-    }
-
     return (
         <View style={styles.container}>
             <ImageBackground 
                 source={background_img}
                 style={styles.back_images_container}
             >
-                <BackButton />
+                <BackButton onPress = {() => navigation.goBack()} />
                 <View style={styles.miniContainer}>
                     <Image source={icon} style={styles.icon} />
                     <Text style={styles.header}>Profitez ou organisez,</Text>

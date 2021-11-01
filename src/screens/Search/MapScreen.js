@@ -25,6 +25,8 @@ const MapScreen = () => {
   const [lat, setLat] = useState()
   const [selectedEvent, setSelectedEvent] = useState()
   const [showEvent, setShowEvent] = useState(false)
+  const [latitudeDelta, setLatitudeDelta] = useState(0.2)
+  const [longitudeDelta, setLongitudeDelta] = useState(0.2)
   const [eventsType, setEventsType] = useState("")
   const [ manualValidation, setManualValidation ] = useState(null)
   const [ showModal, setShowModal ] = useState(false)
@@ -160,12 +162,14 @@ const MapScreen = () => {
             region = {{
               latitude: parseFloat(lat),
               longitude: parseFloat(lng),
-              latitudeDelta: 0.2,
-              longitudeDelta: 0.2
+              latitudeDelta,
+              longitudeDelta
             }}
             onRegionChangeComplete = {(region) => {
               setLat(region.latitude)
               setLng(region.longitude)
+              setLatitudeDelta(region.latitudeDelta)
+              setLongitudeDelta(region.longitudeDelta)
             }}
           >
             {(listEvents) ? listEvents.map((event, key) => {

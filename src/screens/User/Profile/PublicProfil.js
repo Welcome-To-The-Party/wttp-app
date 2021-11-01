@@ -16,9 +16,9 @@ const twitter_icon = require('@assets/images/User/twitter.png');
 const tiktok_icon = require('@assets/images/User/tiktok.png');
 
 // create a component
-const PublicProfil = ({navigation}) => {
+const PublicProfil = ({navigation, route}) => {
 
-  const user = useSelector(state => state.user.user.data)
+  const {user} = route?.params
 
   const openLink = async (link) => {
     const supported = await Linking.canOpenURL(link);

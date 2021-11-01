@@ -1,5 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import BottomTabBar from './bottomTabBar.js';
 
@@ -16,6 +17,41 @@ import MapScreen from '../screens/Search/MapScreen.js';
 import FavoriteScreen from '../screens/Favorites/index.js';
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
+const FavoriteStack = () => {
+    return(
+        <Stack.Navigator>
+            <Stack.Screen 
+                name="FavoriteScreen"
+                component = {FavoriteScreen}
+                options = {{headerShown: false}}
+            />
+            <Stack.Screen 
+                name="Event"
+                component = {EventScreen}
+                options = {{headerShown: false}}
+            />
+        </Stack.Navigator>
+    )
+}
+
+const MapStack = () => {
+    return(
+        <Stack.Navigator>
+            <Stack.Screen 
+                name="MapScreen" 
+                component = {MapScreen}
+                options = {{headerShown: false}}
+            />
+            <Stack.Screen 
+                name="Event"
+                component = {EventScreen}
+                options = {{headerShown: false}}
+            />
+        </Stack.Navigator>
+    )
+}
 
 const HomeNavigator = () => {
     return (
@@ -31,7 +67,7 @@ const HomeNavigator = () => {
             />
             <Tab.Screen 
                 name="Map" 
-                component = {MapScreen}
+                component = {MapStack}
                 options = {{unmountOnBlur: true}}
             />
             <Tab.Screen 
@@ -41,7 +77,7 @@ const HomeNavigator = () => {
             />  
             <Tab.Screen 
                 name="Favorites"
-                component = {FavoriteScreen}
+                component = {FavoriteStack}
                 options = {{unmountOnBlur: true}}
             />
             <Tab.Screen 

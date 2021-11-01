@@ -29,7 +29,7 @@ const EventDisplay = ({item}) => {
           </View>
           <View style={styles.row}>
             <Text style={styles.para}>Par: </Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress = {() => navigate('User', {user:item?.owner})}>
               <View style={styles.rowIcon}>
                 <Image source={{ uri: item?.owner?.picture }} style={styles.icon} />
                 <Text style={styles.userText}>{item?.owner?.name}</Text>

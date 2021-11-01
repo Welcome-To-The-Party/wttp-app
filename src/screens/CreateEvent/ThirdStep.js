@@ -104,12 +104,6 @@ const ThirdStep = ({
                 <Image source={add_img} style={{ width: 150, height: 150, marginRight: 10, borderRadius: 10 }} />
               </TouchableOpacity>
             </ScrollView>
-            <Button 
-              text={"PASSER À L’ÉTAPE 4"}
-              textColor = {colors.WHITE}
-              style = {styles.btnNextStep}
-              onPress = {() => setActiveStep(3)}
-           />
         </View>
       </ScrollView>
     </View>

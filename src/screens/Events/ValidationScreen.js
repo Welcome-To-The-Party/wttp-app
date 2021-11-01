@@ -6,7 +6,7 @@ import Carousel from 'react-native-snap-carousel';
 import { UserSwipe } from '@components'
 
 // create a component
-const ValidationScreen = ({data}) => {
+const ValidationScreen = ({data, eventid}) => {
   return (
     <View style={styles.container}>
       {
@@ -17,7 +17,7 @@ const ValidationScreen = ({data}) => {
         <Carousel
           data={data}
           loop
-          renderItem={({item}) => <UserSwipe item={item} />}
+          renderItem={({item}) => <UserSwipe eventid = {eventid} item={item} />}
           sliderWidth={Dimensions.get('window').width}
           itemWidth={Dimensions.get('window').width - 120}
         />

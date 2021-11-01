@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, Linking } from 'react-native';
 import { mixins, colors } from '@styles'
 import Button from '../Buttons/Button';
+import { useDispatch } from 'react-redux';
+import { accept_participation, refuse_participation } from '../../store/events/actionEvents';
 
 const facebook_icon = require('@assets/images/User/facebook.png');
 const insta_icon = require('@assets/images/User/insta.png');
@@ -9,8 +11,9 @@ const twitter_icon = require('@assets/images/User/twitter.png');
 const tiktok_icon = require('@assets/images/User/tiktok.png');
 
 
-const UserSwipe = ({item}) => {
+const UserSwipe = ({item, eventid}) => {
 
+    const dispatch = useDispatch()
     const openLink = async (link) => {
       const supported = await Linking.canOpenURL(link);
   
@@ -19,6 +22,20 @@ const UserSwipe = ({item}) => {
       } else {
         alert("Cannot open url");
       }
+    }
+
+    const handleAcceptPacticipation = () => {
+      dispatch(accept_participation({
+        eventid,
+        email: item.email
+      }))
+    }
+
+    const handleRefuseParticipation = () => {
+      dispatch(refuse_participation({
+        eventid,
+        email: item.email
+      }))
     }
 
     return (
@@ -47,11 +64,13 @@ const UserSwipe = ({item}) => {
               text = "A éviter"
               textColor = {colors.PRIMARY}
               style = {styles.btn_outline}
+              onPress = {handleRefuseParticipation}
             />
             <Button
               text = "A inviter"
               textColor = {colors.WHITE}
               style = {styles.btn}
+              onPress = {handleAcceptPacticipation}
             />
         </View>
       </View>

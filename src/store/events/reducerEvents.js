@@ -71,6 +71,7 @@ const eventsReducer = (state = initialState, action) => {
                }
             }
         case `${FIND_EVENTS}_SUCCESS`:
+            console.log("-----------action.payload.data----------", action.payload.data)
             return {
                 ...state,
                 find_events: {
@@ -81,6 +82,7 @@ const eventsReducer = (state = initialState, action) => {
                 }
             }
         case `${FIND_EVENTS}_FAIL`:
+            console.log("-----------error----------", action.payload)
             return {
                 ...state,
                 find_events: {

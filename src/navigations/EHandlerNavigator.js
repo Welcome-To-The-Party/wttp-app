@@ -45,7 +45,7 @@ const EHandlerNavigator = ({route}) => {
       />
       <Tab.Screen 
         name="wait" 
-        children = {() => <ValidationScreen data = {eventData.usersThatAsked} />}
+        children = {() => <ValidationScreen eventid = {event._id} data = {eventData.usersThatAsked} />}
         options = {{
           title: "En attente", 
           tabBarBadge: () => <Text style = {styles.tabBadge}>{eventData?.usersThatAsked?.length}</Text>
