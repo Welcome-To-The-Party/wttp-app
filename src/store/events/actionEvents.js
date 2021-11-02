@@ -16,10 +16,10 @@ import { getUser } from '../user/actionUser'
 
 const token = store.getState().auth.login.token
 
-console.log("token", store.getState().auth.login.token)
+
 
 export const find_events = (data) => {
-    console.log("data", data)
+    console.log("---token----", store.getState().auth.login.token)
     return{
         type: FIND_EVENTS,
         payload: {
@@ -176,9 +176,12 @@ export const accept_participation = (data) => {
                 onSuccess({getState, dispatch, response}){
                     // console.log("data", JSON.parse(response.data))
                     console.log('reponse accept participation', response.data)
+                    dispatch({type: `${ACCEPT_PARTICIPATION}_SUCCESS`, payload: response.data.data.message})
+                    dispatch(get_events(data.eventid))
                 },
                 onError({getState, dispatch, error}){
                     console.log('rerror accept participation', error)
+                    dispatch({type:  `${ACCEPT_PARTICIPATION}_FAIL`, error: "Erreur interne au serveur"})
                 }
             }
         }
@@ -201,9 +204,12 @@ export const refuse_participation = (data) => {
                 onSuccess({getState, dispatch, response}){
                     // console.log("data", JSON.parse(response.data))
                     console.log('reponse refuse participation', response.data)
+                    dispatch({type: `${REFUSE_PARTICIPATION}_SUCCESS`, payload: response.data.message})
+                    dispatch(get_events(data.eventid))
                 },
                 onError({getState, dispatch, error}){
                     console.log('rerror refuse participation', error)
+                    dispatch({type:  `${REFUSE_PARTICIPATION}_FAIL`, error: "Erreur interne au serveur"})
                 }
             }
         }

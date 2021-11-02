@@ -40,8 +40,8 @@ const FilterSearch = ({
                             <Text style = {styles.menuSubTitle}>Si tu Préfères les soirées avec une ambiance calme et chill</Text>
                         </View>
                         <CheckBox
-                            checked={eventsType == "POSEE"?true: false}
-                            onPress = {() => setEventsType("POSEE")}
+                            checked={eventsType == "POSÉE"?true: false}
+                            onPress = {() => setEventsType("POSÉE")}
                         />
                     </View>
                     <View style = {styles.row}>

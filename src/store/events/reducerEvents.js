@@ -71,7 +71,6 @@ const eventsReducer = (state = initialState, action) => {
                }
             }
         case `${FIND_EVENTS}_SUCCESS`:
-            console.log("-----------action.payload.data----------", action.payload.data)
             return {
                 ...state,
                 find_events: {
@@ -82,7 +81,6 @@ const eventsReducer = (state = initialState, action) => {
                 }
             }
         case `${FIND_EVENTS}_FAIL`:
-            console.log("-----------error----------", action.payload)
             return {
                 ...state,
                 find_events: {
@@ -304,13 +302,12 @@ const eventsReducer = (state = initialState, action) => {
                 }
             }
         case `${ACCEPT_PARTICIPATION}_SUCCESS`:
-            console.log("data", action.payload.data)
             return {
                 ...state,
                 accpet_participation: {
                     ...state.accpet_participation, 
                     isLoading: false,
-                    message: action.payload.data.data,
+                    message: action.payload,
                     error: ''
                 }
             }
@@ -321,7 +318,7 @@ const eventsReducer = (state = initialState, action) => {
                     ...state.accpet_participation,
                     isLoading: false,
                     message: "",
-                    error: action.payload
+                    error: action.error
                 }  
             } 
         case REFUSE_PARTICIPATION:
@@ -333,13 +330,13 @@ const eventsReducer = (state = initialState, action) => {
                 }
             }
         case `${REFUSE_PARTICIPATION}_SUCCESS`:
-            console.log("data", action.payload.data)
+            console.log("data refuse", action.payload.data)
             return {
                 ...state,
                 refuse_participation: {
                     ...state.refuse_participation, 
                     isLoading: false,
-                    message: action.payload.data.data,
+                    message: action.payload,
                     error: ''
                 }
             }
@@ -350,7 +347,7 @@ const eventsReducer = (state = initialState, action) => {
                     ...state.refuse_participation,
                     isLoading: false,
                     message: "",
-                    error: action.payload
+                    error: action.error
                 }  
             }         
         default:
