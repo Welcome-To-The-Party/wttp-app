@@ -1,12 +1,27 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import Carousel from 'react-native-snap-carousel';
+
+import { ParticipationSwipe } from '@components'
 
 // create a component
-const CancelEventScreen = () => {
+const CancelEventScreen = ({data}) => {
   return (
     <View style={styles.container}>
-      <Text>CancelEventScreen</Text>
+      {
+        data?.length ==0?
+        <View style = {styles.content}>
+          <Text style = {styles.infos}>Aucune évènement en attente </Text>
+        </View>:
+        <Carousel
+          data={data}
+          loop
+          renderItem={({item}) => <ParticipationSwipe item={item} />}
+          sliderWidth={Dimensions.get('window').width}
+          itemWidth={Dimensions.get('window').width - 120}
+        />
+      }
     </View>
   );
 };
@@ -15,6 +30,7 @@ const CancelEventScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingVertical: 40
   },
 });
 

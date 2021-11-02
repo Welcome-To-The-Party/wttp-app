@@ -4,10 +4,11 @@ import PropTypes from 'prop-types';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCalendar } from '@fortawesome/free-solid-svg-icons'
+import { navigate } from '../../providers/navigationService.js';
 
-import BubbleCreate from '../Events/BubbleCreate.js';
-import Alert from '../../components/Alert.js';
-import Prompt from '../../components/Prompt.js';
+// import BubbleCreate from '../Events/BubbleCreate.js';
+// import Alert from '../../components/Alert.js';
+// import Prompt from '../../components/Prompt.js';
 
 const global_day = [ "Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam" ];
 const global_months = [ "Jan" , "Fev", "Mars", "Avril", "May", "Juin",
@@ -91,48 +92,34 @@ export default class ParticipationSwipe extends React.Component
   }
 
   componentDidMount() {
-    fetch(`https://welcome-ttp.com/events/get_event/${this.props.eid}`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        Authentification: `Bearder ${this.props.token}`,
-        'Content-Type': 'application/json'
-      }
-    }).then((reponse) => reponse.json()).then((repJSON) => {
-      this.setState({event: repJSON});
-    }).catch((error) => {
-      //this.props.logout();
-      console.error(error)
-    });
+    
   }
 
   render() {
-    if (this.state.event == undefined) {
-      return (<View></View>);
-    }
-    var today = new Date(this.state.event.start);
+    const { item } = this.props
+    var today = new Date(item.start);
     var dd = String(today.getDate()).padStart(2, '0');
     var dd2 = today.getDay();
     var mm = String(today.getMonth()).padStart(2, '0'); //January is 0!
     var yyyy = today.getFullYear();
     return (
       <View style={styles.container}>
-        <TouchableOpacity onPress={() => this.props.openEvent(this.props.eid)}>
-          <Image source={{uri: this.state.event.pictures[0]}} style={styles.proIcon}/>
+        <TouchableOpacity onPress={() => navigate("Event", {event: item})}>
+          <Image source={{uri: item.pictures[0]}} style={styles.proIcon}/>
         </TouchableOpacity>
         <View style={styles.row}>
-          <Text style={styles.header}>{this.state.event.title}</Text>
+          <Text style={styles.header}>{item.title}</Text>
         </View>
         <View style={styles.row}>
           <FontAwesomeIcon size={20} color={'#6C2BA1'} icon={ faCalendar }/>
           <Text style={styles.para}>{global_day[dd2]} {dd} {global_months[parseInt(mm)]} {yyyy}</Text>
         </View>
         <TextButtonDark text={"ANNULER"} run={()=>this.cancelModal()} />
-        <View style={styles.row}>
-          <BubbleCreate data={this.state.event} token={this.props.token} />
-        </View>
-        <Alert message={this.state.message} open={this.state.showModal} />
-        <Prompt message={this.state.message} open={this.state.showSecondModal} run={() => this.cancel()}/>
+        {/* <View style={styles.row}>
+          <BubbleCreate data={item} token={this.props.token} />
+        </View> */}
+        {/* <Alert message={this.state.message} open={this.state.showModal} />
+        <Prompt message={this.state.message} open={this.state.showSecondModal} run={() => this.cancel()}/> */}
       </View>
     );
   }
@@ -149,11 +136,14 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: '#fff',
+    borderRadius: 10
   },
   proIcon: {
     width: '100%',
-    height: '60%',
-    resizeMode: 'stretch'
+    height: 250,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    borderWidth: 10
   },
   row: {
     flexDirection: 'row',
@@ -196,7 +186,7 @@ const styles = StyleSheet.create({
   },
   btnContainer: {
     width: '90%',
-    height: 30,
+    height: 40,
     backgroundColor: '#361979',
     flexDirection: 'row',
     alignItems: 'center',
@@ -218,7 +208,7 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     fontWeight: "700",
     color: "#fff",
-    fontSize: 20,
+    fontSize: 16,
   },
 });
 

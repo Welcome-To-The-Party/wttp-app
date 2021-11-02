@@ -33,6 +33,7 @@ import BackButton from './Buttons/BackButton'
 import FilterSearch from './FilterSearch'
 import UserSwipe from './User/UserSwipe'
 import UserGrade from './User/UserGrade'
+import ParticipationSwipe from './Events/ParticipationSwipe'
 
 
 export {
@@ -70,5 +71,6 @@ export {
     BackButton,
     FilterSearch,
     UserSwipe,
-    UserGrade
+    UserGrade,
+    ParticipationSwipe
 }

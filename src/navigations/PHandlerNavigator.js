@@ -38,7 +38,7 @@ const PHandlerNavigator = () => {
         />
         <Tab.Screen 
           name="wait"
-          component = {CancelEventScreen}
+          children = {() => <CancelEventScreen data = {data?.upcomming_participation} />}
           options = {{title: "EN ATTENTES"}} 
         />
         <Tab.Screen 
