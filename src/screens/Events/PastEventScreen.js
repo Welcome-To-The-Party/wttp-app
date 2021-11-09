@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ImageSlider, Button, MiniNav, BackButton } from '@components'
 import { colors } from '@styles'
 import { pop } from '../../providers/navigationService';
+import PastMiniNav from '../../components/Events/PastMiniNav';
 
 const background = require("@assets/images/Search/party.png");
 const tax = 0.2;
@@ -18,16 +19,11 @@ const PastEventScreen = ({route}) => {
 
   return (
     <View style={styles.container}>
-      <AlertSucces 
+      {/* <AlertSucces 
           message={messageParticipate} 
           isVisible={messageParticipate != ''? true: false}
           onClose = {onCloseModal}
-      />
-      <ImageBackground 
-        source={background} 
-        style={styles.backgroundImg} 
-      >
-        <BackButton onPress = {() => pop()} />
+      /> */}
         <ScrollView 
           style={styles.mapContainer}
           contentContainerStyle = {{paddingBottom: 150}}
@@ -47,9 +43,8 @@ const PastEventScreen = ({route}) => {
             <Text style={styles.title_event}>{event?.title}</Text>
           </View>
           <ImageSlider data={event?.pictures} />
-          <MiniNav data = {event} />
+          <PastMiniNav data = {event} />
         </ScrollView>
-      </ImageBackground>
     </View>
   );
 };
@@ -58,9 +53,58 @@ const PastEventScreen = ({route}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
+  mapContainer: {
+    backgroundColor: "#fff",
+    padding: 20
+  },
+  backgroundImg: {
+    width: "100%",
+    height: '100%'
+  },
+  row: {
+    flexDirection: "row",
+    alignItems: 'center',
+    marginLeft: 5,
+  },
+  header: {
+    color: '#4f4f4f',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  para: {
+    color: '#4f4f4f',
+    fontSize: 20,
+    fontWeight: '200',
+  },
+  title: {
+    // width: "65%",
+  },
+  titleIcon: {
+    marginHorizontal: 10,
+  },
+  padding: {
+    marginTop: 10,
+  },
+  btn: {
+    backgroundColor: colors.PRIMARY,
+    width: 150,
+    borderRadius: 10
+  },
+  title_event: {
+    marginVertical: 20,
+    color: '#4f4f4f',
+    fontSize: 20,
+    fontWeight: '200',
+  },
+  back_btn: {
+    width: 50,
+    height: 50,
+    position: 'absolute',
+    zIndex: 2,
+    top: 0,
+    left: 0
+  }
 });
 
 //make this component available to the app
