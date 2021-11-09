@@ -1,14 +1,24 @@
-import React from 'react';
-import { Modal, TouchableOpacity, StyleSheet, Text, View, Image, Linking } from 'react-native';
+import React, { useState } from 'react';
+import { TouchableOpacity, StyleSheet, Text, View, Image, Linking, ActivityIndicator } from 'react-native';
 import WebView from 'react-native-webview';
-import StripeCheckout from 'react-native-stripe-checkout-webview';
-import PropTypes from 'prop-types';
+import Modal from 'react-native-modal'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 
-import QrCode from '../../components/Qrcode/QrCode.js';
-import ExitButton from '../buttons/ExitButton.js';
+// import QrCode from '../../components/Qrcode/QrCode.js';
+// import ExitButton from '../buttons/ExitButton.js';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCalendar } from '@fortawesome/free-solid-svg-icons'
+import { navigate } from '../../providers/navigationService.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { get_participations, pay_participation } from '../../store/events/actionEvents.js';
+import { mixins, colors } from '@styles'
+import { Loading } from '@components'
+import { PAY_PARTICIPATION } from '../../store/events/type.js';
+import { get_ticket } from '../../store/ticket/actionTicket.js';
+import BubbleCreate from './BubbleCreate.js';
+var _ = require('lodash');
+
 
 const global_day = [ "Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam" ];
 const global_months = [ "Jan" , "Fev", "Mars", "Avril", "May", "Juin",
@@ -17,159 +27,147 @@ const global_months = [ "Jan" , "Fev", "Mars", "Avril", "May", "Juin",
 //let STRIPE_PUBLIC_KEY = "pk_test_51HoVffBMfTJXcWsLbvC7BWGChVqFDqtf9eNcSCgZcRp7bFIY9VpyY6dUT9dU0XKjQq5YOkDjGxSGg3tJXDOumkXL00g9j1mvLB";
 let STRIPE_PUBLIC_KEY = "pk_live_51HoVffBMfTJXcWsL2xxzJAuouS6sKNaGWxFmAdxw5EA5pH7Ic32f7tSxUhqQNU0EfRLNdkJ77sQGlomnT11FNDLz00Uuc3rqwu";
 
-class TextButtonDark extends React.Component
-{
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-        <View style={styles.btnContainer}>
-          <TouchableOpacity style={styles.btnOpacity} onPress={this.props.run}>
-            <Text style={styles.btnButtonText}>{this.props.text}</Text>
-          </TouchableOpacity>
-        </View>
-    );
-  }
-}
-
-TextButtonDark.propTypes = {
-  text: PropTypes.string,
-  run: PropTypes.func
-}
-
-export default class ParticipateSwipe extends React.Component
-{
-  constructor(props) {
-    super(props);
-    this.state = {
-      checkout_id: undefined,
-      url: undefined,
-      event: undefined,
-      payModal: false,
-    };
-
-    this.openLink = this.openLink.bind(this);
-    this.canPay = this.canPay.bind(this);
-    this.load = this.load.bind(this);
-  }
-
-  async openLink(link) {
-    const supported = await Linking.canOpenURL(link);
-
-    if (supported) {
-      await Linking.openURL(supported);
-    } else {
-      alert("Cannot open url");
-    }
-  }
-
-  canPay() {
-    console.log(this.props.eid);
-    fetch(`https://welcome-ttp.com/banking/pay_for_event`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        Authentification: `Bearder ${this.props.token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        eventid: this.props.eid.eventid
-      })
-    }).then((reponse) => reponse.json()).then((repJSON) => {
-      console.log(repJSON);
-      this.load();
-      if (repJSON.status !== undefined && repJSON.status == 401) {
-        alert("Vous n'etez pas authorizer a payer");
-      } else {
-        this.setState({url: repJSON.url});
-        this.setState({checkout_id: repJSON.id});
-        this.setState({payModal: true});
-      }
-    }).catch((error) => {
-      this.load();
-      //this.props.logout();
-      console.error(error)
-    });
-  }
-
-  load() {
-    fetch(`https://welcome-ttp.com/events/get_event/${this.props.eid.eventid}`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        Authentification: `Bearder ${this.props.token}`,
-        'Content-Type': 'application/json'
-      }
-    }).then((reponse) => reponse.json()).then((repJSON) => {
-      this.setState({event: repJSON});
-    }).catch((error) => {
-      //this.props.logout();
-      console.error(error)
-    });
-  }
-
-  componentDidMount() {
-    this.load();
-  }
-
-  render() {
-    if (this.state.event == undefined || this.state.event.pictures === undefined) {
-      return (<View></View>);
-    }
-    var today = new Date(this.state.event.start);
+const ParticipateSwipe = ({item}) => {
+    
+    const dispatch = useDispatch();
+    const [payModal, setPayModal] = useState(false)
+    const [loading, setLoading] = useState(true)
+    const user = useSelector(state => state.user.user.data)
+    const { data, isLoading } = useSelector(state => state.events.pay_participation)
+    const LoadingTicker = useSelector(state => state.ticket.isLoading)
+    var today = new Date(item.start);
     var dd = String(today.getDate()).padStart(2, '0');
     var dd2 = today.getDay();
     var mm = String(today.getMonth()).padStart(2, '0'); //January is 0!
     var yyyy = today.getFullYear();
+
+    const canPay = () => {
+      console.log("{eventid: item._id}",{eventid: item._id})
+        dispatch(pay_participation({eventid: item._id}))
+    }
+
+    const oncloseModal = () => {
+      dispatch({type: `${PAY_PARTICIPATION}_SUCCESS`, payload: {}})
+      dispatch(get_participations())
+    }
+
+    const Mok = [
+      {
+        _id: "617c1f1d0147300018c57e10",
+        description: "It's undefined",
+        email: "Jordanyebarthwttp@gmail.com",
+        facebook_link: "",
+        instagram_link: "",
+        name: "Jordan test",
+        picture: "https://wwtp-bucket-service.s3.eu-west-1.amazonaws.com/dev/profiles/617c1f1d0147300018c57e10-30-10-2021-10-16-RXICj2pOF.jpg",
+        tiktok_link: "",
+      },
+      {
+        _id: "617c1f1d0147300018c57e10",
+        description: "It's undefined",
+        email: "Jordanyebarthwttp@gmail.com",
+        facebook_link: "",
+        instagram_link: "",
+        name: "Jordan test",
+        picture: "https://wwtp-bucket-service.s3.eu-west-1.amazonaws.com/dev/profiles/617c1f1d0147300018c57e10-30-10-2021-10-16-RXICj2pOF.jpg",
+        tiktok_link: "",
+      },
+      {
+        _id: "617c1f1d0147300018c57e10",
+        description: "It's undefined",
+        email: "Jordanyebarthwttp@gmail.com",
+        facebook_link: "",
+        instagram_link: "",
+        name: "Jordan test",
+        picture: "https://wwtp-bucket-service.s3.eu-west-1.amazonaws.com/dev/profiles/617c1f1d0147300018c57e10-30-10-2021-10-16-RXICj2pOF.jpg",
+        tiktok_link: "",
+      },
+    ]
+
     return (
       <View style={styles.container}>
-        <Modal animationType={"fade"} transparent={true}
-          visible={this.state.payModal} onRequestClose={() => {this.setState({payModal: false})}}>
-          <WebView source={{ uri: this.state.url}} useWebKit={true}
-              startInLoadingState={true} />
-          <ExitButton run={() => {this.setState({ payModal: false }); this.props.refresh();}} />
+        <Modal
+          style = {styles.contentModal}
+          animationIn = 'zoomIn'
+          isVisible={data?.url?true: false}
+          onBackButtonPress = {oncloseModal}
+        >
+          <View style = {{flex: 1, backgroundColor: '#fff'}}>
+            {loading && <Loading />}
+            <TouchableOpacity 
+              onPress = {oncloseModal}
+              style = {styles.btnClose}
+            >
+              <Ionicons
+                name = 'close'
+                size = {30}
+                color = {colors.PRIMARY}
+              />
+            </TouchableOpacity>
+            <WebView 
+              source={{ uri: data?.url}}
+              onLoad = {() => {
+                setTimeout(() => {
+                  setLoading(false)
+                }, 10000);
+              }}
+              useWebKit={true}
+              startInLoadingState={true} 
+            />
+          </View>
         </Modal>
-        <TouchableOpacity onPress={() => this.props.openEvent(this.props.eid)}>
-          <Image source={{uri: this.state.event.pictures[0]}} style={styles.proIcon}/>
+        <TouchableOpacity onPress={() => navigate('Event', {event: item})}>
+          <Image source={{uri: item.pictures[0]}} style={styles.proIcon}/>
         </TouchableOpacity>
         <View style={styles.row}>
-          <Text style={styles.header}>{this.state.event.title}</Text>
+          <Text style={styles.header}>{item.title}</Text>
         </View>
         <View style={styles.row}>
           <FontAwesomeIcon size={20} color={'#6C2BA1'} icon={ faCalendar }/>
           <Text style={styles.para}>{global_day[dd2]} {dd} {global_months[parseInt(mm)]} {yyyy}</Text>
         </View>
-        {this.props.eid.canPay === true ?
-            <TextButtonDark text={"PAYER"} run={()=>this.canPay()} />
+        {
+          _.filter(item.usersThatPaid, {_id: user._id}).length == 0?
+          <TouchableOpacity style={styles.btnContainer} onPress={canPay}>
+            {
+              isLoading?
+              <ActivityIndicator size = 'large' color = '#fff' />
+              :
+              <Text style={styles.btnButtonText}>Payer mon ticket</Text>
+            }
+          </TouchableOpacity>
           :
-            <View>
-              <QrCode token={this.props.token} eid={this.props.eid.eventid} />
-            </View>
+          <TouchableOpacity 
+            style={styles.btnContainer} 
+            onPress={() => dispatch(get_ticket(item._id))}
+          >
+            {
+              LoadingTicker?
+              <ActivityIndicator size = 'large' color = '#fff' />
+              :
+              <Text style={styles.btnButtonText}>Obtenir mon QrCode</Text>
+            }
+            
+          </TouchableOpacity>
         }
+        <BubbleCreate participants = {item.usersThatPaid} />
       </View>
     );
-  }
-}
-
-ParticipateSwipe.propTypes = {
-  token: PropTypes.string,
-  refresh: PropTypes.func,
-  eid: PropTypes.object,
-  openEvent: PropTypes.function,
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
+    borderRadius: 10,
+    marginVertical: 2,
     backgroundColor: '#fff',
+    ...mixins.boxShadow('#777')
   },
   proIcon: {
     width: '100%',
-    height: '60%',
-    resizeMode: 'stretch',
+    height: 280,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10
   },
   row: {
     flexDirection: 'row',
@@ -190,7 +188,6 @@ const styles = StyleSheet.create({
     fontWeight: "200",
     fontSize: 15,
     marginLeft: 15,
-    marginTop: 10,
     color: '#4f4f4f',
   },
   bubble: {
@@ -212,7 +209,7 @@ const styles = StyleSheet.create({
   },
   btnContainer: {
     width: '90%',
-    height: 30,
+    height: 50,
     backgroundColor: '#361979',
     flexDirection: 'row',
     alignItems: 'center',
@@ -236,5 +233,22 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 20,
   },
+  contentModal: {
+    margin: 0
+  },
+  btnClose: {
+    height: 40,
+    width: 40,
+    position: 'absolute',
+    top: 10,
+    right: 20,
+    borderRadius: 20,
+    backgroundColor: colors.WHITE,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 2
+  },
 });
 
+
+export default ParticipateSwipe

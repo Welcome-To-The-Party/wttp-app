@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import PropTypes from 'prop-types';
 
 
 export default class PreviewerSelect extends React.Component
@@ -37,13 +36,6 @@ export default class PreviewerSelect extends React.Component
       </View>
     );
   }
-}
-
-PreviewerSelect.propTypes = {
-  types: PropTypes.array,
-  title: PropTypes.text,
-  selected: PropTypes.text,
-  run: PropTypes.function
 }
 
 const styles = StyleSheet.create({

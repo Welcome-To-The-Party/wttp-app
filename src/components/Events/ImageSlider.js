@@ -47,7 +47,7 @@ ImageSlider.propTypes = {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    height: '40%',
+    height: 220,
   },
   row: {
     height: '100%',

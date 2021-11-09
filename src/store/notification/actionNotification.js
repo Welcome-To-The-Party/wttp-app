@@ -13,7 +13,7 @@ export const get_general_notifications = () => {
             request: {
                 url: '/notifications/get_notifications',
                 headers: {
-                    Authorization: `${token}`
+                    Authorization: store.getState().auth.login.token
                 }
             }
         }
@@ -27,7 +27,7 @@ export const get_notification_participation = () => {
             request: {
                 url: '/notifications/get_unchecked_participation_demand',
                 headers: {
-                    Authorization: `${token}`
+                    Authorization: store.getState().auth.login.token
                 }
             }
         }
@@ -43,7 +43,7 @@ export const set_token_push = (data) => {
                 method: "PUT",
                 url: '/users/push_token',
                 headers: {
-                    Authorization: `${token}`
+                    Authorization: store.getState().auth.login.token
                 },
                 data
             }

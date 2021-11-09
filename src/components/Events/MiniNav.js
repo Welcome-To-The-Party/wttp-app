@@ -1,10 +1,12 @@
 //import liraries
 import React, { useState, useRef } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import MapView, {Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 
 import { colors } from '@styles'
+import moment from 'moment';
+import BubbleCreate from './BubbleCreate';
 
 // create a component
 const MiniNav = ({data}) => {
@@ -12,6 +14,8 @@ const MiniNav = ({data}) => {
   const [ selectedIndex, setSelectedIndex ] = useState(0)
   const startDate = new Date(data?.start)
   const endDate = new Date(data?.end)
+
+  console.log("data mini", data)
 
   const handleSwiper = (event) => {
     setSelectedIndex(event.nativeEvent.selectedSegmentIndex)
@@ -33,18 +37,18 @@ const MiniNav = ({data}) => {
       >
           {
             selectedIndex == 0?
-            <View style={styles.slide}>
+            <ScrollView nestedscrollenabled={true} style={styles.slide}>
               <Text style={styles.text}>{data?.description}</Text>
-            </View>
+            </ScrollView>
             :selectedIndex == 1?
-            <View style={styles.slide}>
+            <ScrollView style={styles.slide}>
                 <View style={styles.row}>
                   <Text style={styles.paraBold}>Date de l’événement:</Text>
-                  <Text style={styles.para}>{startDate.getDate()}/{startDate.getMonth() + 1}/{startDate.getFullYear()} </Text>
+                  <Text style={styles.para}>{moment(data?.start).format("DD/MM/YYYY")}</Text>
                 </View>
                 <View style={styles.row}>
                   <Text style={styles.paraBold}>Horaire de l’événement:</Text>
-                  <Text style={styles.para}>{startDate.getHours()}:{startDate.getMinutes()} - {endDate.getHours()}:{endDate.getMinutes()}</Text>
+                  <Text style={styles.para}>{moment.utc(data?.start).format("HH:mm")} - {moment.utc(data?.end).format("HH:mm")}</Text>
                 </View>
                 <View style={styles.row}>
                   <Text style={styles.paraBold}>Type de musique:</Text>
@@ -62,13 +66,13 @@ const MiniNav = ({data}) => {
                   <Text style={styles.paraBold}>Mode d’acceptation:</Text>
                   <Text style={styles.para}>{data?.manualValidation?"Manuelle":"Automatique"}</Text>
                 </View>
-            </View>
+            </ScrollView>
             :selectedIndex == 2?
-            <View style={styles.slide}>
-              <Text style={styles.text}>uses</Text>
-            </View>
+            <ScrollView style={styles.slide}>
+              <BubbleCreate participants = {data.usersThatPaid} />
+            </ScrollView>
             :
-            <View style={styles.slide}>
+            <ScrollView style={styles.slide}>
               <MapView
                 style={styles.map}
                 provider={PROVIDER_GOOGLE}
@@ -93,7 +97,7 @@ const MiniNav = ({data}) => {
                     pinColor={data.type == "BRINGUE"?"#6C2BA1":"#FE1F14"} 
                 />
               </MapView>
-            </View>
+            </ScrollView>
           }
         </View>
     </View>
@@ -117,7 +121,6 @@ const styles = StyleSheet.create({
   },
   slide: {
     padding: 20,
-    height: 120
   },
   text: {
     fontSize: 16,

@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, Image, Text, View, TouchableOpacity } from 'react-native';
-import PropTypes from 'prop-types';
 
 const images = [ require('../../assets/images/CreateEvent/house.png'),
 require('../../assets/images/CreateEvent/appartement.png'),
@@ -51,10 +50,6 @@ export default class PreviewerPlaces extends React.Component
     );
   }
 }
-
-PreviewerPlaces.propTypes = {
-  selected: PropTypes.string,
-};
 
 const styles = StyleSheet.create({
   main_container: {

@@ -1,123 +1,156 @@
 import React from 'react';
-import { TouchableOpacity, StyleSheet, Text, View, ScrollView, Image, TextInput } from 'react-native';
-import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faStar } from '@fortawesome/free-solid-svg-icons'
-import equal from 'fast-deep-equal';
+import { StyleSheet, Text, View, TouchableOpacity, Image, Linking } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import { mixins, colors } from '@styles'
+import Button from '../Buttons/Button';
+import { navigate } from '../../providers/navigationService';
+var _ = require('lodash')
 
-export default class UserGrade extends React.Component
-{
-  constructor(props) {
-    super(props);
-    this.state = {
-      user: undefined,
-    };
-    this.getUser = this.getUser.bind(this);
-  }
+const facebook_icon = require('@assets/images/User/facebook.png');
+const insta_icon = require('@assets/images/User/insta.png');
+const twitter_icon = require('@assets/images/User/twitter.png');
+const tiktok_icon = require('@assets/images/User/tiktok.png');
 
-  getUser() {
-    fetch(`https://welcome-ttp.com/users/get_user/${this.props.uid}`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        Authentification: `Bearder ${this.props.token}`,
-        'Content-Type': 'application/json'
+
+const UserGrade = ({item, usersThatPaid}) => {
+
+    const openLink = async (link) => {
+      const supported = await Linking.canOpenURL(link);
+  
+      if (supported) {
+        await Linking.openURL(link);
+      } else {
+        alert("Cannot open url");
       }
-    }).then((reponse) => reponse.json()).then((repJSON) => {
-      this.setState({user: repJSON});
-    }).catch((error) => {
-      //this.props.logout();
-      console.error(error)
-    });
-  }
+    }
 
-  componentDidMount() {
-    this.getUser();
-  }
-
-  componentDidUpdate(prevProps) {
-    if (!equal(this.props.uid, prevProps.uid)) {
-      this.getUser();
-    }
-  }
-
-  render() {
-    var i = 0;
-    var grades = [ ]
-    if (this.state.user == undefined) {
-      return(<View></View>);
-    }
-    for (i = 0; i < this.state.user.average; i++) {
-      grades.push(<FontAwesomeIcon size={15} color='#6C2BA1' icon={ faStar } key={i} />);
-    }
-    while (i < 5) {
-      grades.push(<FontAwesomeIcon size={15} color='#6C2BA1' icon={ faStar } key={i} />);
-      i++;
-    }
     return (
-      <View>
-        <TouchableOpacity onPress={() => this.props.openUser(this.state.user)} style={styles.container}>
-          <Image source={{uri: this.state.user.picture}} style={styles.icon} />
-          <View style={styles.column}>
-            <Text style={styles.header}>{this.state.user.name}</Text>
-            <Text style={styles.para}>{this.state.user.joinedEvents.length} participations</Text>
-          </View>
-          <View style={styles.gradeCont}>
-            {grades}
-          </View>
+      <View style={styles.container}>
+        <Image source={{uri: item?.picture}} style={styles.proIcon}/>
+        <TouchableOpacity onPress={() => navigate('User', {user: item})}>
+          <Text style={styles.header}>{item?.name}</Text>
         </TouchableOpacity>
+        <Text style={styles.para}>EN SAVOIR PLUS VIA LES RÉSEAUX</Text>
+        <View style={{flexDirection: 'row'}}>
+          {
+            item?.facebook_link != ''?
+            <TouchableOpacity onPress={() => openLink(item?.facebook_link)}>
+              <Image source={facebook_icon} style={styles.icon_social} />
+            </TouchableOpacity>
+            :item?.instagram_link != ''?
+            <TouchableOpacity onPress={() => openLink(item?.instagram_link)}>
+              <Image source={insta_icon} style={styles.icon_social} />
+            </TouchableOpacity>
+            :item?.tiktok_link != ''?
+            <TouchableOpacity onPress={() => openLink(item?.tiktok_link)}>
+              <Image source={tiktok_icon} style={styles.icon_social} />
+            </TouchableOpacity>:null
+          }
+          {
+            _.filter(usersThatPaid, {_id: item?._id}).length == 0?
+            <View style = {styles.text_info}>
+              <Ionicons 
+                name = 'information-circle-outline' 
+                size = {30}
+                style = {styles.icon_info}
+              />
+              <Text>En attente de payement</Text>
+            </View>:
+            <View style = {styles.text_info}>
+              <Ionicons 
+                name = 'checkmark-circle-outline' 
+                size = {30}
+                style = {styles.icon_info_pay}
+              />
+              <Text>Payé</Text>
+            </View>
+          }
+            {/* <TouchableOpacity onPress={() => this.openLink(item.twitter_link)}>
+              <Image source={require(twitter_icon)} style={styles.icon_social} />
+            </TouchableOpacity> */}
+        </View>
       </View>
     );
-  }
-}
-
-UserGrade.propTypes = {
-  logout: PropTypes.function,
-  token: PropTypes.string,
-  navigation: PropTypes.object,
-  uid: PropTypes.string,
-  openUser: PropTypes.function,
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex:1,
-    flexDirection: "row",
-    paddingTop: 15,
-    paddingBottom: 15,
-    paddingLeft: 15,
-    paddingRight: 15,
+    flex: 1,
+    borderRadius: 10,
+    backgroundColor: '#fff',
     alignItems: 'center',
-    borderColor: '#4f4f4f',
-    borderBottomWidth: 1,
+    paddingBottom: 20,
+    margin: 10,
+    ...mixins.boxShadow('#777')
   },
-  gradeCont: {
-    flexDirection: "row",
-    borderColor: '#6C2BA1',
-    borderRadius: 100,
-    marginLeft: 10,
-    borderWidth: 1,
-    paddingTop: 5,
-    paddingBottom: 5,
-    paddingLeft: 5,
-    paddingRight: 5
-  } ,
+  proIcon: {
+    width: '100%',
+    height: 200,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    marginBottom: 20
+  },
+  row: {
+    flexDirection: 'row',
+    marginTop: 30,
+    paddingHorizontal: 10
+  },
   header: {
-    color: "#4f4f4f",
-    paddingLeft: 15,
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: "200",
     fontSize: 25,
+    color: '#4f4f4f',
   },
   para: {
-    color: "#4f4f4f",
-    paddingLeft: 15,
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: "200",
     fontSize: 15,
+    marginTop: 20,
+    marginBottom: 10,
+    color: '#4f4f4f',
   },
-  column: {
-    flexDirection: "column",
+  bubble: {
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingRight: 5,
+    paddingLeft: 5,
+    borderWidth: 1,
+    borderRadius: 50,
+    marginRight: 10,
+    borderColor: '#6C2BA1'
   },
-  icon: {
+  icon_social: {
     width: 50,
     height: 50,
-    borderRadius: 100,
+  },
+  bubbleText: {
+    color: '#6C2BA1'
+  },
+  btn_outline: {
+    flex: 1,
+    borderWidth: 1,
+    marginRight: 10,
+    borderColor: colors.PRIMARY
+  },
+  btn: {
+    flex: 1,
+    backgroundColor: colors.PRIMARY
+  },
+  icon_info: {
+    marginRight: 5,
+    color: 'orange'
+  },
+  text_info: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  icon_info_pay: {
+    marginRight: 5,
+    color: 'green'
   }
 });
+
+export default UserGrade
+

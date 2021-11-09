@@ -16,7 +16,7 @@ const ParticipationScreen = () => {
   const [ refreshing, setRefreshing ] = useState(true)
   const {isLoading, list} = useSelector(state => state.notification.participation)
 
-  console.log("list", list)
+  console.log("list participation", list)
 
   const loadNotification = () => {
     dispatch(get_notification_participation())

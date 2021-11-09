@@ -13,7 +13,7 @@ const ToComeScreen = ({data}) => {
       <FlatList
         data = {data}
         keyExtractor = {(item) => String(item.title)}
-        renderItem = {({item}) => <PartySelect item = {item} onPress = {() => navigate("EventHandler")} />}
+        renderItem = {({item}) => <PartySelect item = {item} onPress = {() => navigate("EventHandler", {event: item})} />}
         ListEmptyComponent = {EmptyEvent}
       />
     </View>

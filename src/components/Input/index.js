@@ -15,6 +15,9 @@ const Input = ({
     secureTextEntry,
     onPressRight,
     onChangeText,
+    defaultValue,
+    numberOfLines,
+    multiline,
     keyboardType}) => {
     return (
         <View style={[styles.container, style]}>
@@ -33,6 +36,9 @@ const Input = ({
                 onChangeText = {onChangeText}
                 secureTextEntry = {secureTextEntry}
                 keyboardType = {keyboardType}
+                defaultValue = {defaultValue}
+                numberOfLines = {numberOfLines}
+                multiline = {multiline}
             />
             {rightIcon &&
                 <Icon

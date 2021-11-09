@@ -1,14 +1,20 @@
 {
   "expo": {
-    "name": "wttp-app",
-    "slug": "wttp-app",
-    "version": "1.0.0",
+    "name": "WTTP",
+    "slug": "WTTP",
+    "version": "1.0.8",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#6C2BA1"
+    },
+    "notification": {
+      "icon": "./assets/icon.png",
+      "color": "#311b92",
+      "androidMode": "default",
+      "iosDisplayInForeground": true
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -19,9 +25,12 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.p4p1.wttp",
-      "buildNumber": "7",
+      "buildNumber": "8",
       "config": {
-        "googleMapsApiKey": "AIzaSyAZTZx2-gwcOimkU1UoSlLr5rxfLpI7EAE"
+        "googleMapsApiKey": "AIzaSyAZTZx2-gwcOimkU1UoSlLr5rxfLpI7EAE",
+        "googleSignIn": {
+          "reservedClientId": "com.googleusercontent.apps.564214362823-gq9frodvjqpu48se22svp2jspm9oi7lo"
+        }
       }
     },
     "android": {
@@ -42,6 +51,10 @@
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyAZTZx2-gwcOimkU1UoSlLr5rxfLpI7EAE"
+        },
+        "googleSignIn": {
+          "apiKey": "AIzaSyDYAuNgIfwh2nDZzEB2ALYsPbwzV00Zb3Y",
+          "certificateHash":"7E31B78D9A8546C1797324177BEB9B71D897DBA9"
         }
       }
     },

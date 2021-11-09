@@ -1,10 +1,11 @@
 import React from 'react';
-import { Image, Text, ScrollView, Modal, TouchableOpacity, StyleSheet, View } from 'react-native';
-import PropTypes from 'prop-types';
+import { Image, Text, ScrollView, TouchableOpacity, StyleSheet, View } from 'react-native';
+import Modal from 'react-native-modal'
 
-import equal from 'fast-deep-equal';
+
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { navigate } from '../../providers/navigationService';
 
 export default class BubbleCreate extends React.Component
 {
@@ -14,104 +15,72 @@ export default class BubbleCreate extends React.Component
       pic: [],
       modal: false,
     };
-
-    this.refresh = this.refresh.bind(this);
   }
 
-  refresh() {
-    for (var i = 0 ; i < this.props.data.usersThatPaid.length && i < 4; i++) {
-      fetch(`https://welcome-ttp.com/users/get_user/${this.props.data.usersThatPaid[i]}`, {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          Authentification: `Bearder ${this.props.token}`,
-          'Content-Type': 'application/json'
-        }
-      }).then((reponse) => reponse.json()).then((repJSON) => {
-        this.setState({pic: [... this.state.pic, repJSON]});
-      }).catch((error) => {
-        //this.props.logout();
-        console.error(error)
-      });
-    }
-  }
+  
 
   componentDidMount() {
-    for (var i = 0 ; i < this.props.data.usersThatPaid.length && i < 4; i++) {
-      fetch(`https://welcome-ttp.com/users/get_user/${this.props.data.usersThatPaid[i]}`, {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          Authentification: `Bearder ${this.props.token}`,
-          'Content-Type': 'application/json'
-        }
-      }).then((reponse) => reponse.json()).then((repJSON) => {
-        this.setState({pic: [... this.state.pic, repJSON]});
-      }).catch((error) => {
-        //this.props.logout();
-        console.error(error)
-      });
-    }
+    
   }
 
-  componentDidUpdate(prevProps) {
-    if (!equal(this.props.data, prevProps.data)) {
-      this.refresh();
-    }
-  }
+  
   render() {
-    if (this.state.pic.length < 1) {
+    const {participants} = this.props
+    if (participants.length < 1) {
       return (
-        <Text>Il n'y a pas de participants</Text>
+        <Text style = {styles.empty_user}>Il n'y a pas de participants</Text>
       );
     }
     return (
-      <View style={styles.row}>
-        <Modal animationType="fade" transparent={true} visible={this.state.modal}
-          onRequestClose={() => this.setState({modal: !this.state.modal})}>
-          <View style={styles.centerMe}>
+      <View >
+        <Modal
+          backdropOpacity = {0.1}
+          style = {styles.contentModal}
+          isVisible={this.state.modal}
+          onBackButtonPress={() => this.setState({modal: !this.state.modal})}>
             <View style={styles.popup}>
               <View style={styles.topHeader}>
                 <Text style={styles.modalHeader}>PARTICIPANTS ACTIFS</Text>
                 <TouchableOpacity  style={styles.closeIcon} onPress={() => this.setState({modal: !this.state.modal})}>
-                  <FontAwesomeIcon size={20} color={'#fff'} icon={ faTimesCircle }/>
+                  <FontAwesomeIcon size={30} color={'#fff'} icon={ faTimesCircle }/>
                 </TouchableOpacity>
               </View>
-              <View style={styles.modalContent}>
-                <ScrollView style={styles.modalData} contentContainerStyle={styles.modalDataCont}>
-                  {this.state.pic.map((data, key) => {
-                    return (
-                      <View style={styles.modalRow} key={key}>
-                        <Image key={key} source={{uri: data.picture}} style={styles.modalIcons} />
-                        <View>
-                          <Text>{data.name}</Text>
-                          <Text>{data.joinedEvents.length} participations</Text>
-                        </View>
+              <ScrollView style={styles.modalData} contentContainerStyle={styles.modalDataCont}>
+                {participants.map((data, key) => {
+                  return (
+                    <TouchableOpacity onPress = {() => navigate('User', {user: data})} style={styles.modalRow} key={key}>
+                      <Image key={key} source={{uri: data.picture}} style={styles.modalIcons} />
+                      <View>
+                        <Text>{data.name}</Text>
+                        {/* <Text>{data.joinedEvents.length} participations</Text> */}
                       </View>
-                    );
-                  })}
-                </ScrollView>
-              </View>
+                    </TouchableOpacity>
+                  );
+                })}
+              </ScrollView>
             </View>
-          </View>
         </Modal>
-        <View style={{width: 130}}>
-          <TouchableOpacity style={{width: 150, height: 50}} onPress={() => this.setState({modal: !this.state.modal})}>
-            <Image source={{uri: this.state.pic[0].picture}} style={styles.partIcon} />
-            <Image source={{uri: (this.state.pic[1]) ? this.state.pic[1].picture : ""}} style={styles.partIcon1} />
-            <Image source={{uri: (this.state.pic[2]) ? this.state.pic[2].picture : ""}} style={styles.partIcon2} />
-            <Image source={{uri: (this.state.pic[3]) ? this.state.pic[3].picture : ""}} style={styles.partIcon3} />
-          </TouchableOpacity>
-        </View>
-        <Text style={styles.para}>+ {(this.props.data.currentParticipants <= 4) ? this.props.data.currentParticipants : this.props.data.currentParticipants - 4} autres participants</Text>
+        <TouchableOpacity
+          onPress = {() => this.setState({modal: !this.state.modal})} 
+          style = {styles.content_avatar}
+        >
+          {
+            participants.length != 0 && participants.slice(0, 4).map((participate, index) => {
+              return(
+                <Image key = {index} source = {{uri: participate.picture}} style = {styles.avatar} />
+              )
+            })
+          }
+          {
+            participants.length != 0 &&
+            <View style = {styles.btn_show_participant}>
+              <Text>{participants.length > 4?`+ ${participants.length - 2}autres`: participants.length} participant{participants.length>1?'s':''}</Text>
+            </View>
+          }
+        </TouchableOpacity>
       </View>
     );
   }
-}
-
-BubbleCreate.propTypes = {
-  data: PropTypes.object,
-  token: PropTypes.string,
 }
 
 const styles = StyleSheet.create({
@@ -145,27 +114,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 0,
   },
-  partIcon1: {
-    width: 50,
-    height: 50,
-    borderRadius: 100,
-    position: 'absolute',
-    left: 30,
-  },
-  partIcon2: {
-    width: 50,
-    height: 50,
-    borderRadius: 100,
-    position: 'absolute',
-    left: 60,
-  },
-  partIcon3: {
-    width: 50,
-    height: 50,
-    borderRadius: 100,
-    position: 'absolute',
-    left: 90,
-  },
   paraBold: {
     fontWeight: 'bold',
     marginTop: 5,
@@ -183,9 +131,9 @@ const styles = StyleSheet.create({
   },
   popup: {
     backgroundColor: '#fff',
-    width: '75%',
-    height: '50%',
-    borderRadius: 20,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    height: '80%'
   },
   topHeader: {
     backgroundColor: '#361979',
@@ -193,7 +141,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    height: '20%',
+    height: 60,
     width: '100%',
   },
   modalHeader: {
@@ -203,26 +151,11 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: '#fff',
   },
-  modalContent: {
-    marginTop: 30,
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  centerMe: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    height: '100%',
-    backgroundColor: '#0000003e'
-  },
   modalData: {
-    width: '100%',
-    height: '100%',
+    padding: 20
   },
   modalDataCont: {
     justifyContent: 'center',
-    alignItems: 'center',
   },
   modalIcons: {
     width: 50,
@@ -232,6 +165,10 @@ const styles = StyleSheet.create({
   },
   modalRow: {
     flexDirection: 'row',
+    alignItems: 'center',
+    borderBottomColor: '#f3f3f3',
+    borderBottomWidth: 1,
+    paddingBottom: 10,
     marginBottom: 10,
   },
   headerSel: {
@@ -243,8 +180,33 @@ const styles = StyleSheet.create({
     borderColor: '#6C2BA1',
   },
   closeIcon: {
-    position: 'absolute',
-    top: 10,
+    height: 30,
+    width: 30,
+    position: 'absolute', 
+    top: 20,
     right: 10,
   },
+  avatar: {
+    height: 50,
+    width: 50,
+    borderRadius: 25,
+    marginLeft: -20
+  },
+  content_avatar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 40,
+    marginTop: 10
+  },
+  btn_show_participant: {
+    marginLeft: 10
+  },
+  empty_user: {
+    textAlign: 'center',
+    marginTop: 20
+  },
+  contentModal: {
+    margin: 0,
+    justifyContent: 'flex-end'
+  }
 });

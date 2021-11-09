@@ -1,78 +1,53 @@
 /*
  * Create Participate Step Navigator
  */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 import ParticipateScreen from '../screens/Events/ParticipateScreen.js';
 import CancelEventScreen from '../screens/Events/CancelEventScreen.js';
 import ToRateScreen from '../screens/Events/ToRateScreen.js';
 import { colors } from '@styles'
+import { useDispatch, useSelector } from 'react-redux';
+import { get_participations } from '../store/events/actionEvents.js';
 
 const Tab = createMaterialTopTabNavigator();
 
-export default class PHandlerNavigator extends React.Component
-{
-  constructor(props) {
-    super(props);
-    this.state = {
-      event: undefined,
-    };
+const PHandlerNavigator = () => {
 
-    this.getEvent = this.getEvent.bind(this);
-  }
+    const dispatch = useDispatch()
+    const { data } = useSelector(state => state.events.participations)
 
-  getEvent() {
-    fetch(`https://welcome-ttp.com/events/get_event/${this.props.eid}`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        Authentification: `Bearder ${this.props.token}`,
-        'Content-Type': 'application/json'
-      }
-    }).then((reponse) => reponse.json()).then((repJSON) => {
-      this.setState({event: repJSON});
-    }).catch((error) => {
-      //this.props.logout();
-      console.error(error)
-    });
-  }
+    console.log("participations", data)
 
-  componentDidMount() {
-    this.getEvent();
-  }
-
-  componentDidUpdate(prevProps) {
-    /*if (!equal(this.props.eid, prevProps.eid)) {
-      this.getEvent();
-    }*/
-  }
-
-  render () {
+    useEffect(() => {
+        dispatch(get_participations())
+    }, [])
     return (
       <Tab.Navigator 
         screenOptions={{ 
           activeTintColor: '#6C2BA1',
           tabBarLabelStyle: {textTransform: 'capitalize',fontSize:16},
           tabBarIndicatorStyle: {backgroundColor: colors.PRIMARY}
-        }} 
+        }}
       >
         <Tab.Screen 
           name="confirm"
-          component = {ParticipateScreen}
+          children = {() => <ParticipateScreen data = {data?.confirmed_participation} />}
           options = {{title: "CONFIRMÉES"}}
         />
         <Tab.Screen 
           name="wait"
-          component = {CancelEventScreen}
+          children = {() => <CancelEventScreen data = {data?.waitting_participation} />}
           options = {{title: "EN ATTENTES"}} 
         />
         <Tab.Screen 
           name="passed"
-          component = {ToRateScreen}
+          children = {() => <ToRateScreen data = {data?.passed_participation} />}
           options = {{title: "PASSÉES"}} 
         />
       </Tab.Navigator>
     );
-  }
 }
+
+export default PHandlerNavigator

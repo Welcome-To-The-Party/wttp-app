@@ -10,6 +10,7 @@ import eventsReducer from './events/reducerEvents'
 import userReducer from './user/reducerUser'
 import stripeReducer from './stripe/reducerStripe'
 import notificationReducer from './notification/reducerNotification'
+import ticketReducer from './ticket/reducerTicket'
 import { httpClient } from '@config/http'
 
 const persistConfig = {
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
     events: eventsReducer,
     user: userReducer,
     stripe: stripeReducer,
+    ticket: ticketReducer,
     notification: notificationReducer
 })
 

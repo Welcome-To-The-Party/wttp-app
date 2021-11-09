@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity } from 'rea
 import { useDispatch, useSelector } from 'react-redux'
 
 import { get_events } from '@store/events/actionEvents';
-import { navigate } from '../../providers/navigationService';
+import { navigate, push } from '../../providers/navigationService';
 
 // create a component
 const CardEventItem = ({item}) => {
@@ -12,6 +12,7 @@ const CardEventItem = ({item}) => {
     const dispatch = useDispatch();
     const [eventid, setEventid] = useState(item?.eventid)
     const eventData = useSelector(state => state.events.event.data)
+    const tax = 0.2
 
     useEffect(() => {
         dispatch(get_events(eventid))
@@ -26,12 +27,14 @@ const CardEventItem = ({item}) => {
                 source = {{uri: item?.pictures[0]}} 
                 style = {styles.imageStyle}
             />
-            <View style = {styles.col}>
-                <Text>Soirée {item?.type}: {item?.placeType}</Text>
-                <Text style = {styles.description} numberOfLines = {2}>{item?.description}</Text>
-            </View>
-            <View style = {styles.col2}>
-                <Text style = {styles.price}>{item?.price} €/place</Text>
+            <View style = {styles.row}>
+                <View style = {styles.col}>
+                    <Text>Soirée {item?.type}: {item?.placeType}</Text>
+                    <Text style = {styles.description} numberOfLines = {2}>{item?.description.substring(0, 25)}...</Text>
+                </View>
+                <View style = {styles.col2}>
+                    <Text style = {styles.price}>{((item?.price) +((item?.price) * tax)).toFixed(2)} €/place</Text>
+                </View>
             </View>
         </TouchableOpacity>
     );
@@ -44,7 +47,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         width: Dimensions.get('screen').width - 60,
         // marginHorizontal: 20,
-        paddingRight: 10,
+        // paddingRight: 10,
         borderRadius: 10,
         backgroundColor: '#fff'
     },
@@ -61,12 +64,19 @@ const styles = StyleSheet.create({
     },
     col2: {
         marginTop: 10,
+        paddingRight: 10
     },
     description: {
         marginTop: 10
     },
     price: {
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        textAlign: 'right'
+    },
+    row: {
+        // fle
+        flex: 1,
+        paddingBottom: 10
     }
 });
 

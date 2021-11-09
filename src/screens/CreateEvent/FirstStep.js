@@ -37,7 +37,15 @@ const inputGoogle = {
 }
 
 // create a component
-const FirstStep = ({setActiveStep, setTitle, setDescription, setAddress}) => {
+const FirstStep = ({
+  setActiveStep, 
+  setTitle, 
+  setDescription, 
+  setAddress,
+  title,
+  description,
+  address
+}) => {
   return (
     <View style={styles.container}>
       <ScrollView keyboardShouldPersistTaps={'handled'}>
@@ -51,13 +59,16 @@ const FirstStep = ({setActiveStep, setTitle, setDescription, setAddress}) => {
             onChangeText={setTitle}
             style={styles.input} 
             placeholder={"Titre de votre événement"} 
-            maxLength={30} 
+            maxLength={30}
+            defaultValue = {title}
           />
           {/* <Text style={styles.header2}>DESCRIPTION</Text> */}
           <Input 
             onChangeText={setDescription}
             style={styles.input} 
-            placeholder={"Décrivez brièvement votre événement"} 
+            placeholder={"Décrivez brièvement votre événement"}
+            defaultValue = {description}
+            multiline = {true}
           />
           {/* <Text style={styles.header2}>ADRESSE DE L’ÉVÉNEMENT (privée)</Text> */}
           <GooglePlacesAutocomplete
@@ -77,7 +88,7 @@ const FirstStep = ({setActiveStep, setTitle, setDescription, setAddress}) => {
             }}
             fetchDetails={true}
             styles={inputGoogle}
-            currentLocation={true}
+            currentLocation={false}
             keyboardShouldPersistTaps={"always"}
             currentLocationLabel='Position Actuelle'
           />

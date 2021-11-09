@@ -15,22 +15,13 @@ const icon = require('@assets/icons/icon.png');
 
 // create a component
 const LoginScreen = ({navigation}) => {
-
-    const login_facebook = async () => {
-       
-    }
-
-    const login_google = () => {
-        
-    }
-
     return (
         <View style={styles.container}>
             <ImageBackground 
                 source={background_img}
                 style={styles.back_images_container}
             >
-                <BackButton />
+                <BackButton onPress = {() => navigation.goBack()} />
                 <View style={styles.miniContainer}>
                     <Image source={icon} style={styles.icon} />
                     <Text style={styles.header}>Profitez ou organisez,</Text>
@@ -38,12 +29,8 @@ const LoginScreen = ({navigation}) => {
                 </View>
                 <View style={styles.createContainer}>
                     <LoginAccount navigation = {navigation} />
-                    <FacebookButton 
-                        onPress = {login_facebook}
-                    />
-                    <GoogleButton
-                        onPress = {login_google}
-                    />
+                    <FacebookButton />
+                    <GoogleButton />
                     <TouchableOpacity onPress={() => navigation.navigate("Forgoten")}>
                         <Text style={{color: 'black'}}>Mot de passe oublié ?</Text>
                     </TouchableOpacity>

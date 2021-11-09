@@ -20,8 +20,6 @@ const FavoriteScreen = () => {
   const favorites = useSelector(state => state.user.user.data.favorites)
   const isLoading = useSelector(state => state.user.user.isLoading)
 
-  console.log("favorites", favorites)
-
   useEffect(()=> {
     dispatch(getUser())
   }, [])

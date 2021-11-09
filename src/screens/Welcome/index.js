@@ -10,7 +10,7 @@ import {
     FacebookButton, 
     MailConnect 
 } from '@components'
-import { login_facebook, login_google } from '@store/auth/actionAuth';
+import { social_login, login_google } from '@store/auth/actionAuth';
 
 const background_img = require('@assets/images/home_background.jpg');
 
@@ -19,7 +19,7 @@ const WelcomeScreen = ({navigation}) => {
 
     const dispatch = useDispatch()
     const mounted = useRef();
-    const url_login_facebook = useSelector(state => state.auth.login_facebook)
+    const url_social_login = useSelector(state => state.auth.social_login)
     const url_login_google = useSelector(state => state.auth.login_google)
 
     useEffect(() => {
@@ -79,8 +79,8 @@ const WelcomeScreen = ({navigation}) => {
                     </View>
                 </View>
                 <View style={styles.miniContainer}>
-                    <FacebookButton onPress = {() => dispatch(login_facebook())} />
-                    <GoogleButton onPress = {() => dispatch(login_google())} />
+                    <FacebookButton />
+                    <GoogleButton  />
                 </View>
                 <View style={styles.miniContainer}>
                     <Divided />

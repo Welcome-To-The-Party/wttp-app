@@ -23,8 +23,8 @@ Notifications.setNotificationHandler({
 const NotifEdit = () => {
 
   const dispatch = useDispatch()
-  const { isNotif } = useSelector(state => state.notification.notificationPush)
-  const [ isNotification, setIsNotification ] = useState(isNotif)
+  const { isNotif, token } = useSelector(state => state.notification.notificationPush)
+  const [ isNotification, setIsNotification ] = useState(token?.lastPushToken?true:false)
 
   const setNotif = async (value) => {
     setIsNotification(value)
@@ -37,6 +37,8 @@ const NotifEdit = () => {
     }
     else dispatch(set_token_push({token: {value: ""}}))
   }
+
+  console.log('data', token)
 
   return (
     <View style={styles.container}>

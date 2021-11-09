@@ -102,7 +102,7 @@ const notificationReducer = (state = initialState, action) => {
                 }
             }
         case `${SET_TOKEN_NOTIFICATION}_FAIL`:
-            console.log("token push error", action.payload)
+            console.log("token push error", action)
             return {
                 ...state,
                 notificationPush: {

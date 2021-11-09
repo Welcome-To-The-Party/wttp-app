@@ -24,10 +24,15 @@ export function push(name: string, params?: object): void {
 export function goBack(): void {
   navigationRef.current ?.goBack();
 }
+export function pop(name?: String): void {
+  console.log("navigationRef.current", navigationRef.current.getParent())
+  // name?navigate(name):goBack();
+}
 export const navigation = {
   navigate,
   dispatch,
   replace,
   push,
-  goBack
+  goBack,
+  pop
 }

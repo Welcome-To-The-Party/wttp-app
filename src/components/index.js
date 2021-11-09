@@ -31,6 +31,10 @@ import DeleteAccount from './DeleteAccount'
 import ForgotAccount from './Login/ForgotAccount'
 import BackButton from './Buttons/BackButton'
 import FilterSearch from './FilterSearch'
+import UserSwipe from './User/UserSwipe'
+import UserGrade from './User/UserGrade'
+import ParticipationSwipe from './Events/ParticipationSwipe'
+import ParticipateSwipe from './Events/ParticipateSwipe'
 
 
 export {
@@ -66,5 +70,9 @@ export {
     DeleteAccount,
     ForgotAccount,
     BackButton,
-    FilterSearch
+    FilterSearch,
+    UserSwipe,
+    UserGrade,
+    ParticipationSwipe,
+    ParticipateSwipe
 }

@@ -8,7 +8,7 @@ import * as Location from 'expo-location';
 import { TopSearchBar, Button, Loading, FilterSearch } from '@components'
 import { styles } from './style'
 import { colors } from '@styles'
-import { find_events } from '../../store/events/actionEvents';
+import { find_current_events, find_events } from '../../store/events/actionEvents';
 import EventDisplay from '../../components/Events/EventDisplay';
 import { navigate } from '../../providers/navigationService';
 import LatestEvent from '../../components/Events/LatestEvent';
@@ -33,6 +33,7 @@ const SearchScreen = ({navigation}) => {
     distance: 20
   })
   const {data, isLoading} = useSelector(state => state.events.find_events)
+  const currents_events = useSelector(state => state.events.currents_events.data)
   const [ listEvents, setListEvents ] = useState()
 
 
@@ -76,10 +77,10 @@ const SearchScreen = ({navigation}) => {
   }
 
   const handleFilter = () => {
-    const events = _.filter(data,eventsType && manualValidation?
-      {type: eventsType, validation: manualValidation}:
-      eventsType?{type: eventsType}:
-      manualValidation?{validation: manualValidation}:null)
+    const events = _.filter(currents_events,eventsType != null && manualValidation != null?
+      {type: eventsType, manualValidation: manualValidation}:
+      eventsType != null?{type: eventsType}:
+      manualValidation !=null?{manualValidation: manualValidation}:null)
     setListEvents(events)
     toggleModal()
   }
@@ -98,16 +99,15 @@ const SearchScreen = ({navigation}) => {
   useEffect(() => {
     if(isInit){
       (async() => {
-        let location = await Location.getCurrentPositionAsync({});
+        let location = await Location.getCurrentPositionAsync({accuracy: Location.Accuracy.High});
         const { latitude, longitude } = location.coords
         loadEvents(latitude, longitude)
         setIsInit(false)
       })()
     }
-    setListEvents(data)
+    dispatch(find_current_events())
+    setListEvents(currents_events)
   }, [lat, lng, data])
-
-  console.log("--- events ---", listEvents)
 
   return (
     <View style={styles.container}>
@@ -132,14 +132,14 @@ const SearchScreen = ({navigation}) => {
       >
           {isLoading && <Loading />}
           <Header
-            title = {data.length == 0?
+            title = {currents_events.length == 0?
               "Oups! aucun événement autour de toi!"
               :
               "Tu aimes recevour, t'amuser et partager"
             }
           />
           {
-            data.length != 0?
+            currents_events.length != 0?
             <View>
               <Text style = {styles.title}>Ajouté récemment</Text>
               <FlatList
@@ -153,7 +153,14 @@ const SearchScreen = ({navigation}) => {
                 }
               />
               <Text style = {styles.title}>Atour de toi</Text>
-              <LatestEvent item = {data[0]} />
+              <FlatList
+                data = {data}
+                keyExtractor = {((item) => String(item.eventid))}
+                renderItem = {({item}) => 
+                  <LatestEvent item = {item} />
+                }
+              />
+              
             </View>:null
           }
       </ScrollView>

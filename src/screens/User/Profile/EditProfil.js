@@ -80,7 +80,7 @@ const EditProfil = ({navigation}) => {
   return (
     <View style={styles.container}>
       <ImageBackground source={background_img} style={styles.background_img}>
-        <BackButton />
+        <BackButton onPress = {() => navigation.goBack()} />
         <View style={styles.headerCont}>
           <TouchableOpacity onPress={get_img} style={styles.content_avatar}>
             <Image 

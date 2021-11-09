@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+var _ = require('lodash')
 
 import { styles } from './style'
 import { colors } from '@styles'
@@ -16,9 +17,9 @@ const twitter_icon = require('@assets/images/User/twitter.png');
 const tiktok_icon = require('@assets/images/User/tiktok.png');
 
 // create a component
-const PublicProfil = ({navigation}) => {
+const PublicProfil = ({navigation, route}) => {
 
-  const user = useSelector(state => state.user.user.data)
+  const {user} = route?.params
 
   const openLink = async (link) => {
     const supported = await Linking.canOpenURL(link);
@@ -29,6 +30,8 @@ const PublicProfil = ({navigation}) => {
       alert("Cannot open url");
     }
   }
+
+  console.log('user', user)
 
   return (
     <View style={styles.container}>
@@ -50,8 +53,7 @@ const PublicProfil = ({navigation}) => {
               />
               <Text style={styles.header}>{user?.name}</Text>
               <View style={styles.gradeCont}>
-                <FontAwesomeIcon size={15} icon={ faStar } color={"#6C2BA1"} />
-                <Text>{user?.averageGrade}/5</Text>
+                <Text>{user?.rates?.length ==0?0:_.meanBy(user?.rates, (result) => result)}/5</Text>
               </View>
           </View>
           <View style={styles.dataContainer}>
@@ -61,7 +63,7 @@ const PublicProfil = ({navigation}) => {
                 <Text style={styles.statDesc}>PARTICIPATIONS</Text>
               </View>
               <View style={styles.statDat}>
-                <Text style={styles.statNum}>{user?.createdEvents.length}</Text>
+                <Text style={styles.statNum}>{user?.createdEvents?.length}</Text>
                 <Text style={styles.statDesc}>ORGANISATIONS</Text>
               </View>
               <View style={styles.statDat}>

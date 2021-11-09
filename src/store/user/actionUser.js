@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux'
 import {
     DELETE_ACCOUNT,
+    RATE_USER,
     SET_USER,
     UPDATE_PROFIL,
 } from './type'
@@ -20,6 +21,7 @@ export const getUser = () => {
         type: SET_USER,
         payload: {
             request: {
+                method: 'GET',
                 url: '/users/profile',
                 headers: {
                     Authorization: store.getState().auth.login.token
@@ -97,6 +99,36 @@ export const delete_account = (data) => {
                 },
                 onError({getState, dispatch, error}){
                     dispatch({type: `${DELETE_ACCOUNT}_FAIL`, error: "la suppression du compte a echoué"});
+                }
+            }
+        }
+    }
+}
+
+export const rating_user = (data) => {
+    console.log("data", data)
+    return{
+        type: RATE_USER,
+        payload: {
+            request: {
+                method: "POST",
+                url: '/users/rate_user',
+                headers: {
+                    Authorization: store.getState().auth.login.token
+                },
+                data: data
+            },
+            options: {
+                onSuccess({getState, dispatch, response}){
+                    console.log("reponse rating", response.data)
+                    // if(response.data.status == 200){
+                    //     dispatch({type: `${UPDATE_PROFIL}_SUCCESS`, payload: response.data.message})
+                    //     dispatch(getUser())
+                    // }
+                },
+                onError({getState, dispatch, error}){
+                    console.log("error rating", error)
+                    // dispatch({type: `${UPDATE_PROFIL}_FAIL`, error: "Une erreur est survenu, veuillez réessayer plutart"});
                 }
             }
         }

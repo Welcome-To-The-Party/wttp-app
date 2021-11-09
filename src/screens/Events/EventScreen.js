@@ -13,6 +13,7 @@ import { colors } from '@styles'
 import AlertSucces from '@components/AlertSucces';
 import { add_favorite, participate_event } from '@store/events/actionEvents';
 import { PARTICIPE_EVENT } from '@store/events/type';
+import { pop } from '../../providers/navigationService';
 
 const background = require("@assets/images/Search/party.png");
 const tax = 0.2;
@@ -22,7 +23,6 @@ const EventScreen = ({route}) => {
 
   const {event} = route.params
   const dispatch = useDispatch();
-  const eventData = useSelector(state => state.events.event.data)
   const favorites = useSelector(state => state.user.user.data.favorites)
   const messageParticipate = useSelector(state => state.events.infos.message)
 
@@ -44,9 +44,6 @@ const EventScreen = ({route}) => {
 
   return (
     <View style={styles.container}>
-        {/* <View style = {styles.back_btn}>
-          
-        </View> */}
         <AlertSucces 
           message={messageParticipate} 
           isVisible={messageParticipate != ''? true: false}
@@ -56,7 +53,7 @@ const EventScreen = ({route}) => {
           source={background} 
           style={styles.backgroundImg} 
         >
-          <BackButton />
+          <BackButton onPress = {() => pop()} />
           <ScrollView 
             style={styles.mapContainer}
             contentContainerStyle = {{paddingBottom: 150}}
@@ -65,19 +62,16 @@ const EventScreen = ({route}) => {
               <View style={styles.row}>
                 <View style={[styles.row, {flex: 1}]} >
                   <Text style={styles.header}>
-                    {Number(
-                      Number(event?.price) +
-                        Number(Number(event?.price) * tax)
-                    ).toFixed(2)}
+                    {((event?.price) +((event?.price) * tax)).toFixed(2)}
                     EUR
                   </Text>
                   <Text style={styles.para}>/place</Text>
                 </View>
-                <TouchableOpacity onPress = {() => dispatch(add_favorite({eventid: event.eventid}))} >
+                <TouchableOpacity onPress = {() => dispatch(add_favorite({eventid: event.eventid?event.eventid:event._id}))} >
                   <Ionicons 
                     size={20} 
                     color={'#6C2BA1'} 
-                    name={_.filter(favorites, {_id: event.eventid}).length != 0?'heart':'heart-outline' } 
+                    name={_.filter(favorites, {_id: event.eventid?event.eventid:event._id}).length != 0?'heart':'heart-outline' } 
                     style={styles.titleIcon} 
                   />
                 </TouchableOpacity>
@@ -94,7 +88,7 @@ const EventScreen = ({route}) => {
                 text={"RÉSERVER"}
                 textColor = {colors.WHITE}
                 style = {styles.btn}
-                onPress={() => dispatch(participate_event({eventid: event.eventid}))}
+                onPress={() => dispatch(participate_event({eventid: event.eventid?event.eventid:event._id}))}
               />
             </View>
             <View style={styles.padding}>

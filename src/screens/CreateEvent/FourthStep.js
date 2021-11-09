@@ -1,8 +1,9 @@
 //import liraries
 import React, { useState } from 'react';
-import { View, Text, Modal, ScrollView, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, TextInput } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPhone, faKey, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import Modal from 'react-native-modal'
 
 import { styles } from './style'
 import { colors } from '@styles'
@@ -34,10 +35,10 @@ const FourthStep = ({
 
   return (
     <View style={styles.container}>
-      <Modal 
-        animationType={"fade"} 
-        transparent={true}
-        visible={showModal}
+      <Modal
+        style = {styles.container_modal}
+        animationIn= 'zoomIn'
+        isVisible={showModal}
       >
             <View style={styles.centerMe}>
               <View style={styles.popup}>
@@ -47,7 +48,7 @@ const FourthStep = ({
                     <FontAwesomeIcon size={20} color={'#fff'} icon={ faTimesCircle }/>
                   </TouchableOpacity>
                 </View>
-                <ScrollView style={styles.modalContent}>
+                <ScrollView keyboardShouldPersistTaps = 'always' style={styles.modalContent}>
                   <Text style={styles.header2}>SOUHAITEZ-VOUS AJOUTER UNE INFORMATION SPÉCIALE SUR L’ÉVÉNEMENT ?</Text>
                   <Text style={styles.para}>Ces informations seront privées</Text>
                   <View style={styles.row}>
@@ -93,12 +94,6 @@ const FourthStep = ({
               date={startTime} 
               set={(one, two) => setDateTime(one, two)} 
             />
-            <Button 
-              text={"Valider la création"}
-              textColor = {colors.WHITE}
-              style = {styles.btnNextStep}
-              onPress = {() => setShowModal(true)}
-           />
           </View>
         </ScrollView>
     </View>
