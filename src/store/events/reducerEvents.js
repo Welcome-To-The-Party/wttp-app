@@ -1,11 +1,14 @@
 import {
     ACCEPT_PARTICIPATION,
     ADD_FAVORITE,
+    CANCEL_PARTICIPATION,
     CREATE_EVENT,
+    FIND_CURRENT_EVENTS,
     FIND_EVENTS,
     LOAD_EVENTS,
     OWNER_EVENTS,
     PARTICIPE_EVENT,
+    PAY_PARTICIPATION,
     REFUSE_PARTICIPATION,
     SET_ORGANISATION,
     SET_PARTICIPATION,
@@ -17,6 +20,11 @@ const initialState = {
         isLoading: false,
         data: [],
         error: ""
+    },
+    currents_events: {
+        isLoading: false,
+        data: {},
+        error: ''
     },
     event: {
         isLoading: false,
@@ -57,6 +65,16 @@ const initialState = {
         isLoading: false,
         message: "",
         error: ''
+    },
+    cancel_participation: {
+        isLoading: false,
+        message: "",
+        error: ''
+    },
+    pay_participation: {
+        isLoading: false,
+        data: {},
+        error: ''
     }
 }
 
@@ -85,6 +103,34 @@ const eventsReducer = (state = initialState, action) => {
                 ...state,
                 find_events: {
                     ...state.find_events,
+                    isLoading: false,
+                    data: [],
+                    error: action.payload
+                }
+            }
+        case FIND_CURRENT_EVENTS:
+                return {
+                    ...state,
+                   currents_events: {
+                       ...state.currents_events,
+                       isLoading: true
+                   }
+                }
+        case `${FIND_CURRENT_EVENTS}_SUCCESS`:
+            return {
+                ...state,
+                currents_events: {
+                    ...state.currents_events,
+                    isLoading: false,
+                    data: action.payload.data.data,
+                    error: ''
+                }
+            }
+        case `${FIND_CURRENT_EVENTS}_FAIL`:
+            return {
+                ...state,
+                currents_events: {
+                    ...state.currents_events,
                     isLoading: false,
                     data: [],
                     error: action.payload
@@ -158,7 +204,6 @@ const eventsReducer = (state = initialState, action) => {
                 }
             }
         case `${PARTICIPE_EVENT}_SUCCESS`:
-            console.log("participation", action.payload.data)
             return {
                 ...state,
                 infos: {
@@ -215,7 +260,6 @@ const eventsReducer = (state = initialState, action) => {
                 }
             }
         case `${CREATE_EVENT}_SUCCESS`:
-            console.log("create event", action.payload.data)
             return {
                 ...state,
                 create: {
@@ -226,7 +270,6 @@ const eventsReducer = (state = initialState, action) => {
                 }
             }
         case `${CREATE_EVENT}_FAIL`:
-            console.log("error create event", action)
             return {
                 ...state,
                 create: {
@@ -349,7 +392,63 @@ const eventsReducer = (state = initialState, action) => {
                     message: "",
                     error: action.error
                 }  
-            }         
+            }
+        case CANCEL_PARTICIPATION:
+            return {
+                ...state,
+                cancel_participation: {
+                    ...state.cancel_participation,
+                    isLoading: true
+                }
+            }
+        case `${CANCEL_PARTICIPATION}_SUCCESS`:
+            return {
+                ...state,
+                cancel_participation: {
+                    ...state.cancel_participation, 
+                    isLoading: false,
+                    message: action.payload,
+                    error: ''
+                }
+            }
+        case `${CANCEL_PARTICIPATION}_FAIL`:
+            return {
+                ...state,
+                cancel_participation: {
+                    ...state.cancel_participation,
+                    isLoading: false,
+                    message: "",
+                    error: action.error
+                }  
+            } 
+        case PAY_PARTICIPATION:
+            return {
+                ...state,
+                pay_participation: {
+                    ...state.pay_participation,
+                    isLoading: true
+                }
+            }
+        case `${PAY_PARTICIPATION}_SUCCESS`:
+            return {
+                ...state,
+                pay_participation: {
+                    ...state.pay_participation, 
+                    isLoading: false,
+                    data: action.payload,
+                    error: ''
+                }
+            }
+        case `${PAY_PARTICIPATION}_FAIL`:
+            return {
+                ...state,
+                pay_participation: {
+                    ...state.pay_participation,
+                    isLoading: false,
+                    data: {},
+                    error: action.error
+                }  
+            }        
         default:
             return state;
     }

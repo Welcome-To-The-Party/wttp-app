@@ -2,22 +2,23 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
+var _ = require('lodash')
 
 import { UserGrade } from '@components'
 
 // create a component
-const ConfirmedScreen = ({data}) => {
+const ConfirmedScreen = ({data, participatingUsers}) => {
   return (
     <View style={styles.container}>
       {
-        data?.length ==0?
+        data?.length == 0 && participatingUsers?.length == 0?
         <View style = {styles.content}>
           <Text style = {styles.infos}>Aucune personne n'a été confirmé </Text>
         </View>:
         <Carousel
-          data={data}
+          data={_.concat(participatingUsers, data)}
           loop
-          renderItem={({item}) => <UserGrade item={item} />}
+          renderItem={({item}) => <UserGrade usersThatPaid = {data} item={item} />}
           sliderWidth={Dimensions.get('window').width}
           itemWidth={Dimensions.get('window').width - 80}
         />

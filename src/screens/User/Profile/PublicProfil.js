@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+var _ = require('lodash')
 
 import { styles } from './style'
 import { colors } from '@styles'
@@ -30,6 +31,8 @@ const PublicProfil = ({navigation, route}) => {
     }
   }
 
+  console.log('user', user)
+
   return (
     <View style={styles.container}>
       <ImageBackground source={background_img} style={styles.background_img}>
@@ -50,8 +53,7 @@ const PublicProfil = ({navigation, route}) => {
               />
               <Text style={styles.header}>{user?.name}</Text>
               <View style={styles.gradeCont}>
-                <FontAwesomeIcon size={15} icon={ faStar } color={"#6C2BA1"} />
-                <Text>{user?.averageGrade}/5</Text>
+                <Text>{user?.rates?.length ==0?0:_.meanBy(user?.rates, (result) => result)}/5</Text>
               </View>
           </View>
           <View style={styles.dataContainer}>
@@ -61,7 +63,7 @@ const PublicProfil = ({navigation, route}) => {
                 <Text style={styles.statDesc}>PARTICIPATIONS</Text>
               </View>
               <View style={styles.statDat}>
-                <Text style={styles.statNum}>{user?.createdEvents.length}</Text>
+                <Text style={styles.statNum}>{user?.createdEvents?.length}</Text>
                 <Text style={styles.statDesc}>ORGANISATIONS</Text>
               </View>
               <View style={styles.statDat}>

@@ -68,6 +68,7 @@ const FirstStep = ({
             style={styles.input} 
             placeholder={"Décrivez brièvement votre événement"}
             defaultValue = {description}
+            multiline = {true}
           />
           {/* <Text style={styles.header2}>ADRESSE DE L’ÉVÉNEMENT (privée)</Text> */}
           <GooglePlacesAutocomplete
@@ -87,7 +88,7 @@ const FirstStep = ({
             }}
             fetchDetails={true}
             styles={inputGoogle}
-            currentLocation={true}
+            currentLocation={false}
             keyboardShouldPersistTaps={"always"}
             currentLocationLabel='Position Actuelle'
           />

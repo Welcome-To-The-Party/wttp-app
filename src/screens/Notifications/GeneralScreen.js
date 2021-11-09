@@ -17,6 +17,8 @@ const GeneralScreen = () => {
   const [ refreshing, setRefreshing ] = useState(true)
   const {isLoading, list} = useSelector(state => state.notification.general)
 
+  console.log('general----------', list)
+
   const loadNotification = () => {
     dispatch(get_general_notifications())
   }

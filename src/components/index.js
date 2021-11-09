@@ -34,6 +34,7 @@ import FilterSearch from './FilterSearch'
 import UserSwipe from './User/UserSwipe'
 import UserGrade from './User/UserGrade'
 import ParticipationSwipe from './Events/ParticipationSwipe'
+import ParticipateSwipe from './Events/ParticipateSwipe'
 
 
 export {
@@ -72,5 +73,6 @@ export {
     FilterSearch,
     UserSwipe,
     UserGrade,
-    ParticipationSwipe
+    ParticipationSwipe,
+    ParticipateSwipe
 }

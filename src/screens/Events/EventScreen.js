@@ -23,7 +23,6 @@ const EventScreen = ({route}) => {
 
   const {event} = route.params
   const dispatch = useDispatch();
-  const eventData = useSelector(state => state.events.event.data)
   const favorites = useSelector(state => state.user.user.data.favorites)
   const messageParticipate = useSelector(state => state.events.infos.message)
 
@@ -45,9 +44,6 @@ const EventScreen = ({route}) => {
 
   return (
     <View style={styles.container}>
-        {/* <View style = {styles.back_btn}>
-          
-        </View> */}
         <AlertSucces 
           message={messageParticipate} 
           isVisible={messageParticipate != ''? true: false}
@@ -66,10 +62,7 @@ const EventScreen = ({route}) => {
               <View style={styles.row}>
                 <View style={[styles.row, {flex: 1}]} >
                   <Text style={styles.header}>
-                    {Number(
-                      Number(event?.price) +
-                        Number(Number(event?.price) * tax)
-                    ).toFixed(2)}
+                    {((event?.price) +((event?.price) * tax)).toFixed(2)}
                     EUR
                   </Text>
                   <Text style={styles.para}>/place</Text>

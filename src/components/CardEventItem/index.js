@@ -12,6 +12,7 @@ const CardEventItem = ({item}) => {
     const dispatch = useDispatch();
     const [eventid, setEventid] = useState(item?.eventid)
     const eventData = useSelector(state => state.events.event.data)
+    const tax = 0.2
 
     useEffect(() => {
         dispatch(get_events(eventid))
@@ -32,7 +33,7 @@ const CardEventItem = ({item}) => {
                     <Text style = {styles.description} numberOfLines = {2}>{item?.description.substring(0, 25)}...</Text>
                 </View>
                 <View style = {styles.col2}>
-                    <Text style = {styles.price}>{item?.price} €/place</Text>
+                    <Text style = {styles.price}>{((item?.price) +((item?.price) * tax)).toFixed(2)} €/place</Text>
                 </View>
             </View>
         </TouchableOpacity>

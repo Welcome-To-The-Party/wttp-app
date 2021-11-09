@@ -33,17 +33,17 @@ const PHandlerNavigator = () => {
       >
         <Tab.Screen 
           name="confirm"
-          component = {ParticipateScreen}
+          children = {() => <ParticipateScreen data = {data?.confirmed_participation} />}
           options = {{title: "CONFIRMÉES"}}
         />
         <Tab.Screen 
           name="wait"
-          children = {() => <CancelEventScreen data = {data?.upcomming_participation} />}
+          children = {() => <CancelEventScreen data = {data?.waitting_participation} />}
           options = {{title: "EN ATTENTES"}} 
         />
         <Tab.Screen 
           name="passed"
-          component = {ToRateScreen}
+          children = {() => <ToRateScreen data = {data?.passed_participation} />}
           options = {{title: "PASSÉES"}} 
         />
       </Tab.Navigator>

@@ -15,6 +15,7 @@ import { navigate } from '../../providers/navigationService';
 import { colors } from '@styles'
 
 const background = require("@assets/images/Search/party.png");
+const tax = 0.2;
 
 // create a component
 const MapScreen = () => {
@@ -27,7 +28,7 @@ const MapScreen = () => {
   const [showEvent, setShowEvent] = useState(false)
   const [latitudeDelta, setLatitudeDelta] = useState(0.2)
   const [longitudeDelta, setLongitudeDelta] = useState(0.2)
-  const [eventsType, setEventsType] = useState("")
+  const [eventsType, setEventsType] = useState(null)
   const [ manualValidation, setManualValidation ] = useState(null)
   const [ showModal, setShowModal ] = useState(false)
   const [isInit, setIsInit] = useState(true)
@@ -58,7 +59,7 @@ const MapScreen = () => {
   }
 
   const refreshEvents = async () => {
-    let location = await Location.getLastKnownPositionAsync({});
+    let location = await Location.getCurrentPositionAsync({accuracy: Location.Accuracy.High});
     const { latitude, longitude } = location.coords
     setLat(latitude)
     setLng(longitude)
@@ -68,10 +69,10 @@ const MapScreen = () => {
   console.log("Events", listEvents)
 
   const handleFilter = () => {
-    const events = _.filter(data,eventsType && manualValidation?
-      {type: eventsType, validation: manualValidation}:
-      eventsType?{type: eventsType}:
-      manualValidation?{validation: manualValidation}:null)
+    const events = _.filter(data,eventsType != null && manualValidation != null?
+      {type: eventsType, manualValidation: manualValidation}:
+      eventsType != null?{type: eventsType}:
+      manualValidation != null?{manualValidation: manualValidation}:null)
     setListEvents(events)
     toggleModal()
   }
@@ -264,7 +265,8 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 120,
     position: 'absolute',
-    bottom: 10
+    bottom: 10,
+    elevation: 5
   }
 });
 

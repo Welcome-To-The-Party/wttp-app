@@ -2,11 +2,14 @@ import { useDispatch } from 'react-redux'
 import {
     ACCEPT_PARTICIPATION,
     ADD_FAVORITE,
+    CANCEL_PARTICIPATION,
     CREATE_EVENT,
+    FIND_CURRENT_EVENTS,
     FIND_EVENTS,
     LOAD_EVENTS,
     OWNER_EVENTS,
     PARTICIPE_EVENT,
+    PAY_PARTICIPATION,
     REFUSE_PARTICIPATION,
     SET_ORGANISATION,
     SET_PARTICIPATION
@@ -19,7 +22,6 @@ const token = store.getState().auth.login.token
 
 
 export const find_events = (data) => {
-    console.log("---token----", store.getState().auth.login.token)
     return{
         type: FIND_EVENTS,
         payload: {
@@ -30,6 +32,21 @@ export const find_events = (data) => {
                     Authorization: store.getState().auth.login.token
                 },
                 data: data
+            },
+        }
+    }
+}
+
+export const find_current_events = () => {
+    return{
+        type: FIND_CURRENT_EVENTS,
+        payload: {
+            request: {
+                method: 'POST',
+                url: '/events/find_events',
+                headers: {
+                    Authorization: store.getState().auth.login.token
+                }
             },
         }
     }
@@ -176,7 +193,7 @@ export const accept_participation = (data) => {
                 onSuccess({getState, dispatch, response}){
                     // console.log("data", JSON.parse(response.data))
                     console.log('reponse accept participation', response.data)
-                    dispatch({type: `${ACCEPT_PARTICIPATION}_SUCCESS`, payload: response.data.data.message})
+                    dispatch({type: `${ACCEPT_PARTICIPATION}_SUCCESS`, payload: response.data.message})
                     dispatch(get_events(data.eventid))
                 },
                 onError({getState, dispatch, error}){
@@ -210,6 +227,58 @@ export const refuse_participation = (data) => {
                 onError({getState, dispatch, error}){
                     console.log('rerror refuse participation', error)
                     dispatch({type:  `${REFUSE_PARTICIPATION}_FAIL`, error: "Erreur interne au serveur"})
+                }
+            }
+        }
+    }
+}
+
+export const cancel_participation = (data) => {
+    return{
+        type: CANCEL_PARTICIPATION,
+        payload: {
+            request: {
+                method: "POST",
+                url: `/participations/cancel_participation`,
+                headers: {
+                    Authorization: store.getState().auth.login.token
+                },
+                data: data
+            },
+            options: {
+                onSuccess({getState, dispatch, response}){
+                    dispatch({type: `${CANCEL_PARTICIPATION}_SUCCESS`, payload: response.data.message})
+                    dispatch(get_participations())
+                },
+                onError({getState, dispatch, error}){
+                    dispatch({type:  `${CANCEL_PARTICIPATION}_FAIL`, error: "Erreur interne au serveur"})
+                }
+            }
+        }
+    }
+}
+
+export const pay_participation = (data) => {
+    return{
+        type: PAY_PARTICIPATION,
+        payload: {
+            request: {
+                method: "POST",
+                url: `/banking/pay_for_event`,
+                headers: {
+                    Authorization: store.getState().auth.login.token
+                },
+                data: data
+            },
+            options: {
+                onSuccess({getState, dispatch, response}){
+                    console.log('reponse refuse participation', response.data)
+                    dispatch({type: `${PAY_PARTICIPATION}_SUCCESS`, payload: response.data})
+                    // dispatch(get_participations())
+                },
+                onError({getState, dispatch, error}){
+                    console.log('rerror refuse participation', error)
+                    dispatch({type:  `${PAY_PARTICIPATION}_FAIL`, error: "Erreur interne au serveur"})
                 }
             }
         }

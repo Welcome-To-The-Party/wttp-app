@@ -4,6 +4,7 @@
 import React, { useEffect } from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Text, StyleSheet } from 'react-native';
+var _ = require('lodash')
 
 import ConfirmedScreen from '../screens/Events/ConfirmedScreen.js';
 import ValidationScreen from '../screens/Events/ValidationScreen.js';
@@ -37,15 +38,15 @@ const EHandlerNavigator = ({route}) => {
     >
       <Tab.Screen 
         name="confirm"
-        children = {() => <ConfirmedScreen data = {eventData.usersThatPaid} /> }
+        children = {() => <ConfirmedScreen participatingUsers = {eventData?.participatingUsers} data = {eventData?.usersThatPaid} /> }
         options = {{
           title: "Confirmé", 
-          tabBarBadge: () => <Text style = {styles.tabBadge}>{eventData?.usersThatPaid?.length}</Text>,
+          tabBarBadge: () => <Text style = {styles.tabBadge}>{_.concat(eventData?.usersThatPaid, eventData?.participatingUsers).length}</Text>,
         }}
       />
       <Tab.Screen 
         name="wait" 
-        children = {() => <ValidationScreen eventid = {event._id} data = {eventData.usersThatAsked} />}
+        children = {() => <ValidationScreen eventid = {event?._id} data = {eventData?.usersThatAsked} />}
         options = {{
           title: "En attente", 
           tabBarBadge: () => <Text style = {styles.tabBadge}>{eventData?.usersThatAsked?.length}</Text>
