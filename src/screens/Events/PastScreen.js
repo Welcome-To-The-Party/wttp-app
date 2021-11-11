@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import EmptyEvent from '../../components/Events/EmptyEvent';
 import PartySelect from '../../components/Events/PartySelect';
+import { navigate } from '../../providers/navigationService';
 
 // create a component
 const PastScreen = ({data}) => {
@@ -11,7 +12,7 @@ const PastScreen = ({data}) => {
       <FlatList
         data = {data}
         keyExtractor = {(item) => String(item.title)}
-        renderItem = {({item}) => <PartySelect item = {item} />}
+        renderItem = {({item}) => <PartySelect item = {item} onPress = {() => navigate("PastEventScreen", {event: item})} />}
         ListEmptyComponent = {EmptyEvent}
       />
     </View>
