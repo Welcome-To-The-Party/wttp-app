@@ -58,12 +58,8 @@ const MapScreen = () => {
       loadEvents(lat, lng)
   }
 
-  const refreshEvents = async () => {
-    let location = await Location.getCurrentPositionAsync({accuracy: Location.Accuracy.High});
-    const { latitude, longitude } = location.coords
-    setLat(latitude)
-    setLng(longitude)
-    loadEvents(latitude, longitude)
+  const refreshEvents = () => {
+    loadEvents(lat, lng)
   }
 
   console.log("Events", listEvents)
@@ -96,7 +92,11 @@ const MapScreen = () => {
   useEffect(() => {
     if(isInit){
       (() => {
-        refreshEvents()
+        let location = await Location.getCurrentPositionAsync({accuracy: Location.Accuracy.High});
+        const { latitude, longitude } = location.coords
+        setLat(latitude)
+        setLng(longitude)
+        loadEvents(latitude, longitude)
         setIsInit(false)
       })()
     }

@@ -37,7 +37,7 @@ const ThirdStep = ({
     if (!result.cancelled) {
       const manipResult = await ImageManipulator.manipulateAsync(
         result.uri,
-        [{ resize: {width: 500, height: 500} }],
+        [{ resize: {width: result.width/3, height: result.height/3} }],
         { compress: 1, base64: true}
       );
       setPictures([...pictures, manipResult.uri]);
