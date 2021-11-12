@@ -50,21 +50,21 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20
   },
   para: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     fontWeight: "bold",
     fontSize: 14,
     color: '#000',
   },
   header: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     fontWeight: "200",
     fontSize: 25,
     color: '#000',
   },
   date: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     fontWeight: "200",
     fontSize: 14,

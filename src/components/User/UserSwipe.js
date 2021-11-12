@@ -4,6 +4,7 @@ import { mixins, colors } from '@styles'
 import Button from '../Buttons/Button';
 import { useDispatch } from 'react-redux';
 import { accept_participation, refuse_participation } from '../../store/events/actionEvents';
+import { navigate } from '../../providers/navigationService';
 
 const facebook_icon = require('@assets/images/User/facebook.png');
 const insta_icon = require('@assets/images/User/insta.png');
@@ -41,23 +42,25 @@ const UserSwipe = ({item, eventid}) => {
     return (
       <View style={styles.container}>
         <Image source={{uri: item.picture}} style={styles.proIcon}/>
-        <TouchableOpacity onPress={() => this.props.openUser(item)}>
+        <TouchableOpacity onPress={() => navigate("User", {user: item})}>
           <Text style={styles.header}>{item.name}</Text>
         </TouchableOpacity>
         <Text style={styles.para}>EN SAVOIR PLUS VIA LES RÉSEAUX</Text>
         <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity onPress={() => openLink(item.facebook_link)}>
-              <Image source={facebook_icon} style={styles.icon_social} />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => openLink(item.instagram_link)}>
-              <Image source={insta_icon} style={styles.icon_social} />
-            </TouchableOpacity>
-            {/* <TouchableOpacity onPress={() => this.openLink(item.twitter_link)}>
-              <Image source={require(twitter_icon)} style={styles.icon_social} />
-            </TouchableOpacity> */}
-            <TouchableOpacity onPress={() => openLink(item.tiktok_link)}>
-              <Image source={tiktok_icon} style={styles.icon_social} />
-            </TouchableOpacity>
+            {
+              item?.facebook_link != ''?
+              <TouchableOpacity onPress={() => openLink(item?.facebook_link)}>
+                <Image source={facebook_icon} style={styles.icon_social} />
+              </TouchableOpacity>
+              :item?.instagram_link != ''?
+              <TouchableOpacity onPress={() => openLink(item?.instagram_link)}>
+                <Image source={insta_icon} style={styles.icon_social} />
+              </TouchableOpacity>
+              :item?.tiktok_link != ''?
+              <TouchableOpacity onPress={() => openLink(item?.tiktok_link)}>
+                <Image source={tiktok_icon} style={styles.icon_social} />
+              </TouchableOpacity>:null
+            }
         </View>
         <View style = {styles.row}>
             <Button
@@ -100,14 +103,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10
   },
   header: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     fontWeight: "200",
     fontSize: 25,
     color: '#4f4f4f',
   },
   para: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     fontWeight: "200",
     fontSize: 15,

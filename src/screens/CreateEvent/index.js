@@ -25,7 +25,7 @@ const progressStepsStyle = {
 
 
 // create a component
-const CreatEventScreen = () => {
+const CreatEventScreen = ({navigation}) => {
 
     const [activeStep, setActiveStep] = useState(0)
     const [title, setTitle] = useState("");
@@ -99,6 +99,7 @@ const CreatEventScreen = () => {
     }
 
     const showRecap = () => {
+        console.log('test-------')
         var data = new FormData();
         data.append('title', title)
         data.append('description',description)
@@ -127,7 +128,7 @@ const CreatEventScreen = () => {
         data.append('end',JSON.parse(JSON.stringify(endTime)))
         data.append('number',phone)
         setShowModal(false)
-        navigate("recap", {data:Object.fromEntries(data['_parts']), formData: data})
+        navigation.navigate("recap", {data:Object.fromEntries(data['_parts']), formData: data})
     }
 
     return (

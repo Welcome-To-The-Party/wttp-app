@@ -29,7 +29,7 @@ export const styles = StyleSheet.create({
         marginTop: '5%',
     },
     header: {
-        fontFamily: 'Roboto',
+       
         fontStyle: 'italic',
         fontWeight: "700",
         fontSize: 30,

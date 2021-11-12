@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   text: {
-    fontFamily: 'Roboto',
+   
     fontWeight: "200",
     fontSize: 10,
     color: '#fff',

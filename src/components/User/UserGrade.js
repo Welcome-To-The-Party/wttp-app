@@ -96,14 +96,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10
   },
   header: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     fontWeight: "200",
     fontSize: 25,
     color: '#4f4f4f',
   },
   para: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     fontWeight: "200",
     fontSize: 15,

@@ -154,14 +154,14 @@ const styles = StyleSheet.create({
     marginLeft: 15
   },
   header: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     fontWeight: "200",
     fontSize: 25,
     color: '#4f4f4f',
   },
   para: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     fontWeight: "200",
     fontSize: 15,
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   btnButtonText: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'italic',
     fontWeight: "700",
     color: "#fff",

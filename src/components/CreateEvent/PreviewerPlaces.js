@@ -103,14 +103,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingLeft: 15,
     paddingRight: 15,
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     fontWeight: "700",
     fontSize: 15,
     color: '#4F4F4F',
   },
   header: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     fontWeight: "300",
     fontSize: 10,

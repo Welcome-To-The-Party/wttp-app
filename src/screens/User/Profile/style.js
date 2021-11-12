@@ -44,7 +44,7 @@ export const styles = StyleSheet.create({
         borderRadius: 50
       },
       header: {
-        fontFamily: 'Roboto',
+       
         fontStyle: 'italic',
         fontWeight: "400",
         fontSize: 25,
@@ -52,14 +52,14 @@ export const styles = StyleSheet.create({
         paddingTop: 5,
       },
       statNum: {
-        fontFamily: 'Roboto',
+       
         fontStyle: 'italic',
         fontWeight: "700",
         fontSize: 30,
         color: '#4f4f4f',
       },
       statDesc: {
-        fontFamily: 'Roboto',
+       
         fontStyle: 'italic',
         fontWeight: "300",
         fontSize: 10,
@@ -84,7 +84,7 @@ export const styles = StyleSheet.create({
         left: 0
       },
       infoHeader: {
-        fontFamily: 'Roboto',
+       
         fontStyle: 'normal',
         fontWeight: "500",
         fontSize: 17,

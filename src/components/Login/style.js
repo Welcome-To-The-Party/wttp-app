@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
       borderRadius: 20,
     },
     header: {
-      fontFamily: 'Roboto',
+     
       fontStyle: 'italic',
       fontWeight: "700",
       fontSize: 25,
@@ -28,13 +28,13 @@ export const styles = StyleSheet.create({
       justifyContent: 'center',
     },
     buttonText: {
-      fontFamily: 'Roboto',
+     
       fontStyle: 'italic',
       fontWeight: "700",
       fontSize: 20,
     },
     text: {
-      fontFamily: 'Roboto',
+     
       fontStyle: 'italic',
       fontWeight: "300",
       fontSize: 20,

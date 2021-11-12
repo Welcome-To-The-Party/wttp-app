@@ -9,14 +9,14 @@ export const styles = StyleSheet.create({
     header: {
       marginLeft: 10,
       marginBottom: 10,
-      fontFamily: 'Roboto',
+     
       fontStyle: 'italic',
       fontWeight: "700",
       fontSize: 20,
       color: '#4F4F4F',
     },
     header2: {
-      fontFamily: 'Roboto',
+     
       fontStyle: 'normal',
       fontWeight: "400",
       fontSize: 16,
@@ -38,7 +38,7 @@ export const styles = StyleSheet.create({
     inputGoogle: {
       marginTop: 10,
       marginBottom: 10,
-      fontFamily: 'Roboto',
+     
       fontStyle: 'normal',
       fontWeight: "400",
       fontSize: 20,
@@ -62,7 +62,7 @@ export const styles = StyleSheet.create({
       backgroundColor: '#0000003e'
     },
     textBtn: {
-      fontFamily: 'Roboto',
+     
       fontStyle: 'normal',
       fontWeight: "200",
       fontSize: 15,
@@ -91,7 +91,7 @@ export const styles = StyleSheet.create({
     },
     modalHeader: {
       flex: 1,
-      fontFamily: 'Roboto',
+     
       fontStyle: 'normal',
       fontWeight: "200",
       fontSize: 15,

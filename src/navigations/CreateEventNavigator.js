@@ -14,11 +14,28 @@ const CreateEventNavigator = () => {
   return (
     <Tab.Navigator 
         screenOptions={{ activeTintColor: '#6C2BA1' }}
-        tabBar={(props) => <TopTabBar {...props} />}
       >
-        <Tab.Screen name="steps" component = {CreatEventScreen} />
-        <Tab.Screen name="recap" component = {Recap} />
-        <Tab.Screen name="card" component = {Card} />
+        <Tab.Screen 
+          name="steps" 
+          component = {CreatEventScreen}
+          options = {{
+            title: 'Informations'
+          }} 
+        />
+        <Tab.Screen 
+          name="recap" 
+          component = {Recap} 
+          options = {{
+            title: 'Récapitulatif'
+          }} 
+        />
+        <Tab.Screen 
+          name="card" 
+          component = {Card}
+          options = {{
+            title: 'Ma carte'
+          }}  
+        />
       </Tab.Navigator>
   );
 };

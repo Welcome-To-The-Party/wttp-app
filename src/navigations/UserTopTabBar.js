@@ -56,14 +56,14 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   header: {
-    fontFamily: 'Roboto',
+   
     fontWeight: "300",
     fontSize: 15,
     marginLeft: 30,
     color: '#4F4F4F',
   },
   desc: {
-    fontFamily: 'Roboto',
+   
     fontWeight: "300",
     fontSize: 15,
     marginLeft: 30,

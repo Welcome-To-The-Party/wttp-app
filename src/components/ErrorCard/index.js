@@ -49,14 +49,14 @@ const styles = StyleSheet.create({
     marginLeft: 15
   },
   header: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     fontWeight: "200",
     fontSize: 20,
     color: '#4f4f4f',
   },
   header2: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     fontWeight: "200",
     fontSize: 16,

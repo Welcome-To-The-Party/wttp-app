@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   para: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     fontSize: 13,
     color: '#4f4f4f',

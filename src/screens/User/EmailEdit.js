@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     left: 0
   },
   infoHeader: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     fontWeight: "500",
     fontSize: 16,

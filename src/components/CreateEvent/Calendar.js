@@ -314,7 +314,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   dispBtnText: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     fontWeight: "200",
     fontSize: 15,
@@ -361,7 +361,7 @@ const styles = StyleSheet.create({
     height: '30%',
   },
   header: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     fontWeight: "400",
     fontSize: 20,
@@ -370,7 +370,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   month: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'italic',
     fontWeight: "700",
     fontSize: 20,
@@ -382,7 +382,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   monthSel: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'italic',
     marginRight: 20,
     marginLeft: 20,
@@ -393,7 +393,7 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   hours: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'italic',
     marginRight: 20,
     marginLeft: 20,
@@ -402,7 +402,7 @@ const styles = StyleSheet.create({
     color: '#6C2BA1',
   },
   hourSel: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'italic',
     marginRight: 20,
     marginLeft: 20,
@@ -422,7 +422,7 @@ const styles = StyleSheet.create({
     paddingLeft: 30,
   },
   button_text: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'italic',
     fontWeight: "bold",
     fontSize: 15,
@@ -435,7 +435,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   dateName: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     marginRight: 20,
     marginLeft: 20,
@@ -444,7 +444,7 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   dateNum: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     marginRight: 20,
     marginLeft: 20,
@@ -462,7 +462,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   dateNameSel: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     marginRight: 5,
     marginLeft: 5,
@@ -471,7 +471,7 @@ const styles = StyleSheet.create({
     color: '#361979',
   },
   dateNumSel: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     marginRight: 5,
     marginLeft: 5,

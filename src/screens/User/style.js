@@ -32,7 +32,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
     },
     header: {
-        fontFamily: 'Roboto',
+       
         fontStyle: 'italic',
         fontWeight: "700",
         fontSize: 20,

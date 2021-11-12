@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   header: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     fontWeight: "300",
     fontSize: 7,

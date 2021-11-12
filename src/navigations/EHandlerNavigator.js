@@ -3,7 +3,7 @@
  */
 import React, { useEffect } from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet, Platform } from 'react-native';
 var _ = require('lodash')
 
 import ConfirmedScreen from '../screens/Events/ConfirmedScreen.js';
@@ -68,7 +68,12 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     textAlign: 'center',
     textAlignVertical: 'center',
-    position: 'absolute'
+    position: 'absolute',
+    ...Platform.select({
+      ios: {
+          lineHeight: 30
+      },
+  })
   }
 });
 
