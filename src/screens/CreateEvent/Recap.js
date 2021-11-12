@@ -120,7 +120,6 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     paddingLeft: 15,
     paddingRight: 15,
-    fontFamily: 'Roboto',
     fontStyle: 'italic',
     fontWeight: "700",
     fontSize: 20,

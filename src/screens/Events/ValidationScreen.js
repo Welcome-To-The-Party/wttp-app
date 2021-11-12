@@ -20,25 +20,14 @@ const ValidationScreen = ({data, eventid}) => {
 
   return (
     <View style={styles.container}>
-      {isLoading && <Loading />}
-      <AlertSucces
-        isVisible = {message?true:false}
-        message = {message}
-        onClose = {onCloseModal}
-      />
-      {
-        data?.length ==0?
-        <View style = {styles.content}>
-          <Text style = {styles.infos}>Aucune personne en attente </Text>
-        </View>:
-        <Carousel
-          data={data}
-          loop
-          renderItem={({item}) => <UserSwipe eventid = {eventid} item={item} />}
-          sliderWidth={Dimensions.get('window').width}
-          itemWidth={Dimensions.get('window').width - 120}
-        />
-      }
+      <Carousel
+            data={data}
+            style = {{flex: 1}}
+            loop
+            renderItem={({item}) => <UserSwipe eventid = {eventid} item={item} />}
+            sliderWidth={Dimensions.get('window').width}
+            itemWidth={Dimensions.get('window').width - 120}
+          />
     </View>
   );
 };

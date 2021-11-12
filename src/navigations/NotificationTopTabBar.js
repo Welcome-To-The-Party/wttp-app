@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     ...mixins.boxShadow("#777")
   },
   text: {
-    fontFamily: 'Roboto',
+   
     fontWeight: "300",
     fontSize: 18,
     color: '#4F4F4F',

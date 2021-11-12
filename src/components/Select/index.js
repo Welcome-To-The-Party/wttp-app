@@ -81,14 +81,14 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   text: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     fontWeight: "300",
     fontSize: 15,
     color: "#6C2BA1",
   },
   textSelected: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     fontWeight: "300",
     fontSize: 15,

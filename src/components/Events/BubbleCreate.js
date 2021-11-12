@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   modalHeader: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     fontWeight: "200",
     fontSize: 15,

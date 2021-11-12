@@ -81,14 +81,14 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   infoHeader: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     fontWeight: "500",
     fontSize: 20,
     color: '#4f4f4f',
   },
   subHeader: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     fontWeight: "bold",
     fontSize: 15,
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   para: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     fontWeight: "200",
     fontSize: 15,

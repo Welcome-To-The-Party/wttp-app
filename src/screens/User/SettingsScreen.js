@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     top: '50%',
   },
   header: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'italic',
     fontWeight: "700",
     fontSize: 20,

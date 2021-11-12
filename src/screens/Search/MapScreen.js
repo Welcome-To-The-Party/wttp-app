@@ -89,9 +89,9 @@ const MapScreen = () => {
     setShowEvent(true)
   }
 
-  useEffect(() => {
+  useEffect(async () => {
     if(isInit){
-      (() => {
+      (async () => {
         let location = await Location.getCurrentPositionAsync({accuracy: Location.Accuracy.High});
         const { latitude, longitude } = location.coords
         setLat(latitude)

@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   header: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     fontWeight: "200",
     fontSize: 15,
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     width: '10%',
   },
   modalLink: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     fontWeight: "200",
     fontSize: 15,
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#0000003e'
   },
   textBtn: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     fontWeight: "200",
     fontSize: 15,
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     right: 10,
   },
   modalHeader: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     fontWeight: "200",
     fontSize: 15,

@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   para: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     fontSize: 17,
     color: '#4f4f4f',

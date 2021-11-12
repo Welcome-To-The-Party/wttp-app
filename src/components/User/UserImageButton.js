@@ -49,14 +49,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonText: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'italic',
     fontWeight: "300",
     color: "#4f4f4f",
     fontSize: 15,
   },
   buttonDesc: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'italic',
     fontWeight: "300",
     color: "#4f4f4f",

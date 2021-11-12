@@ -71,14 +71,14 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20
   },
   para: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     fontWeight: "bold",
     fontSize: 14,
     color: '#000',
   },
   date: {
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     fontWeight: "200",
     fontSize: 14,

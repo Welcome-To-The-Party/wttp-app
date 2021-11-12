@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     paddingLeft: 15,
     paddingRight: 15,
-    fontFamily: 'Roboto',
+   
     fontStyle: 'normal',
     fontWeight: "700",
     fontSize: 15,
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     paddingLeft: 15,
     paddingRight: 15,
-    fontFamily: 'Roboto',
+   
     fontWeight: "200",
     fontSize: 15,
     color: '#4F4F4F',
