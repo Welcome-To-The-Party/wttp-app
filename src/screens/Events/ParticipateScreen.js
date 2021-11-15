@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Platform } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 
 import { ParticipateSwipe, Loading } from '@components'
@@ -37,6 +37,7 @@ const ParticipateScreen = ({data}) => {
         <Carousel
           data={data}
           loop
+          layout = {Platform.OS == 'ios'?'stack': 'default'}
           renderItem={({item}) => <ParticipateSwipe item={item} />}
           sliderWidth={Dimensions.get('window').width}
           itemWidth={Dimensions.get('window').width - 120}

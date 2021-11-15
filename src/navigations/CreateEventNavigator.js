@@ -19,7 +19,7 @@ const CreateEventNavigator = () => {
           name="steps" 
           component = {CreatEventScreen}
           options = {{
-            title: 'Informations'
+            title: 'Informations',  
           }} 
         />
         <Tab.Screen 

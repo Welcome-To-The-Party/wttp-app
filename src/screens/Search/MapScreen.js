@@ -62,8 +62,6 @@ const MapScreen = () => {
     loadEvents(lat, lng)
   }
 
-  console.log("Events", listEvents)
-
   const handleFilter = () => {
     const events = _.filter(data,eventsType != null && manualValidation != null?
       {type: eventsType, manualValidation: manualValidation}:
@@ -89,7 +87,7 @@ const MapScreen = () => {
     setShowEvent(true)
   }
 
-  useEffect(async () => {
+  useEffect(() => {
     if(isInit){
       (async () => {
         let location = await Location.getCurrentPositionAsync({accuracy: Location.Accuracy.High});
@@ -102,8 +100,6 @@ const MapScreen = () => {
     }
     setListEvents(data)
   }, [lat, lng, data])
-
-  console.log("Events", listEvents)
 
   return (
     <View style={styles.container}>

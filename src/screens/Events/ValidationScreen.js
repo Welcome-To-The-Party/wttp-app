@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Platform } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 
 import { UserSwipe, Loading } from '@components'
@@ -24,6 +24,7 @@ const ValidationScreen = ({data, eventid}) => {
             data={data}
             style = {{flex: 1}}
             loop
+            layout = {Platform.OS == 'ios'?'stack': 'default'}
             renderItem={({item}) => <UserSwipe eventid = {eventid} item={item} />}
             sliderWidth={Dimensions.get('window').width}
             itemWidth={Dimensions.get('window').width - 120}

@@ -10,7 +10,6 @@ import {
     OWNER_EVENTS,
     PARTICIPE_EVENT,
     PAY_PARTICIPATION,
-    REFUSE_PARTICIPATION,
     SET_ORGANISATION,
     SET_PARTICIPATION
 } from './type'
@@ -207,7 +206,7 @@ export const accept_participation = (data) => {
 
 export const refuse_participation = (data) => {
     return{
-        type: REFUSE_PARTICIPATION,
+        type: ACCEPT_PARTICIPATION,
         payload: {
             request: {
                 method: "POST",
@@ -221,12 +220,12 @@ export const refuse_participation = (data) => {
                 onSuccess({getState, dispatch, response}){
                     // console.log("data", JSON.parse(response.data))
                     console.log('reponse refuse participation', response.data)
-                    dispatch({type: `${REFUSE_PARTICIPATION}_SUCCESS`, payload: response.data.message})
+                    dispatch({type: `${ACCEPT_PARTICIPATION}_SUCCESS`, payload: response.data.message})
                     dispatch(get_events(data.eventid))
                 },
                 onError({getState, dispatch, error}){
                     console.log('rerror refuse participation', error)
-                    dispatch({type:  `${REFUSE_PARTICIPATION}_FAIL`, error: "Erreur interne au serveur"})
+                    dispatch({type:  `${ACCEPT_PARTICIPATION}_FAIL`, error: "Erreur interne au serveur"})
                 }
             }
         }

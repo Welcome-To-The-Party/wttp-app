@@ -17,8 +17,6 @@ const GeneralScreen = () => {
   const [ refreshing, setRefreshing ] = useState(true)
   const {isLoading, list} = useSelector(state => state.notification.general)
 
-  console.log('general----------', list)
-
   const loadNotification = () => {
     dispatch(get_general_notifications())
   }
@@ -31,14 +29,14 @@ const GeneralScreen = () => {
     <View style={styles.container}>
       {isLoading && <Loading />}
       {
-        list.length == 0?
+        list.generales.length == 0?
         <View style={styles.containerCenter}>
           <FontAwesomeIcon size={30} style={styles.icons} icon={ faBellSlash}/>
           <Text>Pas de notification</Text>
         </View>
         :
         <FlatList
-          data = {list}
+          data = {list.generales}
           refreshControl={<RefreshControl
             refreshing={refreshing}
             onRefresh={loadNotification} />

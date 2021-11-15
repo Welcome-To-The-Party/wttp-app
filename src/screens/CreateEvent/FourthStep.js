@@ -65,7 +65,7 @@ const FourthStep = ({
                     <FontAwesomeIcon size={20} color={'#361979'} icon={ faPhone } />
                     <Input 
                       style={styles.input} 
-                      keyboardType="numeric"
+                      keyboardType="numbers-and-punctuation"
                       placeholder="Veuillez renseigner un numéro de téléphone de contact"
                       value={phone} 
                       onChangeText={setPhone} 
