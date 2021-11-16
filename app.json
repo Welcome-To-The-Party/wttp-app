@@ -60,6 +60,9 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "facebookScheme": "fb948801748987877",
+    "facebookAppId": "948801748987877",
+    "facebookDisplayName": "WTTP"
   }
 }
