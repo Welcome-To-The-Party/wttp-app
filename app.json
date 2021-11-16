@@ -31,7 +31,8 @@
         "googleSignIn": {
           "reservedClientId": "com.googleusercontent.apps.564214362823-gq9frodvjqpu48se22svp2jspm9oi7lo"
         }
-      }
+      },
+      "usesAppleSignIn": true
     },
     "android": {
       "versionCode": 9,

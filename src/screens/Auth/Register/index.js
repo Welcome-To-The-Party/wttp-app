@@ -1,11 +1,12 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, Image, ImageBackground } from 'react-native';
+import { View, Text, Image, ImageBackground, Platform } from 'react-native';
 import { useDispatch } from 'react-redux'
 
 import { 
     CreateAccount, 
     FacebookButton, 
+    AppleButton,
     GoogleButton,
     BackButton 
 } from '@components'
@@ -43,6 +44,7 @@ const RegisterScreen = ({navigation}) => {
                     <GoogleButton
                         onPress = {social_login('google')}
                     />
+                    { Platform.OS === 'ios' ? <AppleButton /> : null}
                 </View>
             </ImageBackground>
         </View>

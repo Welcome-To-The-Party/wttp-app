@@ -1,6 +1,6 @@
 //import liraries
 import React, { useEffect, useRef } from 'react';
-import { View, Text, ImageBackground } from 'react-native';
+import { View, Text, ImageBackground, Platform } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
 
 import { styles } from './style'
@@ -8,6 +8,7 @@ import {
     GoogleButton, 
     Divided, 
     FacebookButton, 
+    AppleButton,
     MailConnect 
 } from '@components'
 import { social_login, login_google } from '@store/auth/actionAuth';
@@ -81,6 +82,7 @@ const WelcomeScreen = ({navigation}) => {
                 <View style={styles.miniContainer}>
                     <FacebookButton />
                     <GoogleButton  />
+                    { Platform.OS === 'ios' ? <AppleButton /> : null}
                 </View>
                 <View style={styles.miniContainer}>
                     <Divided />
