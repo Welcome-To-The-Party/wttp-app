@@ -1,5 +1,6 @@
 import GoogleButton from './Buttons/GoogleButton';
 import FacebookButton from './Buttons/FacebookButton'
+import AppleButton from './Buttons/AppleButton'
 import Button from './Buttons/Button';
 import Input from './Input'
 import Divided from './Divided'
@@ -43,6 +44,7 @@ export {
     Input,
     Divided,
     FacebookButton,
+    AppleButton,
     MailConnect,
     LoginAccount,
     CreateAccount,

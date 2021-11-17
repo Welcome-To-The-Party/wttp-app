@@ -24,6 +24,7 @@ const GoogleButton = ({onPress}) => {
     try {
       const { type, user } = await Google.logInAsync({
         iosClientId: IOS_CLIENT_ID,
+        iosStandaloneAppClientId : IOS_CLIENT_ID,
         androidClientId: ANDROID_CLIENT_ID,
         androidStandaloneAppClientId: ANDROID_CLIENT_ID,
         scopes: ['profile', 'email'],

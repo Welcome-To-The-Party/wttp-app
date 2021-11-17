@@ -1,11 +1,12 @@
 //import liraries
 import React from 'react';
-import { View, Text, StyleSheet, ImageBackground, Image, TouchableOpacity, Linking } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, Image, TouchableOpacity, Linking, Platform } from 'react-native';
 
 import { 
     LoginAccount, 
     FacebookButton, 
     GoogleButton,
+    AppleButton,
     BackButton
 } from '@components'
 import { styles } from '../style'
@@ -31,6 +32,7 @@ const LoginScreen = ({navigation}) => {
                     <LoginAccount navigation = {navigation} />
                     <FacebookButton />
                     <GoogleButton />
+                    { Platform.OS === 'ios' ? <AppleButton /> : null}
                     <TouchableOpacity onPress={() => navigation.navigate("Forgoten")}>
                         <Text style={{color: 'black'}}>Mot de passe oublié ?</Text>
                     </TouchableOpacity>

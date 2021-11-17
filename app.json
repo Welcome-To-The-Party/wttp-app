@@ -31,7 +31,8 @@
         "googleSignIn": {
           "reservedClientId": "com.googleusercontent.apps.564214362823-gq9frodvjqpu48se22svp2jspm9oi7lo"
         }
-      }
+      },
+      "usesAppleSignIn": true
     },
     "android": {
       "versionCode": 10,
@@ -60,6 +61,9 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "facebookScheme": "fb948801748987877",
+    "facebookAppId": "948801748987877",
+    "facebookDisplayName": "WTTP"
   }
 }
