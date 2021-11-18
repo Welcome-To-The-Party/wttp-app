@@ -62,7 +62,6 @@ export const styles = StyleSheet.create({
       backgroundColor: '#0000003e'
     },
     textBtn: {
-     
       fontStyle: 'normal',
       fontWeight: "200",
       fontSize: 15,

@@ -98,7 +98,12 @@ const SearchScreen = ({navigation}) => {
 
   useEffect(() => {
     if(isInit){
-      (async() => {
+      (async () => {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          console.log("Permission to access location was denied")
+          return;
+        }
         let location = await Location.getCurrentPositionAsync({accuracy: Location.Accuracy.High});
         const { latitude, longitude } = location.coords
         loadEvents(latitude, longitude)
@@ -135,7 +140,7 @@ const SearchScreen = ({navigation}) => {
             title = {currents_events.length == 0?
               "Oups! aucun événement autour de toi!"
               :
-              "Tu aimes recevour, t'amuser et partager"
+              "Tu aimes recevoir, t'amuser et partager"
             }
           />
           {

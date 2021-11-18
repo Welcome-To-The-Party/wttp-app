@@ -90,6 +90,11 @@ const MapScreen = () => {
   useEffect(() => {
     if(isInit){
       (async () => {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          console.log("Permission to access location was denied")
+          return;
+        }
         let location = await Location.getCurrentPositionAsync({accuracy: Location.Accuracy.High});
         const { latitude, longitude } = location.coords
         setLat(latitude)
