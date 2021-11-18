@@ -17,6 +17,26 @@ const AppleButton = ({onPress}) => {
     dispatch(social_login({social_type: 'apple', ...data}))
   }
 
+  async function apple_login() {
+    try {
+      const credential = await AppleAuthentication.signInAsync({
+        requestedScopes: [
+          AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+          AppleAuthentication.AppleAuthenticationScope.EMAIL,
+        ],
+      });
+      // signed in
+      dispatch(social_auth(credential))
+    } catch (e) {
+      if (e.code === 'ERR_CANCELED') {
+        // handle that the user canceled the sign-in flow
+        console.log('cancelled');
+      } else {
+        alert(`Apple Login Error: ${e.message}`);
+      }
+    }
+  }
+
   return (
     <View style = {{width: '100%'}}>
       <SocialLogin
@@ -25,25 +45,8 @@ const AppleButton = ({onPress}) => {
       />
     <TouchableOpacity 
       style={styles.container} 
-      onPress={async () => {
-        try {
-          const credential = await AppleAuthentication.signInAsync({
-            requestedScopes: [
-              AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
-              AppleAuthentication.AppleAuthenticationScope.EMAIL,
-            ],
-          });
-          // signed in
-          dispatch(social_auth(credential))
-        } catch (e) {
-          if (e.code === 'ERR_CANCELED') {
-            // handle that the user canceled the sign-in flow
-            console.log('cancelled');
-          } else {
-            alert(`Apple Login Error: ${e.message}`);
-          }
-        }
-      }}
+      onPress={() => apple_login()}
+
     >
     <Image source={apple_icon} style={styles.icon} />
     <Text style={styles.buttonText}>Continuer avec Apple</Text>
