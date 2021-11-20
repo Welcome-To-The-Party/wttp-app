@@ -34,7 +34,8 @@ const AppleButton = ({onPress}) => {
             ],
           });
           // signed in
-          dispatch(social_auth(credential))
+          console.log('credential', credential)
+          social_auth(credential)
         } catch (e) {
           if (e.code === 'ERR_CANCELED') {
             // handle that the user canceled the sign-in flow
