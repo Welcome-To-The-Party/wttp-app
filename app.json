@@ -2,7 +2,7 @@
   "expo": {
     "name": "WTTP",
     "slug": "WTTP",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -25,17 +25,20 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.p4p1.wttp",
-      "buildNumber": "11",
+      "buildNumber": "12",
       "config": {
         "googleMapsApiKey": "AIzaSyAZTZx2-gwcOimkU1UoSlLr5rxfLpI7EAE",
         "googleSignIn": {
           "reservedClientId": "com.googleusercontent.apps.564214362823-gq9frodvjqpu48se22svp2jspm9oi7lo"
         }
       },
-      "usesAppleSignIn": true
+      "usesAppleSignIn": true,
+      "infoPlist": {
+        "NSLocationAlwaysUsageDescription": "WTTP souhaite accéder à votre localisation pour vous proposer les événements à proximité"
+      }
     },
     "android": {
-      "versionCode": 11,
+      "versionCode": 12,
       "package": "com.p4p1.wttp",
       "googleServicesFile": "./google-services.json",
       "softwareKeyboardLayoutMode": "pan",
