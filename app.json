@@ -2,7 +2,7 @@
   "expo": {
     "name": "WTTP",
     "slug": "WTTP",
-    "version": "1.2.2",
+    "version": "1.2.5",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -25,7 +25,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.p4p1.wttp",
-      "buildNumber": "12",
+      "buildNumber": "15",
       "config": {
         "googleMapsApiKey": "AIzaSyAZTZx2-gwcOimkU1UoSlLr5rxfLpI7EAE",
         "googleSignIn": {
@@ -34,11 +34,12 @@
       },
       "usesAppleSignIn": true,
       "infoPlist": {
-        "NSLocationAlwaysUsageDescription": "WTTP souhaite accéder à votre localisation pour vous proposer les événements à proximité"
+        "NSLocationAlwaysUsageDescription": "WTTP souhaite accéder à votre localisation pour vous proposer les événements à proximité",
+        "NSLocationWhenInUseUsageDescription": "WTTP souhaite accéder à votre localisation pour vous proposer les événements à proximité"
       }
     },
     "android": {
-      "versionCode": 12,
+      "versionCode": 15,
       "package": "com.p4p1.wttp",
       "googleServicesFile": "./google-services.json",
       "softwareKeyboardLayoutMode": "pan",
@@ -49,8 +50,7 @@
         "READ_INTERNAL_STORAGE",
         "WRITE_INTERNAL_STORAGE",
         "ACCESS_FINE_LOCATION",
-        "ACCESS_COARSE_LOCATION",
-        "ACCESS_BACKGROUND_LOCATION"
+        "ACCESS_COARSE_LOCATION"
       ],
       "config": {
         "googleMaps": {
