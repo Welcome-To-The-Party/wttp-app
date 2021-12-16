@@ -19,6 +19,8 @@ const ParticipationScreen = () => {
   const {isLoading, list} = useSelector(state => state.notification.general)
   const { message } = useSelector(state => state.events.accpet_participation)
 
+  console.log('notification', list)
+
   return (
     <View style={styles.container}>
       {isLoading && <Loading />}
@@ -33,15 +35,15 @@ const ParticipationScreen = () => {
         }}
       />
       {
-        list.participations.length == 0?
+        list?.participations?.length == 0?
         <View style={styles.containerCenter}>
           <FontAwesomeIcon size={30} style={styles.icons} icon={ faBellSlash}/>
           <Text>Pas de notification</Text>
         </View>
         :
         <FlatList
-          data = {list.participations}
-          keyExtractor = {(item) => String(item._id)}
+          data = {list?.participations}
+          keyExtractor = {(item) => String(item?._id)}
           renderItem = {({item}) => <UserNotifications data = {item} />}
         />
       }

@@ -4,7 +4,8 @@ import { TouchableOpacity, Image, StyleSheet, Text, View } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronRight, faCalendar } from '@fortawesome/free-solid-svg-icons'
 import { get_my_event } from '@store/user/actionUser';
-import { mixins } from '@styles'
+import { mixins, colors } from '@styles'
+import { Button } from '@components';
 
 const global_day = [ "Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam" ];
 const global_months = [ "Jan" , "Fev", "Mars", "Avril", "May", "Juin",
@@ -16,7 +17,7 @@ const titleLength = 8;
 export default class PartySelect extends React.Component{
   
   render() {
-      const { item } = this.props
+      const { item, toggleModal, isComing, finishEvent } = this.props
       var today = new Date(item.start);
       var dd = String(today.getDate()).padStart(2, '0');
       var dd2 = today.getDay();
@@ -31,6 +32,24 @@ export default class PartySelect extends React.Component{
               <FontAwesomeIcon size={20} color={'#6C2BA1'} icon={ faCalendar }/>
               <Text style={styles.para}>{global_day[dd2]} {dd} {global_months[parseInt(mm)]} {yyyy}</Text>
             </View>
+            {
+              item.usersThatPaid.length ==0 && isComing?
+              <Button
+                text = "Annuler"
+                textColor = '#fff'
+                style = {styles.btn}
+                onPress = {() => toggleModal(item._id)}
+              />
+              :item.usersThatPaid.length != 0 && isComing == false?
+              <Button
+                text = "Terminer"
+                textColor = '#fff'
+                style = {styles.btn}
+                onPress = {() => finishEvent(item._id)}
+              />
+              :null
+            }
+            
           </View>
           <FontAwesomeIcon size={iconSize} style={styles.icons} icon={ faChevronRight}/>
         </TouchableOpacity>
@@ -41,7 +60,7 @@ export default class PartySelect extends React.Component{
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    height: 100,
+    minHeight: 100,
     alignItems: 'center',
     marginBottom: 20,
     marginHorizontal: 20,
@@ -77,4 +96,10 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     color: "#6C2BA1",
   },
+  btn: {
+    height: 30,
+    width: 120,
+    backgroundColor: colors.PRIMARY,
+    top: -10
+  }
 });

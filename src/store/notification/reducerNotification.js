@@ -44,6 +44,7 @@ const notificationReducer = (state = initialState, action) => {
                 }
             }
         case `${LOAD_NOTIFICATION}_FAIL`:
+            console.log('error load notofication', action)
             return {
                 ...state,
                 general: {
@@ -72,6 +73,7 @@ const notificationReducer = (state = initialState, action) => {
                 }
             }
         case `${LOAD_ORDER_NOTIFICATION}_FAIL`:
+            console.log('error load order notofication', action)
             return {
                 ...state,
                 participation: {

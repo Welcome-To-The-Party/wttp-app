@@ -65,7 +65,7 @@ const MainScreen = ({navigation}) => {
           image={drink} 
         />
         <UserImageButton 
-          text={"Mon compte Stripe"} 
+          text={"Mon compte organisateur"} 
           desc={"Gérer mes comptes de débits et crédits"}
           onPress = {() => navigation.navigate("Stripe")}
           image={stripe} 

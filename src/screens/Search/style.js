@@ -52,5 +52,17 @@ export const styles = StyleSheet.create({
     btn: {
         backgroundColor: colors.PRIMARY,
         width: 300
-    }
+    },
+    section_title: {
+        fontSize: 20,
+        marginTop: 20,
+        fontWeight: 'bold'
+    },
+    section_subTitle: {
+        color: '#777',
+        marginBottom: 20
+    },
+    card_image: {
+        borderRadius: 20
+    },
 });

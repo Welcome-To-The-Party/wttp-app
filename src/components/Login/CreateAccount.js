@@ -18,6 +18,7 @@ const CreateAccount = () => {
 
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
+    const [name, setName] = useState();
     const [passwordRepeat, setPasswordRepeat] = useState()
     const [show, setShow] = useState(false);
     const [showRepeatPass, setShowRepeatPass] = useState(false);
@@ -28,6 +29,7 @@ const CreateAccount = () => {
         dispatch(register({
             email,
             password,
+            name,
             passwordRepeat
         }))
     }
@@ -46,6 +48,11 @@ const CreateAccount = () => {
     return (
         <View style={styles.container}>
             <Text style={styles.header}>Créer votre compte</Text>
+            <Input 
+                placeholder = "Votre nom"
+                style={styles.textInputLine}
+                onChangeText = {setName}
+            />
             <Input 
                 placeholder = "Email"
                 style={styles.textInputLine}

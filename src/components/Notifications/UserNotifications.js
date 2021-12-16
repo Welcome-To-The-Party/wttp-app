@@ -5,7 +5,6 @@ import { accept_participation, refuse_participation } from '../../store/events/a
 
 
 const UserNotifications = ({data}) => {
-  console.log("event notif", data.from)
   const dispatch = useDispatch()
 
   const handleAcceptPacticipation = () => {

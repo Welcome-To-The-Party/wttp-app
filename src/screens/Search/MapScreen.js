@@ -13,6 +13,7 @@ import { TopSearchBar, Loading, CardEventItem, FilterSearch } from '@components'
 import { find_events } from '@store/events/actionEvents';
 import { navigate } from '../../providers/navigationService';
 import { colors } from '@styles'
+import { useNavigation } from '@react-navigation/core';
 
 const background = require("@assets/images/Search/party.png");
 const tax = 0.2;
@@ -20,6 +21,7 @@ const tax = 0.2;
 // create a component
 const MapScreen = () => {
 
+  const navigation = useNavigation()
   const mapRef = createRef()
   const dispatch = useDispatch()
   const [lng, setLng] = useState()
@@ -33,7 +35,7 @@ const MapScreen = () => {
   const [ showModal, setShowModal ] = useState(false)
   const [isInit, setIsInit] = useState(true)
   const { data, isLoading } = useSelector(state => state.events.find_events)
-    const [ listEvents, setListEvents ] = useState()
+  const [ listEvents, setListEvents ] = useState([])
   const time = moment(new Date()).format("MM/DD/yyyy")
   const [filters, setFilters] = useState({
     poseSelect: true,
@@ -87,24 +89,30 @@ const MapScreen = () => {
     setShowEvent(true)
   }
 
+  const init = async() => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      console.log("Permission to access location was denied")
+      return;
+    }
+    let location = await Location.getCurrentPositionAsync({accuracy: Location.Accuracy.High});
+    const { latitude, longitude } = location.coords
+    setLat(latitude)
+    setLng(longitude)
+    loadEvents(latitude, longitude)
+    setIsInit(false)
+  }
+
   useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      init()
+    });
     if(isInit){
-      (async () => {
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-          console.log("Permission to access location was denied")
-          return;
-        }
-        let location = await Location.getCurrentPositionAsync({accuracy: Location.Accuracy.High});
-        const { latitude, longitude } = location.coords
-        setLat(latitude)
-        setLng(longitude)
-        loadEvents(latitude, longitude)
-        setIsInit(false)
-      })()
+      init()
     }
     setListEvents(data)
-  }, [lat, lng, data])
+    return unsubscribe;
+  }, [lat, lng, navigation])
 
   return (
     <View style={styles.container}>
@@ -151,43 +159,46 @@ const MapScreen = () => {
           </View>
         </View>
         <View style={styles.mapContainer}>
-          <MapView
-            ref = {mapRef}
-            style={styles.map}
-            provider={PROVIDER_GOOGLE}
-            showsUserLocation={true}
-            followsUserLocation={true}
-            showsMyLocationButton={false}
-            toolbarEnabled={false}
-            onPress = {() => setShowEvent(false)}
-            maxZoomLevel={14}
-            region = {{
-              latitude: parseFloat(lat),
-              longitude: parseFloat(lng),
-              latitudeDelta,
-              longitudeDelta
-            }}
-            onRegionChangeComplete = {(region) => {
-              setLat(region.latitude)
-              setLng(region.longitude)
-              setLatitudeDelta(region.latitudeDelta)
-              setLongitudeDelta(region.longitudeDelta)
-            }}
-          >
-            {(listEvents) ? listEvents.map((event, key) => {
-              return (
-                <Marker 
-                  key={key} 
-                  onPress={() => navigate("Event",{event})}
-                  coordinate={{ 
-                    latitude: parseFloat(event.latitude.$numberDecimal),
-                    longitude: parseFloat(event.longitude.$numberDecimal) 
-                  }} 
-                  pinColor={event.type == "BRINGUE"?"#6C2BA1":"#FE1F14"} 
-                />
-              );
-            }) : <View></View>}
-          </MapView>
+          {
+            lat && lng?
+            <MapView
+              ref = {mapRef}
+              style={styles.map}
+              provider={PROVIDER_GOOGLE}
+              showsUserLocation={true}
+              followsUserLocation={true}
+              showsMyLocationButton={false}
+              toolbarEnabled={false}
+              onPress = {() => setShowEvent(false)}
+              maxZoomLevel={14}
+              region = {{
+                latitude: parseFloat(lat),
+                longitude: parseFloat(lng),
+                latitudeDelta,
+                longitudeDelta
+              }}
+              onRegionChangeComplete = {(region) => {
+                setLat(region.latitude)
+                setLng(region.longitude)
+                setLatitudeDelta(region.latitudeDelta)
+                setLongitudeDelta(region.longitudeDelta)
+              }}
+            >
+              {(listEvents) ? listEvents.map((event, key) => {
+                return (
+                  <Marker 
+                    key={key} 
+                    onPress={() => navigate("Event",{event})}
+                    coordinate={{ 
+                      latitude: parseFloat(event.latitude.$numberDecimal),
+                      longitude: parseFloat(event.longitude.$numberDecimal) 
+                    }} 
+                    pinColor={event.type == "BRINGUE"?"#6C2BA1":"#FE1F14"} 
+                  />
+                );
+              }) : <View></View>}
+            </MapView>: <View></View>
+          }
           <View style = {styles.footer}>
             <Carousel
               data={listEvents}

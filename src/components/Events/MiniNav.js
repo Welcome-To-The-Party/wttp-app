@@ -70,6 +70,7 @@ const MiniNav = ({data}) => {
             :selectedIndex == 2?
             <ScrollView style={styles.slide}>
               <BubbleCreate participants = {data.usersThatPaid} />
+              <Text style = {styles.text_center}>Il reste {data.maxAllowed - data.usersThatPaid.length} place</Text>
             </ScrollView>
             :
             <ScrollView style={styles.slide}>
@@ -141,6 +142,10 @@ const styles = StyleSheet.create({
   map: {
     height: 120,
     width: '100%'
+  },
+  text_center: {
+    textAlign: 'center',
+    marginTop: 20
   }
 });
 

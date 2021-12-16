@@ -63,42 +63,34 @@ const HomeNavigator = () => {
             <Tab.Screen 
                 name="Search"
                 component = {SearchScreen}
-                options = {{unmountOnBlur: true}}
             />
             <Tab.Screen 
                 name="Map" 
                 component = {MapStack}
-                options = {{unmountOnBlur: true}}
             />
             <Tab.Screen 
                 name="Notifications" 
                 component = {NotificationNavigator}
-                options = {{unmountOnBlur: true}} 
             />  
             <Tab.Screen 
                 name="Favorites"
                 component = {FavoriteStack}
-                options = {{unmountOnBlur: true}}
             />
             <Tab.Screen 
                 name="Profil" 
                 component = {UserNavigator}
-                options = {{unmountOnBlur: true}}
             />
             <Tab.Screen 
                 name="CreateEvent"
                 component = {CreateEventNavigator}
-                options = {{unmountOnBlur: true}}
             />
             <Tab.Screen 
                 name="Event"
                 component = {EventScreen}
-                options = {{unmountOnBlur: true}}
             />
             <Tab.Screen 
                 name="User"
                 component = {PublicProfil}
-                options = {{unmountOnBlur: true}}
             />
         </Tab.Navigator>
     );

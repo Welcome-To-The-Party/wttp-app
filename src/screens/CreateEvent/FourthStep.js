@@ -40,7 +40,6 @@ const FourthStep = ({
         animationIn= 'zoomIn'
         isVisible={showModal}
       >
-            <View style={styles.centerMe}>
               <View style={styles.popup}>
                 <View style={styles.topHeader}>
                   <Text style={styles.modalHeader}>INFORMATIONS COMPLÉMENTAIRES</Text>
@@ -79,7 +78,6 @@ const FourthStep = ({
                   />
                 </ScrollView>
               </View>
-            </View>
           </Modal>
         <ScrollView>
           <View style={styles.padding}>

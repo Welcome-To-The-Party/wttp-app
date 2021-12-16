@@ -12,14 +12,17 @@ const iconSize = 25;
 const BottomTabBar = ({navigation}) => {
 
   const openPage = (page) => {
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [
-          { name: page },
-        ],
-      })
-    );
+    if(page == 'Profil'){
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [
+            { name: page },
+          ],
+        })
+      );
+    }
+    navigation.navigate(page)
   }
 
   return(
@@ -28,7 +31,7 @@ const BottomTabBar = ({navigation}) => {
           style={styles.back_images_container}>
           <View style={styles.button_container}>
             <TouchableOpacity 
-              onPress={() => openPage("Map")} 
+              onPress={() => navigation.navigate("Map")} 
               style={styles.btn_container}
             >
               <FontAwesomeIcon 

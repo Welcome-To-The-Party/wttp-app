@@ -12,6 +12,8 @@ import { find_current_events, find_events } from '../../store/events/actionEvent
 import EventDisplay from '../../components/Events/EventDisplay';
 import { navigate } from '../../providers/navigationService';
 import LatestEvent from '../../components/Events/LatestEvent';
+import { PLACE_STYLES, THEME_ILLUSTRATION, TOP_CITIES } from '../../constant';
+import Card from '../../components/Card';
 var _ = require('lodash'); 
 
 const headerImage = require('@assets/images/Search/Party.jpg')
@@ -96,23 +98,30 @@ const SearchScreen = ({navigation}) => {
     setShowModal(!showModal)
   }
 
+  const init = async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        console.log("Permission to access location was denied")
+        return;
+      }
+      let location = await Location.getCurrentPositionAsync({accuracy: Location.Accuracy.High});
+      const { latitude, longitude } = location.coords
+      loadEvents(latitude, longitude)
+      setIsInit(false)
+  }
+
   useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      init()
+    });
+    
     if(isInit){
-      (async () => {
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-          console.log("Permission to access location was denied")
-          return;
-        }
-        let location = await Location.getCurrentPositionAsync({accuracy: Location.Accuracy.High});
-        const { latitude, longitude } = location.coords
-        loadEvents(latitude, longitude)
-        setIsInit(false)
-      })()
+      init()
     }
     dispatch(find_current_events())
     setListEvents(currents_events)
-  }, [lat, lng, data])
+    return unsubscribe;
+  }, [lat, lng, data, navigation])
 
   return (
     <View style={styles.container}>
@@ -166,7 +175,57 @@ const SearchScreen = ({navigation}) => {
                 }
               />
               
-            </View>:null
+            </View>:
+            <View>
+                <View style = {styles.section_wrapper}>
+                  <Text style = {styles.section_title}>Style de lieux</Text>
+                  <Text style = {styles.section_subTitle}>Laisser vous inspirer, recever vos convives parmis un de ces lieux</Text>
+                  <ScrollView style = {styles.section_content} horizontal = {true}>
+                    {
+                      PLACE_STYLES.map((item, index) => (
+                        <Card 
+                          key = {index} 
+                          item = {item}
+                          imageStyle = {styles.card_image}
+                        />
+                      ))
+                    }
+                  </ScrollView>
+                </View>
+
+                <View style = {styles.section_wrapper}>
+                  <Text style = {styles.section_title}>Top 5 des villes</Text>
+                  <Text style = {styles.section_subTitle}>Apparemment c'est ici que l'on retrouve plus de bringue</Text>
+                  <ScrollView style = {styles.section_content} horizontal = {true}>
+                    {
+                      TOP_CITIES.map((item, index) => (
+                        <Card 
+                          key = {index} 
+                          item = {item}
+                          imageStyle = {styles.card_image}
+                        />
+                      ))
+                    }
+                  </ScrollView>
+                </View>
+
+                <View style = {styles.section_wrapper}>
+                  <Text style = {styles.section_title}>Thèmes illustrés</Text>
+                  <Text style = {styles.section_subTitle}>Tout simplement parce que faire la fête est art</Text>
+                  <ScrollView style = {styles.section_content} horizontal = {true}>
+                    {
+                      THEME_ILLUSTRATION.map((item, index) => (
+                        <Card 
+                          key = {index} 
+                          item = {item}
+                          imageStyle = {styles.card_image}
+                        />
+                      ))
+                    }
+                  </ScrollView>
+                </View>
+
+            </View>
           }
       </ScrollView>
     </View>

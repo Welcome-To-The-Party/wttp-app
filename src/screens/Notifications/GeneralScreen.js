@@ -8,11 +8,13 @@ import { faBellSlash } from '@fortawesome/free-solid-svg-icons'
 import { get_general_notifications } from '@store/notification/actionNotification';
 import { Loading, GeneralNotifications } from '@components'
 import { styles } from './style'
+import { useNavigation } from '@react-navigation/core';
 
 
 // create a component
 const GeneralScreen = () => {
 
+  const navigation = useNavigation()
   const dispatch = useDispatch();
   const [ refreshing, setRefreshing ] = useState(true)
   const {isLoading, list} = useSelector(state => state.notification.general)
@@ -22,21 +24,24 @@ const GeneralScreen = () => {
   }
 
   useEffect(() => {
-    loadNotification()
+    const unsubscribe = navigation.addListener('focus', () => {
+      loadNotification()
+    });
+    return unsubscribe;
   }, [])
 
   return (
     <View style={styles.container}>
       {isLoading && <Loading />}
       {
-        list.generales.length == 0?
+        list?.generales?.length == 0?
         <View style={styles.containerCenter}>
           <FontAwesomeIcon size={30} style={styles.icons} icon={ faBellSlash}/>
           <Text>Pas de notification</Text>
         </View>
         :
         <FlatList
-          data = {list.generales}
+          data = {list?.generales}
           refreshControl={<RefreshControl
             refreshing={refreshing}
             onRefresh={loadNotification} />

@@ -39,6 +39,7 @@ const userReducer = (state = initialState, action) => {
                }
             }
         case `${SET_USER}_SUCCESS`:
+            console.log('get user', action.payload.data)
             return {
                 ...state,
                 user: {
@@ -49,6 +50,7 @@ const userReducer = (state = initialState, action) => {
                 }
             }
         case `${SET_USER}_FAIL`:
+            console.log('get user error', action.payload.data)
             return {
                 ...state,
                 user: {
