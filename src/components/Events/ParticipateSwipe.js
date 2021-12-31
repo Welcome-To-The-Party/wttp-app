@@ -43,7 +43,7 @@ const ParticipateSwipe = ({item}) => {
 
     const canPay = () => {
       console.log("{eventid: item._id}",{eventid: item._id})
-        dispatch(pay_participation({eventid: item._id}))
+      dispatch(pay_participation({eventid: item._id}))
     }
 
     const oncloseModal = () => {

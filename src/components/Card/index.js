@@ -1,17 +1,20 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 
 // create a component
-const Card = ({containerStyle, imageStyle, item}) => {
+const Card = ({containerStyle, imageStyle, item, onPress}) => {
     return (
-        <View style={[styles.container, containerStyle]}>
+        <TouchableOpacity 
+            style={[styles.container, containerStyle]}
+            onPress={onPress}
+        >
             <Image
                 style = {[styles.image, imageStyle]}
                 source = {{uri: item?.image}}
             />
             <Text style = {styles.title_card}>{item?.title}</Text>
-        </View>
+        </TouchableOpacity>
     );
 };
 

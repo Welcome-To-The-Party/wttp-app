@@ -21,7 +21,7 @@ export const PLACE_STYLES = [
     title: 'Maison'
   },
   {
-    image: 'https://drive.google.com/uc?export=download&id=1nRTeLUxhQlIcrUGsgrqRAdPJQqXYLj8f',
+    image: 'https://drive.google.com/uc?export=download&id=1nmYIUaAVyc5PsuEExQhys4DzASZDTUIB',
     title: 'Appartement'
   },
   {

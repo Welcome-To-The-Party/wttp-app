@@ -36,10 +36,13 @@ const SettingsScreen = ({navigation}) => {
   }
 
   const openApp = () => {
-
+    const url = "https://wttp.onelink.me/kt8S/d0961471"
+    Linking.canOpenURL(url).then(supported => {
+      if (supported) {
+        Linking.openURL(url);
+      }
+    });
   }
-
-  console.log("--- user ---", user)
 
   return (
     <View style={styles.container}>

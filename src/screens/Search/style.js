@@ -65,4 +65,28 @@ export const styles = StyleSheet.create({
     card_image: {
         borderRadius: 20
     },
+    card: {
+        height: 400,
+        borderRadius: 10,
+        marginVertical: 20
+    },
+    card_header: {
+        backgroundColor: colors.PRIMARY,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        padding: 10
+    },
+    card_header_title: {
+        color: '#fff',
+        textAlign: 'center',
+        marginTop: 10
+    },
+    card_body_image: {
+        height: 400,
+        width: '100%',
+    },
+    card_header_btn: {
+        width: 250,
+        alignSelf: 'center'
+    }
 });

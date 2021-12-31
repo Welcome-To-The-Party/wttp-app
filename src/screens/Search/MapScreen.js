@@ -1,5 +1,5 @@
 //import liraries
-import React, { useEffect, useState, createRef } from 'react';
+import React, { useEffect, useState, createRef, useRef, useCallback } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import MapView, {Marker, PROVIDER_GOOGLE } from 'react-native-maps';
@@ -13,13 +13,13 @@ import { TopSearchBar, Loading, CardEventItem, FilterSearch } from '@components'
 import { find_events } from '@store/events/actionEvents';
 import { navigate } from '../../providers/navigationService';
 import { colors } from '@styles'
-import { useNavigation } from '@react-navigation/core';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 const background = require("@assets/images/Search/party.png");
 const tax = 0.2;
 
 // create a component
-const MapScreen = () => {
+const MapScreen = ({route}) => {
 
   const navigation = useNavigation()
   const mapRef = createRef()
@@ -35,6 +35,9 @@ const MapScreen = () => {
   const [ showModal, setShowModal ] = useState(false)
   const [isInit, setIsInit] = useState(true)
   const { data, isLoading } = useSelector(state => state.events.find_events)
+  const { city } = useSelector(state => state.address)
+  const [adress, _setAdress] = useState()
+  const adressRef = useRef()
   const [ listEvents, setListEvents ] = useState([])
   const time = moment(new Date()).format("MM/DD/yyyy")
   const [filters, setFilters] = useState({
@@ -51,6 +54,11 @@ const MapScreen = () => {
       range: filters.distance
     }
     dispatch(find_events(data))
+  }
+
+  const setAdress = (city) => {
+    adressRef.current = city
+    _setAdress(city)
   }
 
   const setPosition = (details) => {
@@ -95,24 +103,51 @@ const MapScreen = () => {
       console.log("Permission to access location was denied")
       return;
     }
-    let location = await Location.getCurrentPositionAsync({accuracy: Location.Accuracy.High});
-    const { latitude, longitude } = location.coords
-    setLat(latitude)
-    setLng(longitude)
-    loadEvents(latitude, longitude)
+    adressRef.current = city
+    if(adressRef.current){
+      let location = await Location.geocodeAsync(adressRef.current, {})
+      setLat(location[0].latitude)
+      setLng(location[0].longitude)
+      loadEvents(location[0].latitude, location[0].longitude)
+    }
+    else{
+      let location = await Location.getCurrentPositionAsync({accuracy: Location.Accuracy.High});
+      const { latitude, longitude } = location.coords
+      setLat(latitude)
+      setLng(longitude)
+      loadEvents(latitude, longitude)
+    }
     setIsInit(false)
   }
 
+  const onFocus = () => {
+    setAdress(city)
+    console.log('city', adressRef.current)
+    // init()
+  }
+
+  console.log('location', city)
+
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      init()
-    });
-    if(isInit){
-      init()
-    }
+    // if(city){
+    //   let location = await Location.geocodeAsync(city, {})
+    //   // setLat(location[0].latitude)
+    //   // setLng(location[0].longitude)
+    //   loadEvents(location[0].latitude, location[0].longitude)
+    //   // setIsInit(false)
+    // }
+    // init()
+    setAdress(city)
+    // console.log('city', adressRef.current)
+    navigation.addListener('focus', onFocus);
+    // if(isInit){
+    //   init()
+    // }
     setListEvents(data)
-    return unsubscribe;
-  }, [lat, lng, navigation])
+    return () => {
+      navigation.removeListener('focus', onFocus)
+    };
+  }, [lat, lng, navigation, adress])
 
   return (
     <View style={styles.container}>
