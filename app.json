@@ -2,7 +2,7 @@
   "expo": {
     "name": "WTTP",
     "slug": "WTTP",
-    "version": "1.2.7",
+    "version": "1.2.8",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -26,7 +26,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.p4p1.wttp",
-      "buildNumber": "17",
+      "buildNumber": "18",
       "config": {
         "googleMapsApiKey": "AIzaSyAZTZx2-gwcOimkU1UoSlLr5rxfLpI7EAE",
         "googleSignIn": {
@@ -40,7 +40,7 @@
       }
     },
     "android": {
-      "versionCode": 17,
+      "versionCode": 18,
       "package": "com.p4p1.wttp",
       "googleServicesFile": "./google-services.json",
       "softwareKeyboardLayoutMode": "pan",
