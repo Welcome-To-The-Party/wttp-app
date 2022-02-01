@@ -97,7 +97,7 @@ const EditProfil = ({navigation}) => {
         <View style={styles.dataContainer}>
           {isLoading && <Loading />}
           <AlertSucces 
-            isVisible = {message?true:false}
+            isVisible = {message && typeof message != 'object'?true:false}
             message = {message}
             onClose = {onCloseModal}
           />
