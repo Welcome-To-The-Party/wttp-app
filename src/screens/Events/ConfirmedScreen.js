@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Platform } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 var _ = require('lodash')
 
@@ -18,6 +18,7 @@ const ConfirmedScreen = ({data, participatingUsers}) => {
         <Carousel
           data={_.concat(participatingUsers, data)}
           loop
+          layout = {Platform.OS == 'ios'?'stack': 'default'}
           renderItem={({item}) => <UserGrade usersThatPaid = {data} item={item} />}
           sliderWidth={Dimensions.get('window').width}
           itemWidth={Dimensions.get('window').width - 80}

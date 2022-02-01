@@ -128,6 +128,7 @@ const CreatEventScreen = ({navigation}) => {
         data.append('end',JSON.parse(JSON.stringify(endTime)))
         data.append('number',phone)
         setShowModal(false)
+        console.log('data', data)
         navigation.navigate("recap", {data:Object.fromEntries(data['_parts']), formData: data})
     }
 

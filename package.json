@@ -21,6 +21,7 @@
     "axios": "^0.21.1",
     "babel-plugin-module-resolver": "^4.1.0",
     "expo": "~42.0.1",
+    "expo-apple-authentication": "~3.2.1",
     "expo-constants": "^11.0.1",
     "expo-facebook": "~11.3.1",
     "expo-google-app-auth": "^8.2.4",
@@ -61,7 +62,8 @@
     "react-redux": "^7.2.4",
     "redux": "^4.1.1",
     "redux-axios-middleware": "^4.0.1",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "redux-thunk": "^2.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

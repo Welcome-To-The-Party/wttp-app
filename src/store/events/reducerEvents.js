@@ -1,10 +1,12 @@
 import {
     ACCEPT_PARTICIPATION,
     ADD_FAVORITE,
+    CANCEL_EVENT,
     CANCEL_PARTICIPATION,
     CREATE_EVENT,
     FIND_CURRENT_EVENTS,
     FIND_EVENTS,
+    FINISH_EVENT,
     LOAD_EVENTS,
     OWNER_EVENTS,
     PARTICIPE_EVENT,
@@ -74,6 +76,16 @@ const initialState = {
     pay_participation: {
         isLoading: false,
         data: {},
+        error: ''
+    },
+    cancel_event: {
+        isLoading: false,
+        message: '',
+        error: ''
+    },
+    finish_event: {
+        isLoading: false,
+        message: '',
         error: ''
     }
 }
@@ -446,6 +458,62 @@ const eventsReducer = (state = initialState, action) => {
                     ...state.pay_participation,
                     isLoading: false,
                     data: {},
+                    error: action.error
+                }  
+            }
+        case CANCEL_EVENT:
+            return {
+                ...state,
+                cancel_event: {
+                    ...state.cancel_event,
+                    isLoading: true
+                }
+            }
+        case `${CANCEL_EVENT}_SUCCESS`:
+            return {
+                ...state,
+                cancel_event: {
+                    ...state.cancel_event, 
+                    isLoading: false,
+                    message: action.payload,
+                    error: ''
+                }
+            }
+        case `${CANCEL_EVENT}_FAIL`:
+            return {
+                ...state,
+                cancel_event: {
+                    ...state.cancel_event,
+                    isLoading: false,
+                    message: {},
+                    error: action.error
+                }  
+            }
+        case FINISH_EVENT:
+            return {
+                ...state,
+                finish_event: {
+                    ...state.finish_event,
+                    isLoading: true
+                }
+            }
+        case `${FINISH_EVENT}_SUCCESS`:
+            return {
+                ...state,
+                finish_event: {
+                    ...state.finish_event, 
+                    isLoading: false,
+                    message: action.payload,
+                    error: ''
+                }
+            }
+        case `${FINISH_EVENT}_FAIL`:
+            return {
+                ...state,
+                finish_event: {
+                    ...state.finish_event,
+                    isLoading: false,
+                    message: {},
                     error: action.error
                 }  
             }        

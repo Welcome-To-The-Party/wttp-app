@@ -1,5 +1,5 @@
 //import liraries
-import React, { useEffect, useState, createRef } from 'react';
+import React, { useEffect, useState, createRef, useRef, useCallback } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import MapView, {Marker, PROVIDER_GOOGLE } from 'react-native-maps';
@@ -13,13 +13,15 @@ import { TopSearchBar, Loading, CardEventItem, FilterSearch } from '@components'
 import { find_events } from '@store/events/actionEvents';
 import { navigate } from '../../providers/navigationService';
 import { colors } from '@styles'
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 const background = require("@assets/images/Search/party.png");
 const tax = 0.2;
 
 // create a component
-const MapScreen = () => {
+const MapScreen = ({route}) => {
 
+  const navigation = useNavigation()
   const mapRef = createRef()
   const dispatch = useDispatch()
   const [lng, setLng] = useState()
@@ -33,7 +35,10 @@ const MapScreen = () => {
   const [ showModal, setShowModal ] = useState(false)
   const [isInit, setIsInit] = useState(true)
   const { data, isLoading } = useSelector(state => state.events.find_events)
-    const [ listEvents, setListEvents ] = useState()
+  const { city } = useSelector(state => state.address)
+  const [adress, _setAdress] = useState()
+  const adressRef = useRef()
+  const [ listEvents, setListEvents ] = useState([])
   const time = moment(new Date()).format("MM/DD/yyyy")
   const [filters, setFilters] = useState({
     poseSelect: true,
@@ -51,6 +56,11 @@ const MapScreen = () => {
     dispatch(find_events(data))
   }
 
+  const setAdress = (city) => {
+    adressRef.current = city
+    _setAdress(city)
+  }
+
   const setPosition = (details) => {
       const { lat, lng } = details.geometry.location
       setLat(lat)
@@ -61,8 +71,6 @@ const MapScreen = () => {
   const refreshEvents = () => {
     loadEvents(lat, lng)
   }
-
-  console.log("Events", listEvents)
 
   const handleFilter = () => {
     const events = _.filter(data,eventsType != null && manualValidation != null?
@@ -89,21 +97,57 @@ const MapScreen = () => {
     setShowEvent(true)
   }
 
-  useEffect(async () => {
-    if(isInit){
-      (async () => {
-        let location = await Location.getCurrentPositionAsync({accuracy: Location.Accuracy.High});
-        const { latitude, longitude } = location.coords
-        setLat(latitude)
-        setLng(longitude)
-        loadEvents(latitude, longitude)
-        setIsInit(false)
-      })()
+  const init = async() => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      console.log("Permission to access location was denied")
+      return;
     }
-    setListEvents(data)
-  }, [lat, lng, data])
+    adressRef.current = city
+    if(adressRef.current){
+      let location = await Location.geocodeAsync(adressRef.current, {})
+      setLat(location[0].latitude)
+      setLng(location[0].longitude)
+      loadEvents(location[0].latitude, location[0].longitude)
+    }
+    else{
+      let location = await Location.getCurrentPositionAsync({accuracy: Location.Accuracy.High});
+      const { latitude, longitude } = location.coords
+      setLat(latitude)
+      setLng(longitude)
+      loadEvents(latitude, longitude)
+    }
+    setIsInit(false)
+  }
 
-  console.log("Events", listEvents)
+  const onFocus = () => {
+    setAdress(city)
+    console.log('city', adressRef.current)
+    // init()
+  }
+
+  console.log('location', city)
+
+  useEffect(() => {
+    // if(city){
+    //   let location = await Location.geocodeAsync(city, {})
+    //   // setLat(location[0].latitude)
+    //   // setLng(location[0].longitude)
+    //   loadEvents(location[0].latitude, location[0].longitude)
+    //   // setIsInit(false)
+    // }
+    // init()
+    setAdress(city)
+    // console.log('city', adressRef.current)
+    navigation.addListener('focus', onFocus);
+    // if(isInit){
+    //   init()
+    // }
+    setListEvents(data)
+    return () => {
+      navigation.removeListener('focus', onFocus)
+    };
+  }, [lat, lng, navigation, adress])
 
   return (
     <View style={styles.container}>
@@ -150,43 +194,46 @@ const MapScreen = () => {
           </View>
         </View>
         <View style={styles.mapContainer}>
-          <MapView
-            ref = {mapRef}
-            style={styles.map}
-            provider={PROVIDER_GOOGLE}
-            showsUserLocation={true}
-            followsUserLocation={true}
-            showsMyLocationButton={false}
-            toolbarEnabled={false}
-            onPress = {() => setShowEvent(false)}
-            maxZoomLevel={14}
-            region = {{
-              latitude: parseFloat(lat),
-              longitude: parseFloat(lng),
-              latitudeDelta,
-              longitudeDelta
-            }}
-            onRegionChangeComplete = {(region) => {
-              setLat(region.latitude)
-              setLng(region.longitude)
-              setLatitudeDelta(region.latitudeDelta)
-              setLongitudeDelta(region.longitudeDelta)
-            }}
-          >
-            {(listEvents) ? listEvents.map((event, key) => {
-              return (
-                <Marker 
-                  key={key} 
-                  onPress={() => navigate("Event",{event})}
-                  coordinate={{ 
-                    latitude: parseFloat(event.latitude.$numberDecimal),
-                    longitude: parseFloat(event.longitude.$numberDecimal) 
-                  }} 
-                  pinColor={event.type == "BRINGUE"?"#6C2BA1":"#FE1F14"} 
-                />
-              );
-            }) : <View></View>}
-          </MapView>
+          {
+            lat && lng?
+            <MapView
+              ref = {mapRef}
+              style={styles.map}
+              provider={PROVIDER_GOOGLE}
+              showsUserLocation={true}
+              followsUserLocation={true}
+              showsMyLocationButton={false}
+              toolbarEnabled={false}
+              onPress = {() => setShowEvent(false)}
+              maxZoomLevel={14}
+              region = {{
+                latitude: parseFloat(lat),
+                longitude: parseFloat(lng),
+                latitudeDelta,
+                longitudeDelta
+              }}
+              onRegionChangeComplete = {(region) => {
+                setLat(region.latitude)
+                setLng(region.longitude)
+                setLatitudeDelta(region.latitudeDelta)
+                setLongitudeDelta(region.longitudeDelta)
+              }}
+            >
+              {(listEvents) ? listEvents.map((event, key) => {
+                return (
+                  <Marker 
+                    key={key} 
+                    onPress={() => navigate("Event",{event})}
+                    coordinate={{ 
+                      latitude: parseFloat(event.latitude.$numberDecimal),
+                      longitude: parseFloat(event.longitude.$numberDecimal) 
+                    }} 
+                    pinColor={event.type == "BRINGUE"?"#6C2BA1":"#FE1F14"} 
+                  />
+                );
+              }) : <View></View>}
+            </MapView>: <View></View>
+          }
           <View style = {styles.footer}>
             <Carousel
               data={listEvents}

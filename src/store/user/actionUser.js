@@ -14,9 +14,10 @@ import { CommonActions } from '@react-navigation/native';
 
 const token = store.getState().auth.login.token
 
-console.log("token", token)
+console.log(store.getState().auth.login.token)
 
 export const getUser = () => {
+    console.log("token", store.getState().auth.login.token)
     return{
         type: SET_USER,
         payload: {

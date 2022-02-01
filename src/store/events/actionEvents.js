@@ -2,15 +2,16 @@ import { useDispatch } from 'react-redux'
 import {
     ACCEPT_PARTICIPATION,
     ADD_FAVORITE,
+    CANCEL_EVENT,
     CANCEL_PARTICIPATION,
     CREATE_EVENT,
     FIND_CURRENT_EVENTS,
     FIND_EVENTS,
+    FINISH_EVENT,
     LOAD_EVENTS,
     OWNER_EVENTS,
     PARTICIPE_EVENT,
     PAY_PARTICIPATION,
-    REFUSE_PARTICIPATION,
     SET_ORGANISATION,
     SET_PARTICIPATION
 } from './type'
@@ -207,7 +208,7 @@ export const accept_participation = (data) => {
 
 export const refuse_participation = (data) => {
     return{
-        type: REFUSE_PARTICIPATION,
+        type: ACCEPT_PARTICIPATION,
         payload: {
             request: {
                 method: "POST",
@@ -221,12 +222,12 @@ export const refuse_participation = (data) => {
                 onSuccess({getState, dispatch, response}){
                     // console.log("data", JSON.parse(response.data))
                     console.log('reponse refuse participation', response.data)
-                    dispatch({type: `${REFUSE_PARTICIPATION}_SUCCESS`, payload: response.data.message})
+                    dispatch({type: `${ACCEPT_PARTICIPATION}_SUCCESS`, payload: response.data.message})
                     dispatch(get_events(data.eventid))
                 },
                 onError({getState, dispatch, error}){
                     console.log('rerror refuse participation', error)
-                    dispatch({type:  `${REFUSE_PARTICIPATION}_FAIL`, error: "Erreur interne au serveur"})
+                    dispatch({type:  `${ACCEPT_PARTICIPATION}_FAIL`, error: "Erreur interne au serveur"})
                 }
             }
         }
@@ -279,6 +280,57 @@ export const pay_participation = (data) => {
                 onError({getState, dispatch, error}){
                     console.log('rerror refuse participation', error)
                     dispatch({type:  `${PAY_PARTICIPATION}_FAIL`, error: "Erreur interne au serveur"})
+                }
+            }
+        }
+    }
+}
+
+export const cancel_event = (data) => {
+    return{
+        type: CANCEL_EVENT,
+        payload: {
+            request: {
+                method: "DELETE",
+                url: `/events/delete_event/${data.id}`,
+                headers: {
+                    Authorization: store.getState().auth.login.token
+                },
+                data: data
+            },
+            options: {
+                onSuccess({getState, dispatch, response}){
+                    dispatch({type: `${CANCEL_EVENT}_SUCCESS`, payload: response.data.message})
+                    dispatch(get_organisations())
+                },
+                onError({getState, dispatch, error}){
+                    dispatch({type:  `${CANCEL_EVENT}_FAIL`, error: "Erreur interne au serveur"})
+                }
+            }
+        }
+    }
+}
+
+export const finish_event = (idEvent) => {
+    return{
+        type: FINISH_EVENT,
+        payload: {
+            request: {
+                method: "GET",
+                url: `/events/confirm_finished/${idEvent}`,
+                headers: {
+                    Authorization: store.getState().auth.login.token
+                }
+            },
+            options: {
+                onSuccess({getState, dispatch, response}){
+                    console.log("finish event", response.data)
+                    dispatch({type: `${FINISH_EVENT}_SUCCESS`, payload: response.data.message})
+                    dispatch(get_organisations())
+                },
+                onError({getState, dispatch, error}){
+                    console.log("error finish event", response.data)
+                    dispatch({type:  `${FINISH_EVENT}_FAIL`, error: "Erreur interne au serveur"})
                 }
             }
         }

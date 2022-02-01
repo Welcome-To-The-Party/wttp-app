@@ -56,6 +56,7 @@ const ParticipationSwipe = ({item}) => {
         <ConfirmCancelEvent
           isVisible = {showSecondModal}
           toggle = {cancelModal}
+          message = 'Êtes-vous sûr de vouloir annuler votre demande de participation ?'
           onSumit = {handleCancelParticipation}
         />
         <BubbleCreate participants = {item.usersThatPaid} />

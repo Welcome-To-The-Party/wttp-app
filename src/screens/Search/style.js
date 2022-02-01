@@ -52,5 +52,41 @@ export const styles = StyleSheet.create({
     btn: {
         backgroundColor: colors.PRIMARY,
         width: 300
+    },
+    section_title: {
+        fontSize: 20,
+        marginTop: 20,
+        fontWeight: 'bold'
+    },
+    section_subTitle: {
+        color: '#777',
+        marginBottom: 20
+    },
+    card_image: {
+        borderRadius: 20
+    },
+    card: {
+        height: 400,
+        borderRadius: 10,
+        marginVertical: 20
+    },
+    card_header: {
+        backgroundColor: colors.PRIMARY,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        padding: 10
+    },
+    card_header_title: {
+        color: '#fff',
+        textAlign: 'center',
+        marginTop: 10
+    },
+    card_body_image: {
+        height: 400,
+        width: '100%',
+    },
+    card_header_btn: {
+        width: 250,
+        alignSelf: 'center'
     }
 });

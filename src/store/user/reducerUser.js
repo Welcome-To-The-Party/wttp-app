@@ -39,6 +39,7 @@ const userReducer = (state = initialState, action) => {
                }
             }
         case `${SET_USER}_SUCCESS`:
+            console.log('get user', action.payload.data)
             return {
                 ...state,
                 user: {
@@ -49,6 +50,7 @@ const userReducer = (state = initialState, action) => {
                 }
             }
         case `${SET_USER}_FAIL`:
+            console.log('get user error', action.payload.data)
             return {
                 ...state,
                 user: {
@@ -82,7 +84,7 @@ const userReducer = (state = initialState, action) => {
                 update: {
                     ...state.update,
                     isLoading: false,
-                    message: {},
+                    message: 'impossible de mettre a jour votre profil, veuillez réessayer plutart',
                     error: action.error
                 }
             }

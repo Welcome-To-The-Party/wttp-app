@@ -1,6 +1,6 @@
 //import liraries
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, FlatList, ImageBackground } from 'react-native';
+import { View, Text, ScrollView, FlatList, ImageBackground, Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 import * as Location from 'expo-location';
@@ -12,13 +12,20 @@ import { find_current_events, find_events } from '../../store/events/actionEvent
 import EventDisplay from '../../components/Events/EventDisplay';
 import { navigate } from '../../providers/navigationService';
 import LatestEvent from '../../components/Events/LatestEvent';
+import { PLACE_STYLES, THEME_ILLUSTRATION, TOP_CITIES } from '../../constant';
+import Card from '../../components/Card';
+import { useNavigation } from '@react-navigation/native';
+import { SETADDRESS } from '../../store/adresse/type';
+import { set_adress } from '../../store/adresse/ActionAdresse';
 var _ = require('lodash'); 
 
 const headerImage = require('@assets/images/Search/Party.jpg')
+const paiementImage = "https://drive.google.com/uc?export=download&id=12pzGQdgQ_akB-6nMcNQDrZw3hPtEJbci"
 
 // create a component
-const SearchScreen = ({navigation}) => {
+const SearchScreen = () => {
 
+  const navigation = useNavigation()
   const dispatch = useDispatch()
   const [eventsType, setEventsType] = useState(null)
   const [ manualValidation, setManualValidation ] = useState(null)
@@ -96,18 +103,38 @@ const SearchScreen = ({navigation}) => {
     setShowModal(!showModal)
   }
 
+  const openMap = (item) => {
+    dispatch({
+      type: SETADDRESS,
+      payload: item.title
+    })
+    navigation.navigate('Map')
+  }
+
+  const init = async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        console.log("Permission to access location was denied")
+        return;
+      }
+      let location = await Location.getCurrentPositionAsync({accuracy: Location.Accuracy.High});
+      const { latitude, longitude } = location.coords
+      loadEvents(latitude, longitude)
+      setIsInit(false)
+  }
+
   useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      init()
+    });
+    
     if(isInit){
-      (async() => {
-        let location = await Location.getCurrentPositionAsync({accuracy: Location.Accuracy.High});
-        const { latitude, longitude } = location.coords
-        loadEvents(latitude, longitude)
-        setIsInit(false)
-      })()
+      init()
     }
     dispatch(find_current_events())
     setListEvents(currents_events)
-  }, [lat, lng, data])
+    return unsubscribe;
+  }, [lat, lng, data, navigation])
 
   return (
     <View style={styles.container}>
@@ -135,7 +162,7 @@ const SearchScreen = ({navigation}) => {
             title = {currents_events.length == 0?
               "Oups! aucun événement autour de toi!"
               :
-              "Tu aimes recevour, t'amuser et partager"
+              "Tu aimes recevoir, t'amuser et partager"
             }
           />
           {
@@ -161,7 +188,82 @@ const SearchScreen = ({navigation}) => {
                 }
               />
               
-            </View>:null
+            </View>:
+            <View>
+                <View style = {styles.section_wrapper}>
+                  <Text style = {styles.section_title}>Style de lieux</Text>
+                  <Text style = {styles.section_subTitle}>Laisser vous inspirer, recever vos convives parmis un de ces lieux</Text>
+                  <ScrollView style = {styles.section_content} horizontal = {true}>
+                    {
+                      PLACE_STYLES.map((item, index) => (
+                        <Card 
+                          key = {index} 
+                          item = {item}
+                          imageStyle = {styles.card_image}
+                        />
+                      ))
+                    }
+                  </ScrollView>
+                </View>
+
+                <View style = {styles.section_wrapper}>
+                  <Text style = {styles.section_title}>Top 5 des villes</Text>
+                  <Text style = {styles.section_subTitle}>Apparemment c'est ici que l'on retrouve plus de bringue</Text>
+                  <ScrollView style = {styles.section_content} horizontal = {true}>
+                    {
+                      TOP_CITIES.map((item, index) => (
+                        <Card 
+                          key = {index} 
+                          item = {item}
+                          imageStyle = {styles.card_image}
+                          onPress = {() => openMap(item)}
+                        />
+                      ))
+                    }
+                  </ScrollView>
+                </View>
+                  
+                <View style = {styles.section_wrapper}>
+                  <Text style = {styles.section_title}>Reçois de l'argent</Text>
+                  <View style = {styles.card}>
+                    {/* <View style = {styles.card_header}>
+                      
+                    </View> */}
+                    <View style = {styles.card_body}>
+                      <ImageBackground
+                        style = {styles.card_body_image}
+                        source={{uri: paiementImage}}
+                        imageStyle = {{borderRadius: 10}}
+                      >
+                        <Text style = {styles.card_header_title}>WTTP s'associe à Stripe a fin de vous assurer des paiements sécurisés. Avant d'encaisser des paiements, il est nécessaire de renseigner son compte</Text>
+                        <Button
+                          text = "Recevoir des paiements"
+                          style = {styles.card_header_btn}
+                          textColor = {colors.PRIMARY}
+                          onPress = {() => navigation.navigate('Profil', {screen: 'Stripe'})}
+                        />
+                      </ImageBackground>
+                    </View>
+                  </View>
+                </View>
+
+                <View style = {styles.section_wrapper}>
+                  <Text style = {styles.section_title}>Thèmes illustrés</Text>
+                  <Text style = {styles.section_subTitle}>Tout simplement parce que faire la fête est art</Text>
+                  <ScrollView style = {styles.section_content} horizontal = {true}>
+                    {
+                      THEME_ILLUSTRATION.map((item, index) => (
+                        <Card 
+                          key = {index} 
+                          item = {item}
+                          imageStyle = {styles.card_image}
+                        />
+                      ))
+                    }
+                  </ScrollView>
+                </View>
+
+            </View>
           }
       </ScrollView>
     </View>

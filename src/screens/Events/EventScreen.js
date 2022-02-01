@@ -1,19 +1,21 @@
 //import liraries
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Share, ImageBackground, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faHeart, faShareAlt } from '@fortawesome/free-solid-svg-icons'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import WebView from 'react-native-webview';
+import Modal from 'react-native-modal'
 var _ = require('lodash')
 
 import { get_events } from '@store/events/actionEvents';
-import { ImageSlider, Button, MiniNav, BackButton } from '@components'
+import { ImageSlider, Button, MiniNav, BackButton, Loading } from '@components'
 import { colors } from '@styles'
 import AlertSucces from '@components/AlertSucces';
 import { add_favorite, participate_event } from '@store/events/actionEvents';
 import { PARTICIPE_EVENT } from '@store/events/type';
 import { pop } from '../../providers/navigationService';
+import { get_participations, pay_participation } from '../../store/events/actionEvents';
+import { PAY_PARTICIPATION } from '../../store/events/type';
 
 const background = require("@assets/images/Search/party.png");
 const tax = 0.2;
@@ -23,8 +25,12 @@ const EventScreen = ({route}) => {
 
   const {event} = route.params
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true)
+  const { data, isLoading } = useSelector(state => state.events.pay_participation)
   const favorites = useSelector(state => state.user.user.data.favorites)
   const messageParticipate = useSelector(state => state.events.infos.message)
+
+  console.log('event-------------------', event)
 
   const shareEvent = async () => {
     try {
@@ -40,6 +46,14 @@ const EventScreen = ({route}) => {
 
   const onCloseModal = () => {
     dispatch({type: `${PARTICIPE_EVENT}_FAIL`, payload: ""})
+    if(!event.manualValidation){
+      dispatch(pay_participation({eventid: event.eventid}))
+    }
+  }
+
+  const onCloseModalPay = () => {
+    dispatch({type: `${PAY_PARTICIPATION}_SUCCESS`, payload: {}})
+    dispatch(get_participations())
   }
 
   return (
@@ -49,6 +63,36 @@ const EventScreen = ({route}) => {
           isVisible={messageParticipate != ''? true: false}
           onClose = {onCloseModal}
         />
+        <Modal
+          style = {styles.contentModal}
+          animationIn = 'zoomIn'
+          isVisible={data?.url?true: false}
+          onBackButtonPress = {onCloseModalPay}
+        >
+          <View style = {{flex: 1, backgroundColor: '#fff'}}>
+            {loading && <Loading />}
+            <TouchableOpacity 
+              onPress = {onCloseModalPay}
+              style = {styles.btnClose}
+            >
+              <Ionicons
+                name = 'close'
+                size = {30}
+                color = {colors.PRIMARY}
+              />
+            </TouchableOpacity>
+            <WebView 
+              source={{ uri: data?.url}}
+              onLoad = {() => {
+                setTimeout(() => {
+                  setLoading(false)
+                }, 10000);
+              }}
+              useWebKit={true}
+              startInLoadingState={true} 
+            />
+          </View>
+        </Modal>
         <ImageBackground 
           source={background} 
           style={styles.backgroundImg} 

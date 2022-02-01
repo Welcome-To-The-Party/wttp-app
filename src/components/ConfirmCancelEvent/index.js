@@ -9,7 +9,7 @@ import { colors } from '@styles'
 const event_decline = require("@assets/icons/event-declined.png")
 
 // create a component
-const ConfirmCancelEvent = ({isVisible, toggle, onSumit}) => {
+const ConfirmCancelEvent = ({isVisible, toggle, onSumit, message}) => {
     return (
         <Modal 
             style={styles.container}
@@ -23,7 +23,7 @@ const ConfirmCancelEvent = ({isVisible, toggle, onSumit}) => {
                     source = {event_decline}
                     style = {styles.img_declined}
                 />
-                <Text style = {styles.text_wrapper}>Êtes-vous sûr de vouloir annuler votre demande de participation ?</Text>
+                <Text style = {styles.text_wrapper}>{message}</Text>
                 <View style = {styles.row}>
                     <Button
                         text = "Non"

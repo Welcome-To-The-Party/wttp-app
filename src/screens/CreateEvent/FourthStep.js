@@ -40,7 +40,6 @@ const FourthStep = ({
         animationIn= 'zoomIn'
         isVisible={showModal}
       >
-            <View style={styles.centerMe}>
               <View style={styles.popup}>
                 <View style={styles.topHeader}>
                   <Text style={styles.modalHeader}>INFORMATIONS COMPLÉMENTAIRES</Text>
@@ -65,7 +64,7 @@ const FourthStep = ({
                     <FontAwesomeIcon size={20} color={'#361979'} icon={ faPhone } />
                     <Input 
                       style={styles.input} 
-                      keyboardType="numeric"
+                      keyboardType="numbers-and-punctuation"
                       placeholder="Veuillez renseigner un numéro de téléphone de contact"
                       value={phone} 
                       onChangeText={setPhone} 
@@ -79,7 +78,6 @@ const FourthStep = ({
                   />
                 </ScrollView>
               </View>
-            </View>
           </Modal>
         <ScrollView>
           <View style={styles.padding}>

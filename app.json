@@ -2,7 +2,7 @@
   "expo": {
     "name": "WTTP",
     "slug": "WTTP",
-    "version": "1.0.8",
+    "version": "1.2.8",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -17,7 +17,8 @@
       "iosDisplayInForeground": true
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "enabled": false
     },
     "assetBundlePatterns": [
       "**/*"
@@ -25,16 +26,21 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.p4p1.wttp",
-      "buildNumber": "8",
+      "buildNumber": "18",
       "config": {
         "googleMapsApiKey": "AIzaSyAZTZx2-gwcOimkU1UoSlLr5rxfLpI7EAE",
         "googleSignIn": {
           "reservedClientId": "com.googleusercontent.apps.564214362823-gq9frodvjqpu48se22svp2jspm9oi7lo"
         }
+      },
+      "usesAppleSignIn": true,
+      "infoPlist": {
+        "NSLocationAlwaysUsageDescription": "WTTP souhaite accéder à votre localisation pour vous proposer les événements à proximité",
+        "NSLocationWhenInUseUsageDescription": "WTTP souhaite accéder à votre localisation pour vous proposer les événements à proximité"
       }
     },
     "android": {
-      "versionCode": 8,
+      "versionCode": 18,
       "package": "com.p4p1.wttp",
       "googleServicesFile": "./google-services.json",
       "softwareKeyboardLayoutMode": "pan",
@@ -45,8 +51,7 @@
         "READ_INTERNAL_STORAGE",
         "WRITE_INTERNAL_STORAGE",
         "ACCESS_FINE_LOCATION",
-        "ACCESS_COARSE_LOCATION",
-        "ACCESS_BACKGROUND_LOCATION"
+        "ACCESS_COARSE_LOCATION"
       ],
       "config": {
         "googleMaps": {
@@ -60,6 +65,9 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "facebookScheme": "fb948801748987877",
+    "facebookAppId": "948801748987877",
+    "facebookDisplayName": "WTTP"
   }
 }

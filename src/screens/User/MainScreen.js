@@ -1,11 +1,13 @@
 //import liraries
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, ImageBackground, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
 import { CommonActions } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/core';
 
 import { styles } from './style'
 import { UserImageButton, Button } from '@components'
+import { getUser } from '@store/user/actionUser'
 import { colors } from '@styles'
 import { log_out } from '../../store/user/actionUser'
 
@@ -17,8 +19,9 @@ const stripe = require('@assets/images/User/stripe.png');
 const settings = require('@assets/images/User/settings.png');
 
 // create a component
-const MainScreen = ({navigation}) => {
+const MainScreen = () => {
 
+  const navigation = useNavigation()
   const dispatch = useDispatch()
   const user = useSelector(state => state.user.user.data)
 
@@ -31,6 +34,13 @@ const MainScreen = ({navigation}) => {
       })
     )
   }
+
+  useEffect(()=> {
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(getUser())
+    });
+    return unsubscribe;
+  }, [navigation])
 
   return (
     <View style={styles.container}>
@@ -65,7 +75,7 @@ const MainScreen = ({navigation}) => {
           image={drink} 
         />
         <UserImageButton 
-          text={"Mon compte Stripe"} 
+          text={"Mon compte organisateur"} 
           desc={"Gérer mes comptes de débits et crédits"}
           onPress = {() => navigation.navigate("Stripe")}
           image={stripe} 

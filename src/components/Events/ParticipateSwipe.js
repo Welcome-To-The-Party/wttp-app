@@ -43,46 +43,13 @@ const ParticipateSwipe = ({item}) => {
 
     const canPay = () => {
       console.log("{eventid: item._id}",{eventid: item._id})
-        dispatch(pay_participation({eventid: item._id}))
+      dispatch(pay_participation({eventid: item._id}))
     }
 
     const oncloseModal = () => {
       dispatch({type: `${PAY_PARTICIPATION}_SUCCESS`, payload: {}})
       dispatch(get_participations())
     }
-
-    const Mok = [
-      {
-        _id: "617c1f1d0147300018c57e10",
-        description: "It's undefined",
-        email: "Jordanyebarthwttp@gmail.com",
-        facebook_link: "",
-        instagram_link: "",
-        name: "Jordan test",
-        picture: "https://wwtp-bucket-service.s3.eu-west-1.amazonaws.com/dev/profiles/617c1f1d0147300018c57e10-30-10-2021-10-16-RXICj2pOF.jpg",
-        tiktok_link: "",
-      },
-      {
-        _id: "617c1f1d0147300018c57e10",
-        description: "It's undefined",
-        email: "Jordanyebarthwttp@gmail.com",
-        facebook_link: "",
-        instagram_link: "",
-        name: "Jordan test",
-        picture: "https://wwtp-bucket-service.s3.eu-west-1.amazonaws.com/dev/profiles/617c1f1d0147300018c57e10-30-10-2021-10-16-RXICj2pOF.jpg",
-        tiktok_link: "",
-      },
-      {
-        _id: "617c1f1d0147300018c57e10",
-        description: "It's undefined",
-        email: "Jordanyebarthwttp@gmail.com",
-        facebook_link: "",
-        instagram_link: "",
-        name: "Jordan test",
-        picture: "https://wwtp-bucket-service.s3.eu-west-1.amazonaws.com/dev/profiles/617c1f1d0147300018c57e10-30-10-2021-10-16-RXICj2pOF.jpg",
-        tiktok_link: "",
-      },
-    ]
 
     return (
       <View style={styles.container}>
@@ -234,7 +201,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   contentModal: {
-    margin: 0
+    margin: 0,
+    paddingTop: 40
   },
   btnClose: {
     height: 40,

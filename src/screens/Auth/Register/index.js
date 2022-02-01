@@ -1,11 +1,12 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, Image, ImageBackground } from 'react-native';
+import { View, Text, Image, ImageBackground, Platform, ScrollView } from 'react-native';
 import { useDispatch } from 'react-redux'
 
 import { 
     CreateAccount, 
     FacebookButton, 
+    AppleButton,
     GoogleButton,
     BackButton 
 } from '@components'
@@ -35,7 +36,11 @@ const RegisterScreen = ({navigation}) => {
                     <Text style={styles.header}>Votre soirée,</Text>
                     <Text style={styles.header}>Quand vous voulez.</Text>
                 </View>
-                <View style={styles.createContainer}>
+                <ScrollView 
+                    style={styles.createContainer} 
+                    contentContainerStyle = {{paddingBottom: 40}}
+                    keyboardShouldPersistTaps = 'always'
+                >
                     <CreateAccount />
                     <FacebookButton 
                         onPress = {social_login('facebook')}
@@ -43,7 +48,8 @@ const RegisterScreen = ({navigation}) => {
                     <GoogleButton
                         onPress = {social_login('google')}
                     />
-                </View>
+                    { Platform.OS === 'ios' ? <AppleButton /> : null}
+                </ScrollView>
             </ImageBackground>
         </View>
     );

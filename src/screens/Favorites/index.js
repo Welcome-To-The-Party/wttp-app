@@ -10,19 +10,24 @@ import { FavSwipe, ErrorCard } from '@components'
 import { getUser } from '@store/user/actionUser'
 import { navigate } from '../../providers/navigationService';
 import { Loading } from '../../components';
+import { useNavigation } from '@react-navigation/core';
 
 const confirmed_screen = require('@assets/images/Errors/FavScreen.png');
 
 // create a component
 const FavoriteScreen = () => {
 
+  const navigation = useNavigation()
   const dispatch = useDispatch()
   const favorites = useSelector(state => state.user.user.data.favorites)
   const isLoading = useSelector(state => state.user.user.isLoading)
 
   useEffect(()=> {
-    dispatch(getUser())
-  }, [])
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(getUser())
+    });
+    return unsubscribe;
+  }, [navigation])
 
   return (
     <View style={styles.container}>

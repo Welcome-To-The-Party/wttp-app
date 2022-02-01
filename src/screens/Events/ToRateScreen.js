@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Platform } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import RateSwipe from '../../components/Events/RateSwipe';
 
@@ -9,13 +9,14 @@ const ToRateScreen = ({data}) => {
   return (
     <View style={styles.container}>
       {
-        data?.length ==0?
+        data?.length == 0?
         <View style = {styles.content}>
           <Text style = {styles.infos}>Aucun évènement en attente </Text>
         </View>:
         <Carousel
           data={data}
           loop
+          layout = {Platform.OS == 'ios'?'stack': 'default'}
           renderItem={({item}) => <RateSwipe item={item} />}
           sliderWidth={Dimensions.get('window').width}
           itemWidth={Dimensions.get('window').width - 120}

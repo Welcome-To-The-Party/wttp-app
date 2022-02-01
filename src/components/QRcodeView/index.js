@@ -71,7 +71,8 @@ const QRcodeView = ({data, isVisible, onClose}) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        margin: 0
+        margin: 0,
+        paddingTop: 30
     },
     content: {
         height: '100%',

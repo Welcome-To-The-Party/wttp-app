@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Platform } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 
 import { UserSwipe, Loading } from '@components'
@@ -20,14 +20,21 @@ const ValidationScreen = ({data, eventid}) => {
 
   return (
     <View style={styles.container}>
-      <Carousel
-            data={data}
-            style = {{flex: 1}}
-            loop
-            renderItem={({item}) => <UserSwipe eventid = {eventid} item={item} />}
-            sliderWidth={Dimensions.get('window').width}
-            itemWidth={Dimensions.get('window').width - 120}
-          />
+      {
+        data?.length == 0?
+        <View style = {styles.content}>
+          <Text style = {styles.infos}>Aucune personne en attente </Text>
+        </View>:
+        <Carousel
+          data={data}
+          style = {{flex: 1}}
+          loop
+          layout = {Platform.OS == 'ios'?'stack': 'default'}
+          renderItem={({item}) => <UserSwipe eventid = {eventid} item={item} />}
+          sliderWidth={Dimensions.get('window').width}
+          itemWidth={Dimensions.get('window').width - 120}
+        />
+      }
     </View>
   );
 };

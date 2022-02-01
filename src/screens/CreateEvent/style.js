@@ -62,7 +62,6 @@ export const styles = StyleSheet.create({
       backgroundColor: '#0000003e'
     },
     textBtn: {
-     
       fontStyle: 'normal',
       fontWeight: "200",
       fontSize: 15,
@@ -72,7 +71,6 @@ export const styles = StyleSheet.create({
     },
     popup: {
       backgroundColor: '#fff',
-      width: '85%',
       height: 450,
       borderRadius: 20,
     },
@@ -107,7 +105,8 @@ export const styles = StyleSheet.create({
       width: '90%'
     },
     container_modal: {
-      margin: 0
+      margin: 0,
+      paddingHorizontal: 20
     }
   });
   
