@@ -3,7 +3,7 @@
 ## Install dependency
 
 ```bash
-# using yarn
+# using yarn to install
 $ yarn install
 
 # using npm
